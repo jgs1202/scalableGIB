@@ -2,6 +2,7 @@ from main import run
 import os
 import json
 from STGIB import ST
+import datetime
 
 if __name__ == '__main__':
     main = '../data/origin/TRGIB/'
@@ -15,6 +16,7 @@ if __name__ == '__main__':
     # for dir in os.listdir(main):
     #     if not dir == '.DS_Store':
 
+    time = datetime.datetime.now()
     for dir_num, dir in enumerate(refLevels):
         for file in os.listdir(main + dir):
             if file != '.DS_Store':
@@ -36,3 +38,4 @@ if __name__ == '__main__':
                 except:
                     os.mkdir(out)
                 run(graph, width, height, out + file)
+    print(datetime.datetime.now() - time)

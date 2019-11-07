@@ -104,16 +104,16 @@ class K_group:
 
 def cluster_graph(graph):
     cgraph = nx.Graph()
-    groups = {graph.node[u]['group'] for u in graph.nodes()}
+    groups = {graph.nodes[u]['group'] for u in graph.nodes()}
     for g in groups:
         cgraph.add_node(g)
     for g1, g2 in itertools.combinations(groups, 2):
         weight = len([
             1 for u, v in graph.edges()
-            if (graph.node[u]['group'] == g1
-                and (graph.node[v]['group'] == g2))
-            or (graph.node[u]['group'] == g2
-                and (graph.node[v]['group'] == g1))
+            if (graph.nodes[u]['group'] == g1
+                and (graph.nodes[v]['group'] == g2))
+            or (graph.nodes[u]['group'] == g2
+                and (graph.nodes[v]['group'] == g1))
         ]) / 1000
         cgraph.add_edge(g1, g2, weight=weight)
     return cgraph
@@ -259,13 +259,13 @@ if __name__ == '__main__':
 
     graph = nx.read_graphml('graph-com.graphml')
     for u in graph.nodes():
-        graph.node[u]['group'] = graph.node[u]['Modularity Class']
+        graph.nodes[u]['group'] = graph.nodes[u]['Modularity Class']
     for u, v in graph.edges():
         graph[u][v]['count'] = 1
 
-    groups = {graph.node[u]['group'] for u in graph.nodes()}
+    groups = {graph.nodes[u]['group'] for u in graph.nodes()}
     sizes = [(len([u for u in graph.nodes()
-                   if graph.node[u]['group'] == group]), group)
+                   if graph.nodes[u]['group'] == group]), group)
              for group in groups]
     sizes.sort(reverse=True)
 

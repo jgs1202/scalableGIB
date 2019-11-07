@@ -9,9 +9,9 @@ from define_model import define_model, get_x_coord, get_y_coord
 
 def run(graph_data, width, height, outfile):
     graph = json_graph.node_link_graph(graph_data)
-    groups = {graph.node[u]['group'] for u in graph.nodes()}
+    groups = {graph.nodes[u]['group'] for u in graph.nodes()}
     sizes = [(len([u for u in graph.nodes()
-                   if graph.node[u]['group'] == group]), group)
+                   if graph.nodes[u]['group'] == group]), group)
              for group in groups]
     sizes.sort(reverse=True)
     values = normalize_sizes([v for v, _ in sizes], width, height)
