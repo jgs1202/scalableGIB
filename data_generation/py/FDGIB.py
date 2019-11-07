@@ -57,7 +57,6 @@ def force(data, width, height, groups):
     #     pl.gca().add_patch(pl.Rectangle(xy=[i['x'], height - i['y']], width=i['dx'], height=i['dy'], linewidth='1.0', fill=False))
     # pl.show()
 
-    # print(len(data['groups']))
     data = prism(data, linkNum, width, height)
     return data
 
@@ -74,13 +73,11 @@ def count_link(data):
         for j in range(boxNum - i):
             linkNum[i].append(0)
     links = data['links']
-    # print(len(links))
+
     for i in links:
-        # print(i)
         source = data['nodes'][i['source']]['group']
         target = data['nodes'][i['target']]['group']
         if source != target:
-
             if source < target:
                 if linkNum[source][target - source] == 0:
                     linkNum[source][target - source] = 1
