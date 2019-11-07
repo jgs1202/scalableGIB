@@ -50,10 +50,10 @@ def p_out(groupsize, nodesize):
 def makeData():
     eachNum = 5
     output = ['TRGIB', 'FDGIB']
-    nodelevels = ['low', 'mid', 'high']
+    # nodelevels = ['low', 'mid', 'high']
+    nodelevels = ['mid']
     nodeSizes = [10, 50, 100]
-    grouplevels = ['mid']
-    # grouplevels = ['low', 'mid', 'high']
+    grouplevels = ['low', 'mid', 'high']
     groupSizes = [5, 20, 40]
     thre = 0.3
     nodeThre = 0.4
