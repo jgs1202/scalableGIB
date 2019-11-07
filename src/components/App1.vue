@@ -83,7 +83,7 @@ export default {
       var that = this;
       that.$parent.nums[that.$parent.level] += 1
       console.log('num is ' + '' + that.$parent.nums[that.$parent.level])
-      if (that.nums[that.$parent.level] % that.dataMax == 0) {
+      if (that.$parent.nums[that.$parent.level] % that.dataMax == 0) {
         this.$parent.already = 1
         this.$parent.currentPage = 'Menu'
       } else {
@@ -143,7 +143,7 @@ export default {
           params.set('layout', that.graph.type)
           params.set('set', that.file)
           params.set('groupSize', that.graph.groupSize)
-          params.set('file', '' + that.nums[that.$parent.level] + '.json')
+          params.set('file', '' + that.$parent.nums[that.$parent.level] + '.json')
           if (that.choice[0] == that.graph.linkMax){
             that.answer = 1
           } else {

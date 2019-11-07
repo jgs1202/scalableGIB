@@ -46,12 +46,14 @@ def p_out(groupsize, nodesize):
             return (groupsize * nodesize - 11.4 * 30) / 11.4 * 30
     return 0.05 * 0.3 * math.exp(-index(groupsize, nodesize))
 
+
 def makeData():
     eachNum = 5
     output = ['TRGIB', 'FDGIB']
     nodelevels = ['low', 'mid', 'high']
     nodeSizes = [10, 50, 100]
-    grouplevels = ['low', 'mid', 'high']
+    grouplevels = ['mid']
+    # grouplevels = ['low', 'mid', 'high']
     groupSizes = [5, 20, 40]
     thre = 0.3
     nodeThre = 0.4
@@ -74,7 +76,6 @@ def makeData():
         for nodelevel in range(len(nodelevels)):
             for grouplevel in range(len(grouplevels)):
                 for each in range(eachNum):
-                    # print(layout, nodelevel, grouplevel, each)
                     # verify = False
                     # while verify is False:
                     m = groupSizes[grouplevel]
@@ -122,7 +123,6 @@ def makeData():
                                     dic['id'] = linkid
                                     linkid += 1
                                     links.append(dic)
-
 
                     for p in range(m):
                         length1 = len(nodes)
@@ -225,9 +225,7 @@ def calc(data, m):
             linkNum[i].append(0)
 
     links = data['links']
-    # print(len(links))
     for i in links:
-        # print(i)
         source = data['nodes'][i['source']]['group']
         target = data['nodes'][i['target']]['group']
         if source != target:
@@ -253,7 +251,6 @@ def calc(data, m):
             elif linkNum[i][j] == max:
                 most.append([i, i + j])
 
-    # print(most)
     data['mostConnected'] = most
 
     linkGroup = [[i, 0] for i in range(m)]
@@ -275,7 +272,6 @@ def calc(data, m):
         data['linkMax'] = linkGroup[0][0]
     if linkGroup[-1][1] < linkGroup[-2][1]:
         data['linkMin'] = linkGroup[-1][0]
-    # print(linkGroup[0][0], data['linkMax'])
     # sys.exit()
     return data
 
