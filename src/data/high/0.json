@@ -1,5 +1,6 @@
 {
     "dir": "30-0.2-0.0006",
+    "directed": false,
     "file": "6.json",
     "groupSize": 30,
     "grouplevel": "high",
@@ -25872,6 +25873,7 @@
             16
         ]
     ],
+    "multigraph": false,
     "nodeMin": 17,
     "nodeSize": 1360,
     "nodelevel": "mid",
@@ -35398,5 +35400,28 @@
         }
     ],
     "pgroup": 0.2,
-    "pout": 0.0006
+    "pout": 0.0006,
+    "shortest_path": {
+        "length": 5,
+        "nodes": [
+            1210,
+            222
+        ],
+        "path": [
+            [
+                1210,
+                347,
+                245,
+                235,
+                222
+            ],
+            [
+                1210,
+                347,
+                762,
+                724,
+                222
+            ]
+        ]
+    }
 }

@@ -1,5 +1,6 @@
 {
     "dir": "10-0.2-0.0006",
+    "directed": false,
     "file": "7.json",
     "groupSize": 10,
     "grouplevel": "low",
@@ -8338,6 +8339,7 @@
             7
         ]
     ],
+    "multigraph": false,
     "nodeMax": 7,
     "nodeMin": 9,
     "nodeSize": 453,
@@ -11516,5 +11518,36 @@
         }
     ],
     "pgroup": 0.2,
-    "pout": 0.0006
+    "pout": 0.0006,
+    "shortest_path": {
+        "length": 6,
+        "nodes": [
+            407,
+            161
+        ],
+        "path": [
+            [
+                401,
+                408,
+                415,
+                224
+            ],
+            [
+                407,
+                366,
+                208,
+                221,
+                187,
+                161
+            ],
+            [
+                407,
+                372,
+                195,
+                221,
+                187,
+                161
+            ]
+        ]
+    }
 }

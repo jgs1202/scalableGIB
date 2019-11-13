@@ -1,5 +1,6 @@
 {
     "dir": "30-0.2-0.0006",
+    "directed": false,
     "file": "5.json",
     "groupSize": 30,
     "grouplevel": "high",
@@ -30222,6 +30223,7 @@
             20
         ]
     ],
+    "multigraph": false,
     "nodeMin": 4,
     "nodeSize": 1473,
     "nodelevel": "mid",
@@ -40539,5 +40541,36 @@
         }
     ],
     "pgroup": 0.2,
-    "pout": 0.0006
+    "pout": 0.0006,
+    "shortest_path": {
+        "length": 6,
+        "nodes": [
+            292,
+            695
+        ],
+        "path": [
+            [
+                1428,
+                1394,
+                1412,
+                1103
+            ],
+            [
+                292,
+                250,
+                8,
+                4,
+                701,
+                695
+            ],
+            [
+                292,
+                274,
+                280,
+                584,
+                594,
+                695
+            ]
+        ]
+    }
 }
