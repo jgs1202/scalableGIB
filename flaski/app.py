@@ -10,25 +10,24 @@ db = SQLAlchemy(app)
 
 class Choice(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=False)
+    username = db.Column(db.String(40), unique=False)
     gender = db.Column(db.String(80), unique=False)
     age = db.Column(db.String(20), unique=False)
-    layout = db.Column(db.String(80), unique=False)
-    set = db.Column(db.String(20), unique=False)
-    groupSize = db.Column(db.String(80), unique=False)
-    pgroup = db.Column(db.String(80), unique=False)
-    pout = db.Column(db.String(80), unique=False)
+    layout = db.Column(db.String(20), unique=False)
+    path = db.Column(db.String(80), unique=False)
+    path_length_difference = db.Column(db.String(20), unique=False)
+    groupSize = db.Column(db.String(10), unique=False)
     file = db.Column(db.String(80), unique=False)
     answer = db.Column(db.String(80), unique=False)
     time = db.Column(db.String(80), unique=False)
     # choice2 = db.Column(db.String(80), unique=False)
 
-    def __init__(self, username, gender, age, layout, set, groupSize, file, answer, time):
+    def __init__(self, username, gender, age, layout, path, groupSize, file, answer, time):
         self.username = username
         self.gender = gender
         self.age = age
         self.layout = layout
-        self.set = set
+        self.path = path
         self.groupSize = groupSize
         self.file = file
         self.answer = answer

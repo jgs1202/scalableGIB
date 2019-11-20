@@ -1,7 +1,7 @@
 <template>
 <div>
   <div id="app" class="app">
-    <el-container>
+    <el-container style="width: 100%">
       <!-- <el-aside width='20%'>
         <div class='text'>
           Which box does have the most intra-links?<br><br>
@@ -13,16 +13,28 @@
           <el-slider v-model="settings.width"></el-slider>
         </div>
       </el-aside> -->
-      <el-main> 
-        {{level}} - {{file}} <br><br>
-        <div class="svg-container" :style="{width: settings.width + '%'}">
-          <svg id="svg" pointer-events="all" viewBox="0 0 960 600" preserveAspectRatio="xMinYMin meet">
-      <g id="nodes">{{nodes}}</g>
-      <g id="links">{{links}}</g>
-      <g id='boxes'>{{boxes}}</g>
-    </svg>
-        </div>
-      </el-main>
+      <el-container>
+        <el-header>
+          <el-table :data="tableData" border style="width: 100%;">
+            <el-table-column prop="nodes" label="Nodes"></el-table-column>
+            <el-table-column prop="links" label="Links"></el-table-column>
+            <el-table-column prop="groups" label="Groups"></el-table-column>
+            <el-table-column prop="density" label="Density"></el-table-column>
+            <el-table-column prop="degree" label="Average Degree"></el-table-column>
+            <el-table-column prop="difficulty" label="Difficulty"></el-table-column>
+          </el-table>
+        </el-header>
+        <el-main> 
+          {{level}} - {{file}} <br><br>
+          <div class="svg-container" :style="{width: settings.width + '%'}">
+            <svg id="svg" pointer-events="all" viewBox="0 0 960 600" preserveAspectRatio="xMinYMin meet">
+              <g id="nodes">{{nodes}}</g>
+              <g id="links">{{links}}</g>
+              <g id='boxes'>{{boxes}}</g>
+            </svg>
+          </div>
+        </el-main>
+      </el-container>
     </el-container>
   </div>
   <div class="sync">
@@ -67,6 +79,8 @@ export default {
       selected: [],
       related: [],
       redLinks: [],
+      jsonDataInfo: "sample",
+      tableData: [],
     }
   },
   mounted: function() {
@@ -77,28 +91,11 @@ export default {
     } else if (that.$parent.level == 1) {
       that.level = 'difficult'
     }
-    that.dataMax = that.$parent.total / 1
-    d3.json("./src/data/" + that.$parent.levelIndex[that.$parent.level] + '/' + that.$parent.nums[that.$parent.level] + ".json").then(function(graph) {
-      that.graph = graph
-      that.related = []
-      for (let i=0; i < that.graph.nodes.length; i++){
-        that.related.push([])
-      }
-      that.redLinks = []
-      for (let i=0; i < that.graph.links.length; i++){
-        that.redLinks.push([])
-      }
-      that.graph.groups.pop()
-      that.$set(that.boxes, that.reBoxes())
-      that.$set(that.links, that.reLinks())
-      that.$set(that.nodes, that.reNodes())
-    })
-    that.startTime = Date.now()
+    that.restart()
   },
   methods: {
     restart: function() {
       var that = this;
-      that.$parent.nums[that.$parent.level] += 1
       console.log('num is ' + '' + that.$parent.nums[that.$parent.level])
       if (that.$parent.nums[that.$parent.level] % that.dataMax == 0) {
         this.$parent.already = 1
@@ -106,6 +103,9 @@ export default {
       } else {
         d3.json("./src/data/" + that.$parent.levelIndex[that.$parent.level] + '/' + that.$parent.nums[that.$parent.level] + ".json").then(function(graph) {
           that.graph = graph
+
+          that.setTable()
+
           that.related = []
           for (let i=0; i < that.graph.nodes.length; i++){
             that.related.push([])
@@ -129,6 +129,19 @@ export default {
         }
         that.startTime = Date.now()
       }
+      that.$parent.nums[that.$parent.level] += 1
+    },
+    setTable() {
+      let that = this
+      let _tableData = {}
+      that.tableData = []
+      _tableData.nodes = that.graph.nodes.length
+      _tableData.links = that.graph.links.length
+      _tableData.groups = that.graph.groups.length
+      _tableData.density = Math.round(that.graph.density * 100000) / 100000
+      _tableData.degree = Math.round(that.graph.averageDegree * 1000) / 1000
+      _tableData.difficulty = Math.round(parseFloat(that.graph.shortest_path.difficulty) * 100 * 1000) / 1000
+      that.tableData.push(_tableData)
     },
     reNodes: function() {
       var that = this;
@@ -183,38 +196,52 @@ export default {
           })
       }
     },
+    checkAnswer: function() {
+      let answerPaths = that.graph.shortest_path.answers
+      let flag = 0
+      for (let path=0; path<that.graph.shortest_path.answers.length; ++path) {
+        for (let node=0; node<that.selected.length; ++node) {
+          if (that.graph.shortest_path.answers[path],indexOf(that.selected[node])) {
+            if (node == that.selected.length - 1) {
+              flag = 1
+            } else {
+              braek
+            }
+          }
+        }
+      }
+      return flag
+    },
     onClick: function(event) {
       if (event.keyCode == '13') {
         var that = this
-        if (that.choice.length == 1) {
-          that.time = Date.now() - that.startTime
-          const params = new URLSearchParams()
-          params.set('userName', this.$parent.userName)
-          params.set('gender', this.$parent.gender)
-          params.set('age', this.$parent.age)
-          params.set('layout', that.graph.type)
-          params.set('set', that.file)
-          params.set('groupSize', that.graph.groupSize)
-          params.set('file', '' + that.$parent.nums[that.$parent.level] + '.json')
-          if (that.choice[0] == that.graph.linkMax){
-            that.answer = 1
-          } else {
-            that.answer = 0
-          }
-          params.set('answer', that.answer)
-          params.set('time', that.time)
-          const url = `http://127.0.0.1:5000/data/${params.toString()}`
-          axios.get(url)
-            .then(res => {
-              // console.log(res.data)
-            })
-          that.choice = []
-          d3.selectAll('rect').attr('stroke-width', 0.6).attr('stroke', 'black')
-          d3.selectAll('circle').remove()
-          d3.selectAll('line').remove()
-          d3.selectAll('rect').remove()
-          that.restart()
+        that.time = Date.now() - that.startTime
+        const params = new URLSearchParams()
+        params.set('userName', this.$parent.userName)
+        params.set('gender', this.$parent.gender)
+        params.set('age', this.$parent.age)
+        params.set('layout', that.graph.type)
+        params.set('set', that.file)
+        params.set('groupSize', that.graph.groupSize)
+        params.set('file', '' + that.$parent.nums[that.$parent.level] + '.json')
+        if (that.choice[0] == that.graph.linkMax){
+          that.answer = 1
+        } else {
+          that.answer = 0
         }
+        params.set('answer', that.answer)
+        params.set('time', that.time)
+        const url = `http://127.0.0.1:5000/data/${params.toString()}`
+        axios.get(url)
+          .then(res => {
+            // console.log(res.data)
+          })
+        that.choice = []
+        d3.selectAll('rect').attr('stroke-width', 0.6).attr('stroke', 'black')
+        d3.selectAll('circle').remove()
+        d3.selectAll('line').remove()
+        d3.selectAll('rect').remove()
+        that.restart()
       }
     },
     reLinks: function() {
@@ -312,7 +339,7 @@ export default {
                 .attr('y', d['y'])
                 .attr('width', d['dx'])
                 .attr('height', d['dy'])
-                .on('click', func)
+                // .on('click', func)
             }
           })
       }
@@ -596,6 +623,10 @@ body {
 .el-aside {
   /* border: 1px solid #67C23A; */
   box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+}
+
+.el-header {
+  margin-bottom: 5%;
 }
 
 .el-main {

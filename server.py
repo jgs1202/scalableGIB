@@ -5,7 +5,6 @@
 """
 import os
 from flask import Flask, render_template
-from flaski.models import WikiContent
 from flask_restful import Resource, Api
 from flask_cors import CORS
 from flaski.app import db, app

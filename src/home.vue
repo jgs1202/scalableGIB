@@ -6,11 +6,11 @@
 
 <script>
 import Vue from 'vue'
-import App1 from './components/App1.vue'
+import App from './components/App.vue'
 import Menu from './components/menu.vue'
 import dataInput from './components/dataInput.vue'
 Vue.component('dataInput', dataInput)
-Vue.component('App1', App1)
+Vue.component('App', App)
 Vue.component('Menu', Menu)
 export default {
   name: 'home',

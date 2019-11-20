@@ -24,7 +24,7 @@ def force(data, width, height, groups):
                 G.add_edge(i, i + j + 1, weight=linkNum[i][j])
 
     plt.figure(figsize=(9.6, 6))
-    pos = nx.spring_layout(G)
+    pos = nx.spring_layout(G, k=1/len(data['nodes']))
     nx.draw_networkx(G, pos)
     plt.ylim(1, -1)
     plt.show()

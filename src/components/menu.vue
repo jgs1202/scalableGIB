@@ -59,7 +59,7 @@ export default {
     click1: function(event) {
       if (this.$parent.nums[0] != this.$parent.total){
         this.$parent.level = 0
-        this.nextPage = 'App1'
+        this.nextPage = 'App'
         window.addEventListener('keyup', this.submit, false)
       } else {
         swal('You have done all questions, Thank you!')
@@ -68,7 +68,7 @@ export default {
     click2: function(event) {
       if (this.$parent.nums[1] != this.$parent.total){
         this.$parent.level = 1
-        this.nextPage = 'App1'
+        this.nextPage = 'App'
         window.addEventListener('keyup', this.submit, false)
       } else {
         swal('You have done all questions, Thank you!')

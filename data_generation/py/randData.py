@@ -48,7 +48,7 @@ def p_out(groupsize, nodesize):
 
 
 def makeData():
-    eachNum = 5
+    eachNum = 10
     output = ['TRGIB', 'FDGIB']
     # nodelevels = ['low', 'mid', 'high']
     nodelevels = ['mid']
@@ -176,6 +176,7 @@ def makeData():
                     data = {}
                     data['groups'] = [{} for i in range(m)]
                     data['groupSize'] = m
+                    print (data['groupSize'])
                     data['grouplevel'] = grouplevels[grouplevel]
                     data['nodelevel'] = nodelevels[nodelevel]
                     data['pgroup'] = pgroup

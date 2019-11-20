@@ -19,18 +19,38 @@ class Tree(object):
 
 
 def dupli_check(nodes, depth):
-    leaves = []
-    for node in nodes:
+    for index, node in enumerate(nodes):
         if node.depth == depth:
-            leaves.append(node)
+            path = []
+            current = node
+            while current.id != 'header':
+                path.append(current.id)
+                current = current.parent
+            for point in path:
+                if path.count(point) > 1:
+                    del nodes[index]
+                    break
 
-    for leaf in leaves:
-        path = []
-        current = leaf
-        while current.parent.id != 'header':
-            path.append(current.id)
-            current = current.parent
-        print(path)
+
+def set_answer(nodes, data, target):
+    data['shortest_path']['answers'] = []
+    for node in nodes:
+        if node.id == int(target):
+            path = []
+            current = node
+            while current.id != 'header':
+                path.append(current.id)
+                current = current.parent
+            data['shortest_path']['answers'].append(path)
+
+
+def vis_tree(nodes, depth):
+    print("tree visualization")
+    for d in range(depth):
+        for node in nodes:
+            if node.depth == d:
+                print(str(node.id) + " ", end="")
+        print(" ")
 
 
 def difficulty(data, source, target):
@@ -46,28 +66,39 @@ def difficulty(data, source, target):
 
     append_child_nodelist(tree, source)
 
-    parent = tree
-    print(shortest_length)
-    for depth in range(shortest_length - 1 + depth_margin):
-        for child_num, child in enumerate(parent.children):
+    for depth in range(shortest_length + depth_margin):
+        parents = [node for node in nodes if node.depth == depth]
+        for parent in parents:
             for link in links:
-                if link['source'] == child.id:
-                    append_child_nodelist(child, link['target'])
-                elif link['target'] == child.id:
-                    append_child_nodelist(child, link['source'])
-    # dupli_check(nodes, 2)
-    for node in nodes:
-        print(node.depth)
+                if link['source'] == parent.id:
+                    append_child_nodelist(parent, int(link['target']))
+                elif link['target'] == parent.id:
+                    append_child_nodelist(parent, int(link['source']))
+        before = [node.id for node in nodes if node.depth == depth + 1]
+        dupli_check(nodes, depth + 1)
+        after = [node.id for node in nodes if node.depth == depth + 1]
+        # print("depth" + str(depth + 1) + ": " + "the number of leaf nodes decrease " + str(len(after)) + " from " + str(len(before)))
+
+    set_answer(nodes, data, target)
+
+    leaves = []
+    for d in range(depth_margin + 1):
+        leaves.append([node.id for node in nodes if node.depth == shortest_length - 1 + d])
+    nums_answer = [leaf.count(target) for leaf in leaves]
+    num = sum([len(leaf) for leaf in leaves])
+
+    # print(num, nums_answer, len(data['shortest_path']['path']))
+    return sum(nums_answer) / num
 
 
 def pickup2nodes(data):
     graph = nx.readwrite.json_graph.node_link_graph(data)
     length = len(graph.nodes)
-    data['shortest_path'] = {}
-    data['shortest_path']['path'] = []
     verify = True
     while verify:
         try:
+            data['shortest_path'] = {}
+            data['shortest_path']['path'] = []
             rand = [random.randint(0, length), random.randint(0, length)]
             while rand[1] == rand[0] or data['nodes'][rand[0]]['group'] == data['nodes'][rand[1]]['group']:
                 rand[1] = random.randint(0, length)
@@ -77,10 +108,16 @@ def pickup2nodes(data):
                 data['shortest_path']['path'].append(sp)
                 data['shortest_path']['length'] = len(sp)
             if data['shortest_path']['length'] <= 6 and data['shortest_path']['length'] > 4:
+                data['shortest_path']['difficulty'] = difficulty(data, rand[0], rand[1])
+
+                print(data['shortest_path']['difficulty'])
                 verify = False
+
+                # if data['shortest_path']['difficulty'] > 0.001 and data['shortest_path']['difficulty'] < 0.003:
+                #     print(data['shortest_path']['difficulty'])
+                #     verify = False
         except:
             pass
-    difficulty(data, rand[0], rand[1])
     return data
 
 
@@ -92,6 +129,7 @@ def routing():
         for file in os.listdir(home + level):
             if file != '.DS_Store':
                 data = json.load(open(home + level + file))
+                print(home + level + file)
                 data['directed'] = False
                 data['multigraph'] = False
                 data = pickup2nodes(data)

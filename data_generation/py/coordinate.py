@@ -29,9 +29,8 @@ if inp == 'y':
             print(path + dir)
             try:
                 for file in os.listdir(path + dir):
-                    print(file)
-                    print(dir + file)
                     if (file[-5:] == '.json'):
+                        print(file)
                         cmd = 'cargo run --release --example gib-cli -- -f ' + path + dir + "/" + file + ' > ' + path + dir + "/" + file[:-5] + '-nodes.txt'
                         os.system(cmd)
                         print(dir, file)
