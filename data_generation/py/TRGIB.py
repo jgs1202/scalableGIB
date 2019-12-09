@@ -37,5 +37,11 @@ if __name__ == '__main__':
                     a = os.listdir(out)
                 except:
                     os.mkdir(out)
+                print(path)
                 run(graph, width, height, out + file)
     print(datetime.datetime.now() - time)
+
+    cmds = ['python TRGIB.py', 'python coordinate.py TRGIB', 'python add_coordinate.py TRGIB', 'python arrangeForTask.py', 'python route.py', 'python metrics.py']
+    for i in cmds:
+        cmd = i
+    os.system(cmd)

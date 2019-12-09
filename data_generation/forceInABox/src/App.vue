@@ -32,8 +32,8 @@ export default {
       groupingForce: 0,
       dataNum: 0,
       dir: 0,
-      groupLevels: ['high', 'mid', 'low'],
-      nodeLevels: ['high', 'mid', 'low'],
+      groupLevels: ['high', 'low'],
+      nodeLevels: ['mid'],
       groupLevel: 0,
       nodeLevel: 0,
       linkStrength: 0.1,
@@ -56,7 +56,7 @@ export default {
       .attr("width", that.width)
       .attr("height", that.height);
 
-    // that.reload()
+    that.reload()
   },
   methods: {
     dragstarted: function(d) {
@@ -88,7 +88,7 @@ export default {
         .force("y", d3.forceY(that.height / 2).strength(0.05))
 
       that.dir = "../data/origin/FDGIB/" + that.groupLevels[that.groupLevel] + "-" + that.nodeLevels[that.nodeLevel] + '/'
-      console.log(that.dir, that.dataNum)
+      console.log(that.dir + that.dataNum + ".json")
 
       d3.json(that.dir + that.dataNum + ".json").then(function(graph) {
         that.graph = graph
@@ -279,8 +279,7 @@ export default {
         var dClusterLinks = d3.map(),
           clusterLinks = [];
         links.forEach(function(l) {
-          var key = getLinkKey(l),
-            count;
+          var key = getLinkKey(l), count;
           if (dClusterLinks.has(key)) {
             count = dClusterLinks.get(key);
           } else {
@@ -451,7 +450,7 @@ export default {
             return forceCharge * d.size * that.chargeForce;
           }))
           .force("links", d3.forceLink(!net.nodes ? net.links : []))
-          .alphaMin(0.1)
+          .alphaMin(0.04)
           .on('end', onEnd)
 
         templateForce.force('collide').radius(that.radius)
@@ -595,18 +594,16 @@ export default {
           dic.source = links[j].source.index
           dic.target = links[j].target.index
           dic.value = links[j].value
+          dic.id = links[j].id
           data.links.push(dic)
           // console.log(links[j].source)
         }
         data.groupSize = that.graph.groupSize
-        data.level = that.level
+        data.nodeSize = that.graph.nodeSize
+        data.linkSize = that.graph.linkSize
+        data.level = that.graph.level
         data.file = that.graph.file
         data.id = that.dir + '' + that.dataNum + '.json'
-        data.mostConnected = that.graph.mostConnected
-        data.nodeMax = that.graph.nodeMax
-        data.nodeMin = that.graph.nodeMin
-        data.linkMax = that.graph.linkMax
-        data.linkMin = that.graph.linkMin
         // data.linkSize = that.graph,linkSize
         // data.nodeSize = that.graph.nodeSize
 

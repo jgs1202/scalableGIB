@@ -13,8 +13,6 @@ os.chdir('/Users/Aoyama/Documents/Program/scalable-GIB/GIB/rust-fd-layout/')
 
 main = []
 if argvs[1] == 'all':
-    main.append('../../data_generation/data/STGIB/temp/')
-    main.append('../../data_generation/data/Chaturvedi/temp/')
     main.append('../../data_generation/data/TRGIB/temp/')
     main.append('../../data_generation/data/FDGIB/temp/')
 else:
@@ -38,3 +36,11 @@ if inp == 'y':
                 pass
 else:
     pass
+
+os.chdir('/Users/Aoyama/Documents/Program/scalable-GIB/data_generation/py/')
+cmds = []
+cmds.append('python add_coordinates.py ' + argvs[1])
+print('add coordinates to file')
+
+for cmd in cmds:
+    os.system(cmd)

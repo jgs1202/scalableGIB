@@ -14,6 +14,7 @@ class Choice(db.Model):
     gender = db.Column(db.String(80), unique=False)
     age = db.Column(db.String(20), unique=False)
     layout = db.Column(db.String(20), unique=False)
+    level = db.Column(db.String(20), unique=False)
     path = db.Column(db.String(80), unique=False)
     path_length_difference = db.Column(db.String(20), unique=False)
     groupSize = db.Column(db.String(10), unique=False)
@@ -22,12 +23,14 @@ class Choice(db.Model):
     time = db.Column(db.String(80), unique=False)
     # choice2 = db.Column(db.String(80), unique=False)
 
-    def __init__(self, username, gender, age, layout, path, groupSize, file, answer, time):
+    def __init__(self, username, gender, age, layout, level, path, path_length_difference, groupSize, file, answer, time):
         self.username = username
         self.gender = gender
         self.age = age
         self.layout = layout
+        self.level = level
         self.path = path
+        self.path_length_difference = path_length_difference
         self.groupSize = groupSize
         self.file = file
         self.answer = answer

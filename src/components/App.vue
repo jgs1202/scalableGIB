@@ -73,12 +73,15 @@ export default {
       totalQue: 120,
       level: null,
       file: null,
-      normalSize: 3,
-      relatedSize: 5,
-      selectSize: 7,
+      normalSize: 2,
+      relatedSize: 4,
+      selectSize: 4,
       selected: [],
       related: [],
       redLinks: [],
+      blueLinks: [],
+      redThickness: 3,
+      blueThickness: 3,
       jsonDataInfo: "sample",
       tableData: [],
     }
@@ -103,21 +106,25 @@ export default {
       } else {
         d3.json("./src/data/" + that.$parent.levelIndex[that.$parent.level] + '/' + that.$parent.nums[that.$parent.level] + ".json").then(function(graph) {
           that.graph = graph
-
           that.setTable()
-
           that.related = []
+          that.selected = []
+          that.selected.push(that.graph.shortest_path.nodes[0])
+          that.selected.push(that.graph.shortest_path.nodes[1])
           for (let i=0; i < that.graph.nodes.length; i++){
             that.related.push([])
           }
           that.redLinks = []
+          that.blueLinks = []
           for (let i=0; i < that.graph.links.length; i++){
             that.redLinks.push([])
+            that.blueLinks.push([])
           }
           that.graph.groups.pop()
           that.$set(that.boxes, that.reBoxes())
           that.$set(that.links, that.reLinks())
           that.$set(that.nodes, that.reNodes())
+          that.initialEdgeNodesHighliht()
         })
         let sync = document.getElementsByClassName('sync')
         for(let i=0; i<sync.length; i++){
@@ -145,7 +152,6 @@ export default {
     },
     reNodes: function() {
       var that = this;
-      console.log('renodes')
       if (that.graph) {
         d3.selectAll('circle').remove()
         d3.select("svg").append("g")
@@ -155,7 +161,7 @@ export default {
           .enter().append("circle")
           .attr('cx', that.settings.svgWigth / 2)
           .attr('cy', that.settings.svgHeight / 2)
-          .attr("r", 3)
+          .attr('r', that.normalSize)
         return d3.selectAll("circle")
           .each(function(d, i) {
             let selection = d3.select(this)
@@ -168,7 +174,7 @@ export default {
                 if (that.graph.shortest_path.nodes.indexOf(d.id) >= 0) {
                   return 'red'
                 } else {
-                  return 0.1
+                  return 'black'
                 }
               })
               selection.on('mouseover', function(d, i){
@@ -187,9 +193,9 @@ export default {
               selection.on('mouseout', function(d, i){
                 that.nodeData.name = null
                 that.nodeData.group = null
-                if ((that.selected.indexOf(d) < 0) && (that.related[d.id].length === 0)){
+                if ((that.selected.indexOf(d.id) < 0) && (that.related[d.id].length === 0)){
                   selection.attr('r', that.normalSize)
-                } else if ((that.selected.indexOf(d) < 0) && (that.related[d.id].length !== 0)){
+                } else if ((that.selected.indexOf(d.id) < 0) && (that.related[d.id].length !== 0)){
                   selection.attr('r', that.relatedSize)
                 }
               })
@@ -197,15 +203,16 @@ export default {
       }
     },
     checkAnswer: function() {
+      let that = this
       let answerPaths = that.graph.shortest_path.answers
       let flag = 0
       for (let path=0; path<that.graph.shortest_path.answers.length; ++path) {
         for (let node=0; node<that.selected.length; ++node) {
-          if (that.graph.shortest_path.answers[path],indexOf(that.selected[node])) {
+          if (that.graph.shortest_path.answers[path].indexOf(that.selected[node])) {
             if (node == that.selected.length - 1) {
               flag = 1
             } else {
-              braek
+              break
             }
           }
         }
@@ -217,25 +224,37 @@ export default {
         var that = this
         that.time = Date.now() - that.startTime
         const params = new URLSearchParams()
-        params.set('userName', this.$parent.userName)
-        params.set('gender', this.$parent.gender)
-        params.set('age', this.$parent.age)
-        params.set('layout', that.graph.type)
-        params.set('set', that.file)
+        // username, gender, age, layout, path, groupSize, file, answer, time
+        params.set('userName', that.$parent.userName)
+        params.set('gender', that.$parent.gender)
+        params.set('age', that.$parent.age)
+        params.set('layout', that.graph.layout)
+        params.set('level', that.$parent.level)
+        let pathString = ""
+        for (let i=0; i<that.selected.length; ++i){
+          if (i != 0) {
+            pathString += " "
+          }
+          pathString += "" + that.selected[i]
+        }
+        params.set('path', pathString)
+        params.set('path_length_difference', that.graph.shortest_path.length - that.selected.length)
         params.set('groupSize', that.graph.groupSize)
         params.set('file', '' + that.$parent.nums[that.$parent.level] + '.json')
-        if (that.choice[0] == that.graph.linkMax){
+        if (that.checkAnswer()){
           that.answer = 1
         } else {
           that.answer = 0
         }
         params.set('answer', that.answer)
         params.set('time', that.time)
+        console.log(params)
         const url = `http://127.0.0.1:5000/data/${params.toString()}`
         axios.get(url)
           .then(res => {
             // console.log(res.data)
           })
+
         that.choice = []
         d3.selectAll('rect').attr('stroke-width', 0.6).attr('stroke', 'black')
         d3.selectAll('circle').remove()
@@ -255,6 +274,9 @@ export default {
           .attr("stroke-width", function(d) {
             // return Math.sqrt(d.value);
             return 0.4;
+          })
+          .attr('stroke', function(d) {
+            return d3.rgb(100, 100, 100)
           })
         d3.selectAll("line")
           .each(function(d, i) {
@@ -348,7 +370,7 @@ export default {
       let that = this
       let preference = d.name
       let select_number = d.id
-      if (that.selected.indexOf(d) < 0){
+      if (that.selected.indexOf(d.id) < 0){
         let relLinks = []
         let relNodes = []
         for (let i=0; i < that.graph.links.length; i++){
@@ -364,60 +386,84 @@ export default {
           }
         }
         d3.selectAll("circle")
-          .each(function(d, i) {
+          .each(function(nd, ni) {
             var selection = d3.select(this)
             if (relLinks.length !== 0) {
               for (let n=0; n<relNodes.length; n++){
-                if (d.name == relNodes[n]) {
+                if (nd.name == relNodes[n]) {
                   that.related[parseInt(relNodes[n])].push(select_number)
-                  if (that.selected.indexOf(d) < 0){
+                  if (that.selected.indexOf(nd.id) < 0){
                     selection.attr('r', that.relatedSize)
                   }
                 }
-                else if (d.name === preference) {
+                else if (nd.name === preference) {
                   selection.attr('r', that.selectSize)
-                  selection.attr('stroke', 'yellow')
-                  selection.attr('stroke-width', 3)
-                  if (that.selected.indexOf(d) < 0){
-                    that.selected.push(d)
+                  if (that.graph.shortest_path.nodes.indexOf(nd.id) >= 0) {
+                    selection.attr('fill', 'red')
+                  } else {
+                    selection.attr('fill', 'blue')
+                  }
+                  // selection.attr('stroke', 'yellow')
+                  // selection.attr('stroke-width', 3)
+                  if (that.selected.indexOf(nd.id) < 0){
+                    that.selected.push(nd.id)
                   }
                 }
               }
-            } else if (d.name === preference) {
+            } else if (nd.name === preference) {
               selection.attr('r', that.selectSize)
-              selection.attr('stroke', 'yellow')
-              selection.attr('stroke-width', 3)
-              if (that.selected.indexOf(d) < 0){
-                that.selected.push(d)
+              // selection.attr('stroke', 'yellow')
+              // selection.attr('stroke-width', 3)
+              if (that.selected.indexOf(nd.id) < 0){
+                that.selected.push(nd.id)
               }
             }
           })
         d3.selectAll('line')
-          .each(function(d, i){
+          .each(function(ld, li){
             let selection = d3.select(this)
             for (let n=0; n<relLinks.length; n++){
-              if (relLinks[n].id === d.id){
-                that.redLinks[parseInt(d.id)].push(parseInt(select_number))
-                selection.attr('stroke', 'red')
-                selection.attr('stroke-width', 1.5)
+              if (relLinks[n].id === ld.id){
+                that.redLinks[parseInt(ld.id)].push(parseInt(select_number))
+                selection.attr('stroke', 'lightblue')
+                selection.attr('stroke-width', that.blueThickness) 
               }
             }
-        })
+          })
+        d3.selectAll('line')
+          .each(function(ld, li){
+            let selection = d3.select(this)
+            for (let n=0; n<relLinks.length; n++){
+              if (relLinks[n].id === ld.id){
+                if ((that.selected.indexOf(relLinks[n].source) >= 0) && ((that.selected.indexOf(relLinks[n].target) >= 0))) {
+                  let _list = [relLinks[n].source, relLinks[n].target]
+                  that.blueLinks[parseInt(ld.id)].push(_list)
+                  selection.attr('stroke', 'red')
+                  selection.attr('stroke-width', that.redThickness)
+                }
+              }
+            }
+          })
       } else {
         let rmList = []
         for (let n=0; n<that.selected.length; n++){
-          if (that.selected[n].name === preference){
+          if (that.selected[n] === preference){
             let front = that.selected.slice(0, n)
             let back = that.selected.slice(n+1, that.selected.length)
             that.selected = front.concat(back)
           }
         }
         d3.selectAll("circle")
-          .each(function(d, i) {
+          .each(function(nd, ni) {
             var selection = d3.select(this)
-            if (d.id === select_number){
+            if (nd.id === select_number){
               selection.attr('r', that.normalSize)
               selection.attr('stroke-width', 0)
+              if (that.graph.shortest_path.nodes.indexOf(nd.id) >= 0) {
+                selection.attr('fill', 'red')
+              } else {
+                selection.attr('fill', 'black')
+              }
             } else {
               for(let n=0; n < that.related.length; n++){
                 let order = that.related[n].indexOf(select_number)
@@ -425,7 +471,7 @@ export default {
                   let front = that.related[n].slice(0, order)
                   let back = that.related[n].slice(order+1, that.related[n].length)
                   that.related[n] = front.concat(back)
-                  if ((that.related[n].length === 0) && (that.selected.indexOf(that.graph.nodes[n]) < 0)){
+                  if ((that.related[n].length === 0) && (that.selected.indexOf(that.graph.nodes[n].id) < 0)){
                     rmList.push(n)
                   }
                 }
@@ -433,9 +479,9 @@ export default {
             }
           })
         d3.selectAll("circle")
-          .each(function(d, i) {
+          .each(function(nd, ni) {
             var selection = d3.select(this)
-            if (rmList.indexOf(d.id) > -1){
+            if (rmList.indexOf(nd.id) > -1){
               selection.attr('r', that.normalSize)
             }
         })
@@ -448,127 +494,76 @@ export default {
             that.redLinks[n] = front.concat(back)
           }
         }
-        d3.selectAll('line').each(function(d, i) {
+        // reomve blue links
+        for (let n=0; n<that.blueLinks.length; n++){
+          for (let m=0; m<that.blueLinks[n].length; m++) {
+            if (that.blueLinks[n].length > 0) {
+            }
+            if (that.blueLinks[n][m].indexOf(select_number) >= 0) {
+              let front = that.blueLinks[n].slice(0, m)
+              let back = that.blueLinks[n].slice(m + 1, that.blueLinks[n][m].length)
+              that.blueLinks[n] = front.concat(back)
+            }
+          }
+        }
+        d3.selectAll('line').each(function(ld, li) {
           let selection = d3.select(this)
-          if (that.redLinks[parseInt(d.id)].length === 0){
-            selection.attr('stroke', 'gray')
+          if ((that.redLinks[parseInt(ld.id)].length != 0) && (that.blueLinks[ld.id].length == 0)) {
+            selection.attr('stroke', 'lightblue')
+          }
+          else if ((that.redLinks[parseInt(ld.id)].length === 0) && (that.blueLinks[ld.id].length == 0)){
+            selection.attr('stroke', d3.rgb(100, 100, 100))
             selection.attr('stroke-width', 0.4)
           }
         })
       }
     },
-    selectNode: function(d, i){
+    initialEdgeNodesHighliht: function(){
       let that = this
-      let preference = d.name
-      let select_number = d.id
-      if (that.selected.indexOf(d) < 0){
-        let relLinks = []
-        let relNodes = []
-        for (let i=0; i < that.graph.links.length; i++){
-          if ((d.name === that.graph.links[i].source) || (d.name === that.graph.links[i].target)){
-            relLinks.push(that.graph.links[i])
-          }
-        }
-        for (let n=0; n < relLinks.length; n++){
-          if (relLinks[n].source === d.name){
-            relNodes.push(relLinks[n].target)
-          } else if (relLinks[n].target === d.name){
-            relNodes.push(relLinks[n].source)
-          }
-        }
-        d3.selectAll("circle")
-          .each(function(d, i) {
-            var selection = d3.select(this)
-            if (relLinks.length !== 0) {
-              for (let n=0; n<relNodes.length; n++){
-                if (d.name == relNodes[n]) {
-                  that.related[parseInt(relNodes[n])].push(select_number)
-                  if (that.selected.indexOf(d) < 0){
-                    selection.attr('r', that.relatedSize)
-                  }
-                }
-                else if (d.name === preference) {
-                  selection.attr('r', that.selectSize)
-                  selection.attr('stroke', 'yellow')
-                  selection.attr('stroke-width', 3)
-                  if (that.selected.indexOf(d) < 0){
-                    that.selected.push(d)
-                  }
-                }
-              }
-            } else if (d.name === preference) {
-              selection.attr('r', that.selectSize)
-              selection.attr('stroke', 'yellow')
-              selection.attr('stroke-width', 3)
-              if (that.selected.indexOf(d) < 0){
-                that.selected.push(d)
-              }
-            }
-          })
-        d3.selectAll('line')
-          .each(function(d, i){
+      d3.selectAll("circle")
+        .each(function(d, i) {
+          if (that.selected.indexOf(d.id) >= 0) {
             let selection = d3.select(this)
-            for (let n=0; n<relLinks.length; n++){
-              if (relLinks[n].id === d.id){
-                that.redLinks[parseInt(d.id)].push(parseInt(select_number))
-                selection.attr('stroke', 'red')
-                selection.attr('stroke-width', 1.5)
+            selection.attr('r', that.selectSize)
+            // selection.attr('stroke', 'yellow')
+            // selection.attr('stroke-width', 3)
+
+            let relLinks = []
+            let relNodes = []
+            for (let i=0; i < that.graph.links.length; i++){
+              if ((d.id === that.graph.links[i].source) || (d.id === that.graph.links[i].target)){
+                relLinks.push(that.graph.links[i])
               }
             }
-        })
-      } else {
-        let rmList = []
-        for (let n=0; n<that.selected.length; n++){
-          if (that.selected[n].name === preference){
-            let front = that.selected.slice(0, n)
-            let back = that.selected.slice(n+1, that.selected.length)
-            that.selected = front.concat(back)
-          }
-        }
-        d3.selectAll("circle")
-          .each(function(d, i) {
-            var selection = d3.select(this)
-            if (d.id === select_number){
-              selection.attr('r', that.normalSize)
-              selection.attr('stroke-width', 0)
-            } else {
-              for(let n=0; n < that.related.length; n++){
-                let order = that.related[n].indexOf(select_number)
-                if (order > -1){
-                  let front = that.related[n].slice(0, order)
-                  let back = that.related[n].slice(order+1, that.related[n].length)
-                  that.related[n] = front.concat(back)
-                  if ((that.related[n].length === 0) && (that.selected.indexOf(that.graph.nodes[n]) < 0)){
-                    rmList.push(n)
+            for (let n=0; n < relLinks.length; n++){
+              if (relLinks[n].source === d.id){
+                relNodes.push(relLinks[n].target)
+                that.related[relLinks[n].target].push(d.id)
+              } else if (relLinks[n].target === d.id){
+                relNodes.push(relLinks[n].source)
+                that.related[relLinks[n].source].push(d.id)
+              }
+            }
+            d3.selectAll("circle")
+              .each(function(nd, ni) {
+                let _selection = d3.select(this)
+                if ((relNodes.indexOf(nd.id) >= 0) && (that.selected.indexOf(nd.id) < 0)) {
+                  _selection.attr('r', that.relatedSize)
+                }
+              })
+            d3.selectAll('line')
+              .each(function(ld, li){
+                let _selection = d3.select(this)
+                for (let i=0; i<relLinks.length; ++i) {
+                  if (relLinks[i].id == ld.id) {
+                    that.redLinks[parseInt(ld.id)].push(parseInt(d.id))
+                    _selection.attr('stroke', 'lightblue')
+                    _selection.attr('stroke-width', that.blueThickness)
                   }
                 }
-              }
-            }
-          })
-        d3.selectAll("circle")
-          .each(function(d, i) {
-            var selection = d3.select(this)
-            if (rmList.indexOf(d.id) > -1){
-              selection.attr('r', that.normalSize)
-            }
-        })
-        // reomve red links
-        for (let n=0; n<that.redLinks.length; n++){
-          let order = that.redLinks[n].indexOf(parseInt(select_number))
-          if (order > -1) {
-            let front = that.redLinks[n].slice(0, order)
-            let back = that.redLinks[n].slice(order + 1, that.redLinks[n].length)
-            that.redLinks[n] = front.concat(back)
+              })
           }
-        }
-        d3.selectAll('line').each(function(d, i) {
-          let selection = d3.select(this)
-          if (that.redLinks[parseInt(d.id)].length === 0){
-            selection.attr('stroke', 'gray')
-            selection.attr('stroke-width', 0.4)
-          }
-        })
-      }
+      })
     }
   },
 }
@@ -650,7 +645,7 @@ label {
 }
 
 .links line {
-  stroke: #999;
+  /*stroke: #999;*/
   stroke-opacity: 1;
 }
 

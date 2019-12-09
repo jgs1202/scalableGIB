@@ -54,7 +54,8 @@ class metrics():
         return ave_dig
 
     def density(self):
-        return 2 * self.num_l / (self.num_n * (self.num_n - 1))
+        # return 2 * self.num_l / (self.num_n * (self.num_n - 1))
+        return self.num_l / self.num_n
 
     def cluster_coef(self):
         return nx.average_clustering(self.graph)

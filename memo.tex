@@ -1,0 +1,29 @@
+Since we focus the data scalability of GIBs, the size of data is a variable in our experiment.
+In order to check the influence of data size, we have to prepare several sets of data whome data sizes are different and data of each set sholud be the same at their data size.
+While the sets of data must be different at data size, the other factors that can affect the experimental result should be synthesized such as the ratio of the number of edes against that of nodes.
+In other words, the data should be uniiform expect for its data size.
+We keep this uniformity by using a metric, density, defined as each of following.
+density${ = \frac{|E|}{|N||N - 1|}}
+linear density = ${ = \frac{|E|}{|N|}}
+This metric represent how many edges exist in a network against the number of nodes.
+We suppose that we can eliminate other effects than data size by maintaning density among graphs.
+
+In our data generation algorithm, The number of edges is written as following.
+${|E| = n^2 g p_{in} + g^2 p_{group} n^2 p_{bridge} + n^2 g^2 p_{out}}
+where ${n} and ${g} is the average number of nodes and groups respectively.
+Then ${N} is alternated by ${ng}, the density is rewriten as
+${density = \frac{n^2 g p_{in} + g^2 p_{group} n^2 p_{bridge} + n^2 g^2 p_out}{ng (ng - 1)}}
+linear density${ = \frac{n^2 g p_{in} + g^2 p_{group} n^2 p_{bridge} + n^2 g^2 p_out}{ng}}
+The second and third terms do not depend on ${n} nor ${g}, but the first term is propotional to \frac{1}{g} at density.
+In terms of linear density, the first term depend on ${n}, and the second and third term are propotianl to ${ng}.
+
+To keep the density, we have to increase ${p_in} along the number of groups.
+In real world data, this means that inner-group connection is more dense in bigger network, which does not make sence.
+Considering linear density, smaller ${$p_in, p_group, p_bridge and p_out} are needen with bigger network.
+A node barely have connections to nodes in other groups propotinally to the number of groups, 発散してしまう
+Therefore, keepin linear density make more sence in our algoritm and we adopt this.
+
+So, p_in depends on n, p_group * p_bridge and p_out depend on ng.
+We changed only g in data generation because the layout to arrange nodes insidee of group can affect the expeimental result when n is increased.
+
+Therefore,, p_group and p_out should be devide by g.

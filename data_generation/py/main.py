@@ -1,5 +1,6 @@
 import json
 import argparse
+import networkx as nx
 from networkx.readwrite import json_graph
 from pyomo.opt import SolverFactory
 from squarify import squarify, normalize_sizes, squarify_tree_structure
@@ -9,7 +10,8 @@ from define_model import define_model, get_x_coord, get_y_coord
 
 def run(graph_data, width, height, outfile):
     graph = json_graph.node_link_graph(graph_data)
-    groups = {graph.nodes[u]['group'] for u in graph.nodes()}
+    print(len(graph_data['nodes']), len(graph.nodes()))
+    groups = {graph.nodes()[u]['group'] for u in graph.nodes()}
     sizes = [(len([u for u in graph.nodes()
                    if graph.nodes[u]['group'] == group]), group)
              for group in groups]

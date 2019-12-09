@@ -25,10 +25,10 @@ def force(data, width, height, groups):
 
     plt.figure(figsize=(9.6, 6))
     pos = nx.spring_layout(G, k=1/len(data['nodes']))
-    nx.draw_networkx(G, pos)
-    plt.ylim(1, -1)
-    plt.show()
-    nx.draw(pos, node_color='b', node_size=50, with_labels=False)
+    # nx.draw_networkx(G, pos)
+    # plt.ylim(1, -1)
+    # plt.show()
+    # nx.draw(pos, node_color='b', node_size=50, with_labels=False)
 
     xs, ys = [], []
     for i in range(length):
