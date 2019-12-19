@@ -23,6 +23,7 @@ export default {
       already: 0,
       total: 10,
       nums: [0, 0],
+      total: 120,
       levelIndex: ['high', 'low'],
       level: null,
     }

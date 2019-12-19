@@ -24,38 +24,10 @@ def p_in(groupsize, nodesize, nodes_lenth):
     if nodes_lenth > 15:
         p = 0.15 * threshold
     else:
-        p = 0.15 * 11.4 / nodes_lenth * threshold
+        p = 0.15 * 11.4 / (nodes_lenth - 2) * threshold
     # print(nodes_lenth, p)
     return p
     # return 0.4 * threshold
-
-
-# def p_group(groupsize, nodesize):
-#     def index(groupsize):
-#         if groupsize < 11.4:
-#             return 0
-#         else:
-#             # return (groupsize - 11.4) / 30
-#             return 0
-#     return 0.1 * math.exp(-index(groupsize))
-
-
-# def p_bridge(groupsize):
-#     def index(groupsize):
-#         if groupsize < 11.4:
-#             return 0
-#         else:
-#             return (groupsize - 11.4) / 30
-#     return 0.05 * threshold * math.exp(-index(groupsize))
-
-
-# def p_out(groupsize, nodesize):
-#     def index(groupsize, nodesize):
-#         if groupsize * nodesize < 11.4 * 10:
-#             return 0
-#         else:
-#             return (groupsize * nodesize - 11.4 * 10) / 11.4 * 30
-#     return 0.05 * threshold * math.exp(-index(groupsize, nodesize))
 
 
 def p_group(groupsize, nodesize):
@@ -231,7 +203,7 @@ def add_link(m, nodes, links, nums, thre, nodesize):
 
 
 def makeData():
-    eachNum = 5
+    eachNum = 50
     output = ['TRGIB', 'FDGIB']
     # nodelevels = ['low', 'mid', 'high']
     nodelevels = ['mid']
@@ -291,7 +263,26 @@ def makeData():
                     json.dump(data, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
 
 
+def delete_directries():
+    path = '../data/origin/'
+    for layout in os.listdir(path):
+        if layout != ".DS_Store":
+            layout += '/'
+            for level in os.listdir(path + layout):
+                os.system('rm -r ' + path + layout + level)
+
+
+def delete_temp():
+    layouts = ['../data/FDGIB/', '../data/TRGIB/']
+    for layout in layouts:
+        path = layout + 'temp/'
+        for file in os.listdir(path + file):
+            if file != 'DS_Store':
+                os.system('rm ' + path + file)
+
+
 if __name__ == '__main__':
+    delete_directries()
     makeData()
     cmds = ['python groupWeight.py', 'cp -r ../data ../forceInABox/']
     for i in cmds:

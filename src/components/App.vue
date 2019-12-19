@@ -14,7 +14,7 @@
         </div>
       </el-aside> -->
       <el-container>
-        <el-header>
+        <!-- <el-header>
           <el-table :data="tableData" border style="width: 100%;">
             <el-table-column prop="nodes" label="Nodes"></el-table-column>
             <el-table-column prop="links" label="Links"></el-table-column>
@@ -23,9 +23,9 @@
             <el-table-column prop="degree" label="Average Degree"></el-table-column>
             <el-table-column prop="difficulty" label="Difficulty"></el-table-column>
           </el-table>
-        </el-header>
+        </el-header> -->
         <el-main> 
-          {{level}} - {{file}} <br><br>
+          <!-- {{level}} - {{file}} <br><br> -->
           <div class="svg-container" :style="{width: settings.width + '%'}">
             <svg id="svg" pointer-events="all" viewBox="0 0 960 600" preserveAspectRatio="xMinYMin meet">
               <g id="nodes">{{nodes}}</g>
@@ -66,11 +66,11 @@ export default {
       links: [],
       boxes: [],
       choice: [],
-      dataMax: null,
+      dataMax: 30,
       startTime: null,
       time: null,
       answer: null,
-      totalQue: 120,
+      totalQue: 50,
       level: null,
       file: null,
       normalSize: 2,
@@ -84,6 +84,8 @@ export default {
       blueThickness: 3,
       jsonDataInfo: "sample",
       tableData: [],
+      timer: null,
+      limit_second: 30,
     }
   },
   mounted: function() {
@@ -94,17 +96,22 @@ export default {
     } else if (that.$parent.level == 1) {
       that.level = 'difficult'
     }
+    console.log('mounted')
     that.restart()
   },
   methods: {
     restart: function() {
       var that = this;
       console.log('num is ' + '' + that.$parent.nums[that.$parent.level])
-      if (that.$parent.nums[that.$parent.level] % that.dataMax == 0) {
-        this.$parent.already = 1
+      if ((that.$parent.nums[that.$parent.level] % that.dataMax == 0) && (that.$parent.nums[that.$parent.level] != 0)) {
+        if (that.$parent.nums[that.$parent.level] == this.$parent.total) {
+          this.$parent.already = 1
+        }
+        window.removeEventListener('keyup', that.onClick)
         this.$parent.currentPage = 'Menu'
       } else {
-        d3.json("./src/data/" + that.$parent.levelIndex[that.$parent.level] + '/' + that.$parent.nums[that.$parent.level] + ".json").then(function(graph) {
+        // d3.json("./src/data/" + that.$parent.levelIndex[that.$parent.level] + '/' + that.$parent.nums[that.$parent.level] + ".json").then(function(graph) {
+        d3.json("./src/data/random/" + that.$parent.nums[that.$parent.level] + ".json").then(function(graph) {
           that.graph = graph
           that.setTable()
           that.related = []
@@ -135,6 +142,7 @@ export default {
           }
         }
         that.startTime = Date.now()
+        that.timer = setTimeout(that.timelimit, that.limit_second * 1000);
       }
       that.$parent.nums[that.$parent.level] += 1
     },
@@ -205,23 +213,71 @@ export default {
     checkAnswer: function() {
       let that = this
       let answerPaths = that.graph.shortest_path.answers
+      console.log(that.graph.shortest_path.answers)
+      console.log(that.selected)
       let flag = 0
       for (let path=0; path<that.graph.shortest_path.answers.length; ++path) {
         for (let node=0; node<that.selected.length; ++node) {
-          if (that.graph.shortest_path.answers[path].indexOf(that.selected[node])) {
+          if (that.graph.shortest_path.answers[path].indexOf(that.selected[node]) >= 0) {
             if (node == that.selected.length - 1) {
+              if (node == that.graph.shortest_path.answers[path].length - 1)
               flag = 1
-            } else {
-              break
             }
+          } else {
+            break
           }
         }
       }
+      console.log(flag)
       return flag
+    },
+    timelimit: function() {
+      var that = this
+      clearTimeout(that.timer)
+      that.time = Date.now() - that.startTime
+      const params = new URLSearchParams()
+      // username, gender, age, layout, path, groupSize, file, answer, time
+      params.set('userName', that.$parent.userName)
+      params.set('gender', that.$parent.gender)
+      params.set('age', that.$parent.age)
+      params.set('layout', that.graph.layout)
+      params.set('level', that.$parent.level)
+      let pathString = ""
+      for (let i=0; i<that.selected.length; ++i){
+        if (i != 0) {
+          pathString += " "
+        }
+        pathString += "" + that.selected[i]
+      }
+      params.set('path', pathString)
+      params.set('path_length_difference', that.graph.shortest_path.length - that.selected.length)
+      params.set('groupSize', that.graph.groupSize)
+      params.set('file', '' + that.$parent.nums[that.$parent.level] + '.json')
+      if (that.checkAnswer()){
+        that.answer = 1
+      } else {
+        that.answer = 0
+      }
+      params.set('answer', that.answer)
+      params.set('time', that.limit_second * 1000)
+      console.log(params)
+      const url = `http://127.0.0.1:5000/data/${params.toString()}`
+      axios.get(url)
+        .then(res => {
+          // console.log(res.data)
+        })
+
+      that.choice = []
+      d3.selectAll('rect').attr('stroke-width', 0.6).attr('stroke', 'black')
+      d3.selectAll('circle').remove()
+      d3.selectAll('line').remove()
+      d3.selectAll('rect').remove()
+      that.restart()
     },
     onClick: function(event) {
       if (event.keyCode == '13') {
         var that = this
+        clearTimeout(that.timer)
         that.time = Date.now() - that.startTime
         const params = new URLSearchParams()
         // username, gender, age, layout, path, groupSize, file, answer, time
@@ -425,6 +481,7 @@ export default {
             for (let n=0; n<relLinks.length; n++){
               if (relLinks[n].id === ld.id){
                 that.redLinks[parseInt(ld.id)].push(parseInt(select_number))
+                selection.lower()
                 selection.attr('stroke', 'lightblue')
                 selection.attr('stroke-width', that.blueThickness) 
               }
@@ -438,6 +495,7 @@ export default {
                 if ((that.selected.indexOf(relLinks[n].source) >= 0) && ((that.selected.indexOf(relLinks[n].target) >= 0))) {
                   let _list = [relLinks[n].source, relLinks[n].target]
                   that.blueLinks[parseInt(ld.id)].push(_list)
+                  selection.raise()
                   selection.attr('stroke', 'red')
                   selection.attr('stroke-width', that.redThickness)
                 }
@@ -509,6 +567,7 @@ export default {
         d3.selectAll('line').each(function(ld, li) {
           let selection = d3.select(this)
           if ((that.redLinks[parseInt(ld.id)].length != 0) && (that.blueLinks[ld.id].length == 0)) {
+            selection.lower()
             selection.attr('stroke', 'lightblue')
           }
           else if ((that.redLinks[parseInt(ld.id)].length === 0) && (that.blueLinks[ld.id].length == 0)){
@@ -557,6 +616,7 @@ export default {
                 for (let i=0; i<relLinks.length; ++i) {
                   if (relLinks[i].id == ld.id) {
                     that.redLinks[parseInt(ld.id)].push(parseInt(d.id))
+                    _selection.lower()
                     _selection.attr('stroke', 'lightblue')
                     _selection.attr('stroke-width', that.blueThickness)
                   }
@@ -580,8 +640,8 @@ body {
 
 .app {
   margin: auto;
-  width: 75%;
-  height: 75%;
+  width: 100%;
+  height: 100%;
   font-family: 'serif';
 }
 

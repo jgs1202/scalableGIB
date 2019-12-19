@@ -42,7 +42,8 @@ export default {
       chargeForce: -0.1,
       tempStrength: 0.6,
       radius: 100,
-      each: 5,
+      each: 50,
+      timer: null,
     }
   },
   mounted: function() {
@@ -183,7 +184,7 @@ export default {
           } else {
             that.force.force("group").deleteTemplate(that.svg);
           }
-        });
+        })
       })
     },
     forceInABox: function(alpha) {

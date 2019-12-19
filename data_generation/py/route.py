@@ -4,6 +4,8 @@ import random
 import networkx as nx
 import sys
 import matplotlib.pyplot as plt
+import signal
+signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 
 # 一つのノードから最短経路のパス（+1）数内でいける全てのノード分の答えのノードの割合を揃える
@@ -54,7 +56,7 @@ def vis_tree(nodes, depth):
 
 
 def difficulty(data, source, target):
-    print('calculating difficulty...')
+    # print('calculating difficulty...')
     links = data['links']
     shortest_length = data['shortest_path']['length']
     depth_margin = 1
@@ -75,7 +77,7 @@ def difficulty(data, source, target):
                     append_child_nodelist(parent, int(link['target']))
                 elif link['target'] == parent.id:
                     append_child_nodelist(parent, int(link['source']))
-        print(len(nodes))
+        # print(len(nodes))
         before = [node.id for node in nodes if node.depth == depth + 1]
         dupli_check(nodes, depth + 1)
         after = [node.id for node in nodes if node.depth == depth + 1]
@@ -93,46 +95,51 @@ def difficulty(data, source, target):
     return sum(nums_answer) / num
 
 
+def link_number(data, index):
+    id = data['nodes'][index]['id']
+    count = 0
+    for link in data['links']:
+        if link['source'] == id or link['target'] == id:
+            count += 1
+    return count
+
+
 def pickup2nodes(data):
-    print('choosing 2 nodes...')
+    # print('choosing 2 nodes...')
     graph = nx.readwrite.json_graph.node_link_graph(data)
     length = len(graph.nodes)
-    verify = True
-    count = 0
-    total_path_length = 0
-    while verify:
+    max = 100000
+
+    for i in range(max):
         try:
             data['shortest_path'] = {}
             data['shortest_path']['path'] = []
             rand = [random.randint(0, length - 1), random.randint(0, length - 1)]
             while rand[1] == rand[0] or data['nodes'][rand[0]]['group'] == data['nodes'][rand[1]]['group']:
                 rand[1] = random.randint(0, length - 1)
-            sps = nx.all_shortest_paths(graph, source=rand[0], target=rand[1])
-            data['shortest_path']['nodes'] = [rand[0], rand[1]]
-            for sp in sps:
-                data['shortest_path']['path'].append(sp)
-                data['shortest_path']['length'] = len(sp)
-            count += 1
-            total_path_length += data['shortest_path']['length']
-            if data['shortest_path']['length'] <= 6 and data['shortest_path']['length'] >= 5:
-                data['shortest_path']['difficulty'] = difficulty(data, rand[0], rand[1])
-                verify = False
-                # if data['shortest_path']['difficulty'] > 0.001 and data['shortest_path']['difficulty'] < 0.003:
-                #     print(data['shortest_path']['difficulty'])
-                #     verify = False
-            if count % 100 == 0 and count != 0:
-                print(data['shortest_path']['path'])
-            if count > 100000:
-                print('cannot find appropriate pair of nodes')
-                print('the average path length is ' + str(total_path_length / count))
-
+            if link_number(data, rand[0]) > 1 and link_number(data, rand[1]) > 1:
+                sps = nx.all_shortest_paths(graph, source=rand[0], target=rand[1])
+                data['shortest_path']['nodes'] = [rand[0], rand[1]]
+                for sp in sps:
+                    data['shortest_path']['path'].append(sp)
+                    data['shortest_path']['length'] = len(sp)
+                if data['shortest_path']['length'] <= 5 and data['shortest_path']['length'] >= 5:
+                    data['shortest_path']['difficulty'] = difficulty(data, rand[0], rand[1])
+                    # print(data['shortest_path']['difficulty'])
+                    if data['shortest_path']['difficulty'] > 0.01 and data['shortest_path']['difficulty'] < 0.02:
+                        break
+            if i == max - 1:
+                print("max!!!!!!!!!!")
+                sys.exit()
         except:
             pass
+    print(data['shortest_path']['difficulty'])
     return data
 
 
 def routing():
-    levels = ['low/', 'high/']
+    # levels = ['low/', 'high/', 'random/']
+    levels = ['random/']
     home = '../../src/data/'
 
     for level in levels:
