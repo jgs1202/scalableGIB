@@ -2,29 +2,6 @@
 <div>
   <div id="app" class="app">
     <el-container style="width: 100%">
-      <!-- <el-aside width='20%'>
-        <div class='text'>
-          Which box does have the most intra-links?<br><br>
-          グループ内リングか一番多いものを選んでください。
-        </div>
-        <div class="controls">
-          <br>
-          <label>Adjust width</label>
-          <el-slider v-model="settings.width"></el-slider>
-        </div>
-      </el-aside> -->
-      <el-container>
-        <!-- <el-header>
-          <el-table :data="tableData" border style="width: 100%;">
-            <el-table-column prop="nodes" label="Nodes"></el-table-column>
-            <el-table-column prop="links" label="Links"></el-table-column>
-            <el-table-column prop="groups" label="Groups"></el-table-column>
-            <el-table-column prop="density" label="Density"></el-table-column>
-            <el-table-column prop="degree" label="Average Degree"></el-table-column>
-            <el-table-column prop="difficulty" label="Difficulty"></el-table-column>
-          </el-table>
-        </el-header> -->
-        <el-main> 
           <!-- {{level}} - {{file}} <br><br> -->
           <div class="svg-container" :style="{width: settings.width + '%'}">
             <svg id="svg" pointer-events="all" viewBox="0 0 960 600" preserveAspectRatio="xMinYMin meet">
@@ -33,8 +10,6 @@
               <g id='boxes'>{{boxes}}</g>
             </svg>
           </div>
-        </el-main>
-      </el-container>
     </el-container>
   </div>
   <div class="sync">
@@ -640,7 +615,7 @@ body {
 
 .app {
   margin: auto;
-  width: 90%;
+  width: 80%;
   height: 100%;
   font-family: 'serif';
 }
