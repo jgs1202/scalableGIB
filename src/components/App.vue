@@ -617,7 +617,7 @@ body {
 
 .app {
   margin: auto;
-  width: 80%;
+  width: 85%;
   height: 100%;
   font-family: 'serif';
 }
