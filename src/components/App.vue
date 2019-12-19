@@ -56,7 +56,8 @@ export default {
       redLinks: [],
       blueLinks: [],
       redThickness: 3,
-      blueThickness: 3,
+      blueThickness: 1.5,
+      blueColor:  d3.rgb(30, 144, 255),
       jsonDataInfo: "sample",
       tableData: [],
       timer: null,
@@ -432,7 +433,7 @@ export default {
                   if (that.graph.shortest_path.nodes.indexOf(nd.id) >= 0) {
                     selection.attr('fill', 'red')
                   } else {
-                    selection.attr('fill', 'blue')
+                    selection.attr('fill', d3.rgb(0, 100, 200))
                   }
                   // selection.attr('stroke', 'yellow')
                   // selection.attr('stroke-width', 3)
@@ -457,7 +458,7 @@ export default {
               if (relLinks[n].id === ld.id){
                 that.redLinks[parseInt(ld.id)].push(parseInt(select_number))
                 selection.lower()
-                selection.attr('stroke', 'lightblue')
+                selection.attr('stroke', that.blueColor)
                 selection.attr('stroke-width', that.blueThickness) 
               }
             }
@@ -543,7 +544,8 @@ export default {
           let selection = d3.select(this)
           if ((that.redLinks[parseInt(ld.id)].length != 0) && (that.blueLinks[ld.id].length == 0)) {
             selection.lower()
-            selection.attr('stroke', 'lightblue')
+            selection.attr('stroke',  that.blueColor)
+            selection.attr('stroke-width', that.blueThickness)
           }
           else if ((that.redLinks[parseInt(ld.id)].length === 0) && (that.blueLinks[ld.id].length == 0)){
             selection.attr('stroke', d3.rgb(100, 100, 100))
@@ -592,7 +594,7 @@ export default {
                   if (relLinks[i].id == ld.id) {
                     that.redLinks[parseInt(ld.id)].push(parseInt(d.id))
                     _selection.lower()
-                    _selection.attr('stroke', 'lightblue')
+                    _selection.attr('stroke',  that.blueColor)
                     _selection.attr('stroke-width', that.blueThickness)
                   }
                 }

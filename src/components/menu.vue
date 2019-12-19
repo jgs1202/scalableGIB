@@ -6,10 +6,10 @@
       <div id="dataInput">
         <div class="dataInput">
           <el-row>
-            <el-button type="primary" v-on:click="click1">　　　　level 1　　　　</el-button>
+            <el-button type="primary" v-on:click="click1">　　　　Expeiment　　　　</el-button>
           </el-row><br><br>
           <el-row>
-            <el-button type="primary" v-on:click="click2">　　　　level 2　　　　</el-button>
+            <el-button type="primary" v-on:click="click2">　　　　Practice　　　　</el-button>
           </el-row>
           <br><br>
           <el-row :gutter='20' v-if='nextPage != null'>
