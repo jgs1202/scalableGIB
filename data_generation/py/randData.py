@@ -24,14 +24,14 @@ def p_in(groupsize, nodesize, nodes_lenth):
     if nodes_lenth > 15:
         p = 0.15 * threshold
     else:
-        p = 0.15 * 11.4 / (nodes_lenth - 2) * threshold
+        p = 0.15 * 11.4 / (nodes_lenth - 2)
     # print(nodes_lenth, p)
     return p
     # return 0.4 * threshold
 
 
 def p_group(groupsize, nodesize):
-    return 0.1 * 11.4 / groupsize * threshold
+    return 0.1 * 11.4 / groupsize
 
 
 def p_bridge(groupsize):

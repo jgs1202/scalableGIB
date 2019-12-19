@@ -49,8 +49,8 @@ export default {
       level: null,
       file: null,
       normalSize: 2,
-      relatedSize: 4,
-      selectSize: 4,
+      relatedSize: 3,
+      selectSize: 3,
       selected: [],
       related: [],
       redLinks: [],
@@ -617,7 +617,7 @@ body {
 
 .app {
   margin: auto;
-  width: 75%;
+  width: 80%;
   height: 100%;
   font-family: 'serif';
 }
