@@ -7,7 +7,7 @@ import sys
 import numpy as np
 import random
 
-threshold = 1
+threshold = 0.5
 
 
 def max_link():
@@ -63,7 +63,7 @@ def inner_edge_ratio(nodes, links):
 
 
 def modify_density(nums, densityTwitter, links, nodes, m, nodesize):
-    print(linear_density(nums[0], nums[1]), nums[0], nums[1])
+    print('density : ' + str(linear_density(nums[0], nums[1])))
     count = 0
     if linear_density(nums[0], nums[1]) < densityTwitter:
         while (abs(linear_density(nums[0], nums[1]) - densityTwitter) > 0.01):
@@ -203,14 +203,13 @@ def add_link(m, nodes, links, nums, thre, nodesize):
 
 
 def makeData():
-    eachNum = 50
-    output = ['TRGIB', 'FDGIB']
+    eachNum = 5
     # nodelevels = ['low', 'mid', 'high']
     nodelevels = ['mid']
-    nodeSizes = [20]
+    nodeSizes = [21]
     # nodeSizes = [10, 50, 100]
     grouplevels = ['low', 'mid', 'high']
-    groupSizes = [10, 20, 40]
+    groupSizes = [11, 20, 40]
     thre = 0.3
     nodeThre = 0.4
     pin = 0.286
@@ -222,45 +221,42 @@ def makeData():
     # linear_density = 0.0523
     densityTwitter = 2 * 7820.8 / (547.3 * (547.3 - 1))
     densityTwitter *= threshold
-    densityTwitter = 1.5
+    densityTwitter = 1
 
     pin = pin * thre
     pbridge = round(pbridge * thre, 4)
     # pgroup = round(pgroup * thre, 3)
     pout = round(pout * thre, 5)
+    for nodelevel in range(len(nodelevels)):
+        for grouplevel in range(len(grouplevels)):
+            for each in range(eachNum):
+                m = groupSizes[grouplevel]
+                nodes = [[] for i in range(m)]
+                links = []
+                nums = [0, 0]
+                nodesize = nodeSizes[nodelevel]
 
-    for layout in range(len(output)):
-        print('step = ' + str(layout))
-        for nodelevel in range(len(nodelevels)):
-            for grouplevel in range(len(grouplevels)):
-                for each in range(eachNum):
-                    m = groupSizes[grouplevel]
-                    nodes = [[] for i in range(m)]
-                    links = []
-                    nums = [0, 0]
-                    nodesize = nodeSizes[nodelevel]
+                add_node(m, nodesize, nodes, nums)
+                nodes_for_write = nodes_writing(nodes)
+                add_link(m, nodes, links, nums, thre, nodesize)
+                modify_density(nums, densityTwitter, links, nodes_for_write, m, nodesize)
+                inner_edge_ratio(nodes_for_write, links)
 
-                    add_node(m, nodesize, nodes, nums)
-                    nodes_for_write = nodes_writing(nodes)
-                    add_link(m, nodes, links, nums, thre, nodesize)
-                    # modify_density(nums, densityTwitter, links, nodes_for_write, m, nodesize)
-                    inner_edge_ratio(nodes_for_write, links)
-
-                    data = {}
-                    data['groups'] = [{} for i in range(m)]
-                    data['groupSize'] = m
-                    data['grouplevel'] = grouplevels[grouplevel]
-                    data['nodelevel'] = nodelevels[nodelevel]
-                    data['nodes'] = nodes_for_write
-                    data['linkSize'] = len(links)
-                    data['nodeSize'] = len(nodes_for_write)
-                    data['links'] = links
-                    data['level'] = grouplevels[grouplevel] + '-' + nodelevels[nodelevel]
-                    data['file'] = str(each) + '.json'
-                    if not os.path.exists('../data/origin/' + output[layout] + '/' + grouplevels[grouplevel] + '-' + nodelevels[nodelevel]):
-                        os.mkdir('../data/origin/' + output[layout] + '/' + grouplevels[grouplevel] + '-' + nodelevels[nodelevel])
-                    f = open('../data/origin/' + output[layout] + '/' + grouplevels[grouplevel] + '-' + nodelevels[nodelevel] + '/' + str(each) + '.json', 'w')
-                    json.dump(data, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
+                data = {}
+                data['groups'] = [{} for i in range(m)]
+                data['groupSize'] = m
+                data['grouplevel'] = grouplevels[grouplevel]
+                data['nodelevel'] = nodelevels[nodelevel]
+                data['nodes'] = nodes_for_write
+                data['linkSize'] = len(links)
+                data['nodeSize'] = len(nodes_for_write)
+                data['links'] = links
+                data['level'] = grouplevels[grouplevel] + '-' + nodelevels[nodelevel]
+                data['file'] = str(each) + '.json'
+                if not os.path.exists('../data/origin/' + grouplevels[grouplevel] + '-' + nodelevels[nodelevel]):
+                    os.mkdir('../data/origin/' + grouplevels[grouplevel] + '-' + nodelevels[nodelevel])
+                f = open('../data/origin/' + grouplevels[grouplevel] + '-' + nodelevels[nodelevel] + '/' + str(each) + '.json', 'w')
+                json.dump(data, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
 
 
 def delete_directries():

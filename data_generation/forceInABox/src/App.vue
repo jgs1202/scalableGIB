@@ -42,7 +42,7 @@ export default {
       chargeForce: -0.1,
       tempStrength: 0.6,
       radius: 100,
-      each: 50,
+      each: 10,
       timer: null,
     }
   },
@@ -88,7 +88,7 @@ export default {
         .force("x", d3.forceX(that.width / 2).strength(0.05))
         .force("y", d3.forceY(that.height / 2).strength(0.05))
 
-      that.dir = "../data/origin/FDGIB/" + that.groupLevels[that.groupLevel] + "-" + that.nodeLevels[that.nodeLevel] + '/'
+      that.dir = "../data/origin/" + that.groupLevels[that.groupLevel] + "-" + that.nodeLevels[that.nodeLevel] + '/'
       console.log(that.dir + that.dataNum + ".json")
 
       d3.json(that.dir + that.dataNum + ".json").then(function(graph) {

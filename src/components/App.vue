@@ -2,7 +2,6 @@
 <div>
   <div id="app" class="app">
     <el-container style="width: 100%">
-          <!-- {{level}} - {{file}} <br><br> -->
           <div class="svg-container" :style="{width: settings.width + '%'}">
             <svg id="svg" pointer-events="all" viewBox="0 0 960 600" preserveAspectRatio="xMinYMin meet">
               <g id="nodes">{{nodes}}</g>
@@ -51,13 +50,16 @@ export default {
       normalSize: 2,
       relatedSize: 3,
       selectSize: 3,
-      selected: [],
-      related: [],
-      redLinks: [],
-      blueLinks: [],
-      redThickness: 3,
-      blueThickness: 1.5,
-      blueColor:  d3.rgb(30, 144, 255),
+      selectedNodes: [],
+      relatedNodes: [],
+      twosideLinks: [],
+      onesideLinks: [],
+      twosideThickness: 3,
+      onesideThickness: 1.5,
+      twosideColor: d3.rgb(255, 99, 71),
+      onesideColor:  d3.rgb(100, 149, 237),
+      answerColor: d3.rgb(255, 105, 180),
+      linkOpacity: 0.6,
       jsonDataInfo: "sample",
       tableData: [],
       timer: null,
@@ -90,18 +92,18 @@ export default {
         d3.json("./src/data/random/" + that.$parent.nums[that.$parent.level] + ".json").then(function(graph) {
           that.graph = graph
           that.setTable()
-          that.related = []
-          that.selected = []
-          that.selected.push(that.graph.shortest_path.nodes[0])
-          that.selected.push(that.graph.shortest_path.nodes[1])
+          that.relatedNodes = []
+          that.selectedNodes = []
+          that.selectedNodes.push(that.graph.shortest_path.nodes[0])
+          that.selectedNodes.push(that.graph.shortest_path.nodes[1])
           for (let i=0; i < that.graph.nodes.length; i++){
-            that.related.push([])
+            that.relatedNodes.push([])
           }
-          that.redLinks = []
-          that.blueLinks = []
+          that.twosideLinks = []
+          that.onesideLinks = []
           for (let i=0; i < that.graph.links.length; i++){
-            that.redLinks.push([])
-            that.blueLinks.push([])
+            that.twosideLinks.push([])
+            that.onesideLinks.push([])
           }
           that.graph.groups.pop()
           that.$set(that.boxes, that.reBoxes())
@@ -177,9 +179,9 @@ export default {
               selection.on('mouseout', function(d, i){
                 that.nodeData.name = null
                 that.nodeData.group = null
-                if ((that.selected.indexOf(d.id) < 0) && (that.related[d.id].length === 0)){
+                if ((that.selectedNodes.indexOf(d.id) < 0) && (that.relatedNodes[d.id].length === 0)){
                   selection.attr('r', that.normalSize)
-                } else if ((that.selected.indexOf(d.id) < 0) && (that.related[d.id].length !== 0)){
+                } else if ((that.selectedNodes.indexOf(d.id) < 0) && (that.relatedNodes[d.id].length !== 0)){
                   selection.attr('r', that.relatedSize)
                 }
               })
@@ -190,12 +192,12 @@ export default {
       let that = this
       let answerPaths = that.graph.shortest_path.answers
       console.log(that.graph.shortest_path.answers)
-      console.log(that.selected)
+      console.log(that.selectedNodes)
       let flag = 0
       for (let path=0; path<that.graph.shortest_path.answers.length; ++path) {
-        for (let node=0; node<that.selected.length; ++node) {
-          if (that.graph.shortest_path.answers[path].indexOf(that.selected[node]) >= 0) {
-            if (node == that.selected.length - 1) {
+        for (let node=0; node<that.selectedNodes.length; ++node) {
+          if (that.graph.shortest_path.answers[path].indexOf(that.selectedNodes[node]) >= 0) {
+            if (node == that.selectedNodes.length - 1) {
               if (node == that.graph.shortest_path.answers[path].length - 1)
               flag = 1
             }
@@ -206,6 +208,54 @@ export default {
       }
       console.log(flag)
       return flag
+    },
+    autoCorrect: function() {
+      let that = this
+      window.removeEventListener('keyup', that.onClick)
+      clearTimeout(that.timer)
+      that.time = Date.now() - that.startTime
+      const params = new URLSearchParams()
+      // username, gender, age, layout, path, groupSize, file, answer, time
+      params.set('userName', that.$parent.userName)
+      params.set('gender', that.$parent.gender)
+      params.set('age', that.$parent.age)
+      params.set('layout', that.graph.layout)
+      params.set('level', that.$parent.level)
+      let pathString = ""
+      for (let i=0; i<that.selectedNodes.length; ++i){
+        if (i != 0) {
+          pathString += " "
+        }
+        pathString += "" + that.selectedNodes[i]
+      }
+      params.set('path', pathString)
+      params.set('path_length_difference', that.graph.shortest_path.length - that.selectedNodes.length)
+      params.set('groupSize', that.graph.groupSize)
+      params.set('file', '' + that.$parent.nums[that.$parent.level] + '.json')
+      if (that.checkAnswer() == 1){
+        that.answer = 1
+      } else {
+        that.answer = 0
+      }
+      params.set('answer', that.answer)
+      params.set('time', that.limit_second * 1000)
+      console.log(params)
+      const url = `http://127.0.0.1:5000/data/${params.toString()}`
+      axios.get(url)
+        .then(res => {
+          // console.log(res.data)
+        })
+
+      that.choice = []
+
+      setTimeout(function() {
+        window.addEventListener('keyup', that.onClick)
+        d3.selectAll('rect').attr('stroke-width', 0.6).attr('stroke', 'black')
+        d3.selectAll('circle').remove()
+        d3.selectAll('line').remove()
+        d3.selectAll('rect').remove()
+        that.restart()
+      }, 2000)
     },
     timelimit: function() {
       var that = this
@@ -219,17 +269,17 @@ export default {
       params.set('layout', that.graph.layout)
       params.set('level', that.$parent.level)
       let pathString = ""
-      for (let i=0; i<that.selected.length; ++i){
+      for (let i=0; i<that.selectedNodes.length; ++i){
         if (i != 0) {
           pathString += " "
         }
-        pathString += "" + that.selected[i]
+        pathString += "" + that.selectedNodes[i]
       }
       params.set('path', pathString)
-      params.set('path_length_difference', that.graph.shortest_path.length - that.selected.length)
+      params.set('path_length_difference', that.graph.shortest_path.length - that.selectedNodes.length)
       params.set('groupSize', that.graph.groupSize)
       params.set('file', '' + that.$parent.nums[that.$parent.level] + '.json')
-      if (that.checkAnswer()){
+      if (that.checkAnswer() == 1){
         that.answer = 1
       } else {
         that.answer = 0
@@ -263,17 +313,17 @@ export default {
         params.set('layout', that.graph.layout)
         params.set('level', that.$parent.level)
         let pathString = ""
-        for (let i=0; i<that.selected.length; ++i){
+        for (let i=0; i<that.selectedNodes.length; ++i){
           if (i != 0) {
             pathString += " "
           }
-          pathString += "" + that.selected[i]
+          pathString += "" + that.selectedNodes[i]
         }
         params.set('path', pathString)
-        params.set('path_length_difference', that.graph.shortest_path.length - that.selected.length)
+        params.set('path_length_difference', that.graph.shortest_path.length - that.selectedNodes.length)
         params.set('groupSize', that.graph.groupSize)
         params.set('file', '' + that.$parent.nums[that.$parent.level] + '.json')
-        if (that.checkAnswer()){
+        if (that.checkAnswer() == 1){
           that.answer = 1
         } else {
           that.answer = 0
@@ -398,11 +448,26 @@ export default {
           })
       }
     },
+    autoCheck: function() {
+      let that = this
+      if (that.checkAnswer()) {
+        d3.selectAll('line')
+          .each(function(d, i) {
+            let selection = d3.select(this)
+            if ((that.selectedNodes.indexOf(d.source) >= 0) && (that.selectedNodes.indexOf(d.target) >= 0)) {
+              selection.attr('stroke', that.answerColor)
+              selection.attr('opacity', 1.)
+              selection.attr('stroke-width', 2 * that.twosideThickness)
+            }
+          })
+        that.autoCorrect()
+      }
+    },
     selectNode: function(d, i){
       let that = this
       let preference = d.name
       let select_number = d.id
-      if (that.selected.indexOf(d.id) < 0){
+      if (that.selectedNodes.indexOf(d.id) < 0){
         let relLinks = []
         let relNodes = []
         for (let i=0; i < that.graph.links.length; i++){
@@ -423,8 +488,8 @@ export default {
             if (relLinks.length !== 0) {
               for (let n=0; n<relNodes.length; n++){
                 if (nd.name == relNodes[n]) {
-                  that.related[parseInt(relNodes[n])].push(select_number)
-                  if (that.selected.indexOf(nd.id) < 0){
+                  that.relatedNodes[parseInt(relNodes[n])].push(select_number)
+                  if (that.selectedNodes.indexOf(nd.id) < 0){
                     selection.attr('r', that.relatedSize)
                   }
                 }
@@ -437,8 +502,8 @@ export default {
                   }
                   // selection.attr('stroke', 'yellow')
                   // selection.attr('stroke-width', 3)
-                  if (that.selected.indexOf(nd.id) < 0){
-                    that.selected.push(nd.id)
+                  if (that.selectedNodes.indexOf(nd.id) < 0){
+                    that.selectedNodes.push(nd.id)
                   }
                 }
               }
@@ -446,8 +511,8 @@ export default {
               selection.attr('r', that.selectSize)
               // selection.attr('stroke', 'yellow')
               // selection.attr('stroke-width', 3)
-              if (that.selected.indexOf(nd.id) < 0){
-                that.selected.push(nd.id)
+              if (that.selectedNodes.indexOf(nd.id) < 0){
+                that.selectedNodes.push(nd.id)
               }
             }
           })
@@ -456,10 +521,11 @@ export default {
             let selection = d3.select(this)
             for (let n=0; n<relLinks.length; n++){
               if (relLinks[n].id === ld.id){
-                that.redLinks[parseInt(ld.id)].push(parseInt(select_number))
+                that.twosideLinks[parseInt(ld.id)].push(parseInt(select_number))
                 selection.lower()
-                selection.attr('stroke', that.blueColor)
-                selection.attr('stroke-width', that.blueThickness) 
+                selection.attr('stroke', that.onesideColor)
+                selection.attr('stroke-width', that.onesideThickness)
+                selection.attr('opacity', that.linkOpacity) 
               }
             }
           })
@@ -468,23 +534,24 @@ export default {
             let selection = d3.select(this)
             for (let n=0; n<relLinks.length; n++){
               if (relLinks[n].id === ld.id){
-                if ((that.selected.indexOf(relLinks[n].source) >= 0) && ((that.selected.indexOf(relLinks[n].target) >= 0))) {
+                if ((that.selectedNodes.indexOf(relLinks[n].source) >= 0) && ((that.selectedNodes.indexOf(relLinks[n].target) >= 0))) {
                   let _list = [relLinks[n].source, relLinks[n].target]
-                  that.blueLinks[parseInt(ld.id)].push(_list)
+                  that.onesideLinks[parseInt(ld.id)].push(_list)
                   selection.raise()
-                  selection.attr('stroke', 'red')
-                  selection.attr('stroke-width', that.redThickness)
+                  selection.attr('stroke', that.twosideColor)
+                  selection.attr('stroke-width', that.twosideThickness)
+                  selection.attr('opacity', that.linkOpacity)
                 }
               }
             }
           })
       } else {
         let rmList = []
-        for (let n=0; n<that.selected.length; n++){
-          if (that.selected[n] === preference){
-            let front = that.selected.slice(0, n)
-            let back = that.selected.slice(n+1, that.selected.length)
-            that.selected = front.concat(back)
+        for (let n=0; n<that.selectedNodes.length; n++){
+          if (that.selectedNodes[n] === preference){
+            let front = that.selectedNodes.slice(0, n)
+            let back = that.selectedNodes.slice(n+1, that.selectedNodes.length)
+            that.selectedNodes = front.concat(back)
           }
         }
         d3.selectAll("circle")
@@ -499,13 +566,13 @@ export default {
                 selection.attr('fill', 'black')
               }
             } else {
-              for(let n=0; n < that.related.length; n++){
-                let order = that.related[n].indexOf(select_number)
+              for(let n=0; n < that.relatedNodes.length; n++){
+                let order = that.relatedNodes[n].indexOf(select_number)
                 if (order > -1){
-                  let front = that.related[n].slice(0, order)
-                  let back = that.related[n].slice(order+1, that.related[n].length)
-                  that.related[n] = front.concat(back)
-                  if ((that.related[n].length === 0) && (that.selected.indexOf(that.graph.nodes[n].id) < 0)){
+                  let front = that.relatedNodes[n].slice(0, order)
+                  let back = that.relatedNodes[n].slice(order+1, that.relatedNodes[n].length)
+                  that.relatedNodes[n] = front.concat(back)
+                  if ((that.relatedNodes[n].length === 0) && (that.selectedNodes.indexOf(that.graph.nodes[n].id) < 0)){
                     rmList.push(n)
                   }
                 }
@@ -520,45 +587,46 @@ export default {
             }
         })
         // reomve red links
-        for (let n=0; n<that.redLinks.length; n++){
-          let order = that.redLinks[n].indexOf(select_number)
+        for (let n=0; n<that.twosideLinks.length; n++){
+          let order = that.twosideLinks[n].indexOf(select_number)
           if (order > -1) {
-            let front = that.redLinks[n].slice(0, order)
-            let back = that.redLinks[n].slice(order + 1, that.redLinks[n].length)
-            that.redLinks[n] = front.concat(back)
+            let front = that.twosideLinks[n].slice(0, order)
+            let back = that.twosideLinks[n].slice(order + 1, that.twosideLinks[n].length)
+            that.twosideLinks[n] = front.concat(back)
           }
         }
         // reomve blue links
-        for (let n=0; n<that.blueLinks.length; n++){
-          for (let m=0; m<that.blueLinks[n].length; m++) {
-            if (that.blueLinks[n].length > 0) {
+        for (let n=0; n<that.onesideLinks.length; n++){
+          for (let m=0; m<that.onesideLinks[n].length; m++) {
+            if (that.onesideLinks[n].length > 0) {
             }
-            if (that.blueLinks[n][m].indexOf(select_number) >= 0) {
-              let front = that.blueLinks[n].slice(0, m)
-              let back = that.blueLinks[n].slice(m + 1, that.blueLinks[n][m].length)
-              that.blueLinks[n] = front.concat(back)
+            if (that.onesideLinks[n][m].indexOf(select_number) >= 0) {
+              let front = that.onesideLinks[n].slice(0, m)
+              let back = that.onesideLinks[n].slice(m + 1, that.onesideLinks[n][m].length)
+              that.onesideLinks[n] = front.concat(back)
             }
           }
         }
         d3.selectAll('line').each(function(ld, li) {
           let selection = d3.select(this)
-          if ((that.redLinks[parseInt(ld.id)].length != 0) && (that.blueLinks[ld.id].length == 0)) {
+          if ((that.twosideLinks[parseInt(ld.id)].length != 0) && (that.onesideLinks[ld.id].length == 0)) {
             selection.lower()
-            selection.attr('stroke',  that.blueColor)
-            selection.attr('stroke-width', that.blueThickness)
+            selection.attr('stroke',  that.onesideColor)
+            selection.attr('stroke-width', that.onesideThickness)
           }
-          else if ((that.redLinks[parseInt(ld.id)].length === 0) && (that.blueLinks[ld.id].length == 0)){
+          else if ((that.twosideLinks[parseInt(ld.id)].length === 0) && (that.onesideLinks[ld.id].length == 0)){
             selection.attr('stroke', d3.rgb(100, 100, 100))
             selection.attr('stroke-width', 0.4)
           }
         })
       }
+      that.autoCheck()
     },
     initialEdgeNodesHighliht: function(){
       let that = this
       d3.selectAll("circle")
         .each(function(d, i) {
-          if (that.selected.indexOf(d.id) >= 0) {
+          if (that.selectedNodes.indexOf(d.id) >= 0) {
             let selection = d3.select(this)
             selection.attr('r', that.selectSize)
             // selection.attr('stroke', 'yellow')
@@ -574,16 +642,16 @@ export default {
             for (let n=0; n < relLinks.length; n++){
               if (relLinks[n].source === d.id){
                 relNodes.push(relLinks[n].target)
-                that.related[relLinks[n].target].push(d.id)
+                that.relatedNodes[relLinks[n].target].push(d.id)
               } else if (relLinks[n].target === d.id){
                 relNodes.push(relLinks[n].source)
-                that.related[relLinks[n].source].push(d.id)
+                that.relatedNodes[relLinks[n].source].push(d.id)
               }
             }
             d3.selectAll("circle")
               .each(function(nd, ni) {
                 let _selection = d3.select(this)
-                if ((relNodes.indexOf(nd.id) >= 0) && (that.selected.indexOf(nd.id) < 0)) {
+                if ((relNodes.indexOf(nd.id) >= 0) && (that.selectedNodes.indexOf(nd.id) < 0)) {
                   _selection.attr('r', that.relatedSize)
                 }
               })
@@ -592,10 +660,11 @@ export default {
                 let _selection = d3.select(this)
                 for (let i=0; i<relLinks.length; ++i) {
                   if (relLinks[i].id == ld.id) {
-                    that.redLinks[parseInt(ld.id)].push(parseInt(d.id))
+                    that.twosideLinks[parseInt(ld.id)].push(parseInt(d.id))
                     _selection.lower()
-                    _selection.attr('stroke',  that.blueColor)
-                    _selection.attr('stroke-width', that.blueThickness)
+                    _selection.attr('stroke',  that.onesideColor)
+                    _selection.attr('stroke-width', that.onesideThickness)
+                    _selection.attr('opacity', that.linkOpacity)
                   }
                 }
               })
@@ -683,7 +752,7 @@ label {
 
 .links line {
   /*stroke: #999;*/
-  stroke-opacity: 1;
+  /*opacity: 1;*/
 }
 
 /*.nodes circle {

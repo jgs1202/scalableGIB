@@ -72,7 +72,7 @@ def arrange():
 
 def random_arrange(each_num):
     delete_random()
-    rename_FDGIB(30)
+    rename_FDGIB(each_num)
 
     out = '../../src/data/random/'
     input_paths = ['../data/FDGIB/comp/', '../data/TRGIB/comp/']
@@ -104,7 +104,7 @@ def random_arrange(each_num):
 
 def main():
     # arrange()
-    random_arrange(30)
+    random_arrange(10)
 
 if __name__ == '__main__':
     main()

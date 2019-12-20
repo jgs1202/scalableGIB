@@ -4,11 +4,19 @@ import json
 from STGIB import ST
 import datetime
 
+
+def delete_files():
+    paths = ['../data/TRGIB/temp/high/', '../data/TRGIB/temp/low/']
+    for path in paths:
+        for file in os.listdir(path):
+            os.system('rm ' + path + file)
+
 if __name__ == '__main__':
-    main = '../data/origin/TRGIB/'
+    main = '../data/origin/'
     width = 960
     height = 600
 
+    delete_files()
     actualLevels = ['high', 'low']
     refLevels = ['high-mid', 'low-mid']
 

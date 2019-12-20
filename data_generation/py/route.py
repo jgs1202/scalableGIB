@@ -104,6 +104,21 @@ def link_number(data, index):
     return count
 
 
+def check_duplicate_group(data):
+    flag = True
+    for path in data['shortest_path']['path']:
+        group = []
+        for node in path:
+            group.append(data['nodes'][node]['group'])
+        index = list(set(group))
+        for group_name in index:
+            if group.count(group_name) > 2:
+                flag = False
+        if not flag:
+            break
+    return flag
+
+
 def pickup2nodes(data):
     # print('choosing 2 nodes...')
     graph = nx.readwrite.json_graph.node_link_graph(data)
@@ -124,10 +139,11 @@ def pickup2nodes(data):
                     data['shortest_path']['path'].append(sp)
                     data['shortest_path']['length'] = len(sp)
                 if data['shortest_path']['length'] <= 5 and data['shortest_path']['length'] >= 5:
-                    data['shortest_path']['difficulty'] = difficulty(data, rand[0], rand[1])
-                    # print(data['shortest_path']['difficulty'])
-                    if data['shortest_path']['difficulty'] > 0.01 and data['shortest_path']['difficulty'] < 0.02:
-                        break
+                    if check_duplicate_group(data):
+                        data['shortest_path']['difficulty'] = difficulty(data, rand[0], rand[1])
+                        # print(data['shortest_path']['difficulty'])
+                        if data['shortest_path']['difficulty'] > 0.01 and data['shortest_path']['difficulty'] < 0.02:
+                            break
             if i == max - 1:
                 print("max!!!!!!!!!!")
                 sys.exit()
