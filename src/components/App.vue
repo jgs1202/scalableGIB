@@ -2,13 +2,13 @@
 <div>
   <div id="app" class="app">
     <el-container style="width: 100%">
-          <div class="svg-container" :style="{width: settings.width + '%'}">
-            <svg id="svg" pointer-events="all" viewBox="0 0 960 600" preserveAspectRatio="xMinYMin meet">
-              <g id="nodes">{{nodes}}</g>
-              <g id="links">{{links}}</g>
-              <g id='boxes'>{{boxes}}</g>
-            </svg>
-          </div>
+      <div class="svg-container" :style="{width: settings.width + '%'}">
+        <svg id="svg" pointer-events="all" viewBox="0 0 960 600" preserveAspectRatio="xMinYMin meet">
+          <g id="nodes">{{nodes}}</g>
+          <g id="links">{{links}}</g>
+          <g id='boxes'>{{boxes}}</g>
+        </svg>
+      </div>
     </el-container>
   </div>
   <div class="sync">
