@@ -1,5 +1,6 @@
 <template>
 <div>
+  <div><d3ColorMap ref='d3ColorMap'></d3ColorMap></div>
   <div id="app" class="app">
     <el-container style="width: 100%">
       <div class="svg-container" :style="{width: settings.width + '%'}">
@@ -18,6 +19,9 @@
 
 <script>
 import axios from 'axios'
+import Vue from 'vue'
+import d3ColorMap from './d3ColorMap.vue'
+Vue.component('d3ColorMap', d3ColorMap)
 const d3 = require('d3')
 const swal = require('sweetalert')
 export default {
@@ -56,6 +60,8 @@ export default {
       onesideLinks: [],
       twosideThickness: 3,
       onesideThickness: 1.5,
+      colors: [],
+      givenNodesColors: [d3.rgb(100, 149, 237), d3.rgb(255, 215, 0)],
       twosideColor: d3.rgb(255, 99, 71),
       onesideColor:  d3.rgb(100, 149, 237),
       answerColor: d3.rgb(255, 105, 180),
@@ -64,11 +70,13 @@ export default {
       tableData: [],
       timer: null,
       limit_second: 30,
+      givenNodesStrokeWidth: 2,
     }
   },
   mounted: function() {
     window.addEventListener('keyup', this.onClick)
     var that = this;
+    that.colors = that.$refs.d3ColorMap.colors
     if (that.$parent.level == 0){
       that.level = 'easy'
     } else if (that.$parent.level == 1) {
@@ -191,8 +199,6 @@ export default {
     checkAnswer: function() {
       let that = this
       let answerPaths = that.graph.shortest_path.answers
-      console.log(that.graph.shortest_path.answers)
-      console.log(that.selectedNodes)
       let flag = 0
       for (let path=0; path<that.graph.shortest_path.answers.length; ++path) {
         for (let node=0; node<that.selectedNodes.length; ++node) {
@@ -206,7 +212,6 @@ export default {
           }
         }
       }
-      console.log(flag)
       return flag
     },
     autoCorrect: function() {
@@ -494,17 +499,25 @@ export default {
                   }
                 }
                 else if (nd.name === preference) {
-                  selection.attr('r', that.selectSize)
-                  if (that.graph.shortest_path.nodes.indexOf(nd.id) >= 0) {
-                    selection.attr('fill', 'red')
-                  } else {
-                    selection.attr('fill', d3.rgb(0, 100, 200))
-                  }
-                  // selection.attr('stroke', 'yellow')
-                  // selection.attr('stroke-width', 3)
                   if (that.selectedNodes.indexOf(nd.id) < 0){
                     that.selectedNodes.push(nd.id)
                   }
+                  selection.attr('r', that.selectSize)
+                  if (that.graph.shortest_path.nodes.indexOf(nd.id) >= 0) {
+                    selection.attr('fill', 'red')
+                    selection.attr('stroke', that.givenNodesColors[that.graph.shortest_path.nodes.indexOf(nd.id)])
+                    selection.attr('stroke-width', that.givenNodesStrokeWidth)
+                  } else {
+                    let count = 0
+                    for (let i=0; i<2; i++) {
+                      if (that.selectedNodes.indexOf(that.graph.shortest_path.nodes[i]) >= 0) {
+                        count += 1
+                      }
+                    }
+                    selection.attr('fill', that.colors[that.selectedNodes.indexOf(nd.id) - count])
+                  }
+                  // selection.attr('stroke', 'yellow')
+                  // selection.attr('stroke-width', 3)
                 }
               }
             } else if (nd.name === preference) {
@@ -521,11 +534,28 @@ export default {
             let selection = d3.select(this)
             for (let n=0; n<relLinks.length; n++){
               if (relLinks[n].id === ld.id){
-                that.twosideLinks[parseInt(ld.id)].push(parseInt(select_number))
+                that.onesideLinks[parseInt(ld.id)].push(parseInt(select_number))
                 selection.lower()
-                selection.attr('stroke', that.onesideColor)
-                selection.attr('stroke-width', that.onesideThickness)
-                selection.attr('opacity', that.linkOpacity) 
+
+                let order = that.graph.shortest_path.nodes.indexOf(ld.source)
+                if (that.graph.shortest_path.nodes.indexOf(ld.target) > order) {
+                  order = that.graph.shortest_path.nodes.indexOf(ld.target)
+                }
+                if (order >= 0) {
+                  selection.attr('stroke', that.givenNodesColors[order])
+                  selection.attr('stroke-width', that.onesideThickness)
+                  selection.attr('opacity', that.linkOpacity) 
+                } else {
+                  let count = 0
+                  for (let i=0; i<2; i++) {
+                    if (that.selectedNodes.indexOf(that.graph.shortest_path.nodes[i]) >= 0) {
+                      count += 1
+                    }
+                  }
+                  selection.attr('stroke', that.colors[that.selectedNodes.indexOf(d.id) - count])
+                  selection.attr('stroke-width', that.onesideThickness)
+                  selection.attr('opacity', that.linkOpacity) 
+                }
               }
             }
           })
@@ -536,7 +566,7 @@ export default {
               if (relLinks[n].id === ld.id){
                 if ((that.selectedNodes.indexOf(relLinks[n].source) >= 0) && ((that.selectedNodes.indexOf(relLinks[n].target) >= 0))) {
                   let _list = [relLinks[n].source, relLinks[n].target]
-                  that.onesideLinks[parseInt(ld.id)].push(_list)
+                  that.twosideLinks[parseInt(ld.id)].push(_list)
                   selection.raise()
                   selection.attr('stroke', that.twosideColor)
                   selection.attr('stroke-width', that.twosideThickness)
@@ -586,35 +616,45 @@ export default {
               selection.attr('r', that.normalSize)
             }
         })
-        // reomve red links
-        for (let n=0; n<that.twosideLinks.length; n++){
-          let order = that.twosideLinks[n].indexOf(select_number)
+        // reomve twoside links
+        for (let n=0; n<that.onesideLinks.length; n++){
+          let order = that.onesideLinks[n].indexOf(select_number)
           if (order > -1) {
-            let front = that.twosideLinks[n].slice(0, order)
-            let back = that.twosideLinks[n].slice(order + 1, that.twosideLinks[n].length)
-            that.twosideLinks[n] = front.concat(back)
+            let front = that.onesideLinks[n].slice(0, order)
+            let back = that.onesideLinks[n].slice(order + 1, that.onesideLinks[n].length)
+            that.onesideLinks[n] = front.concat(back)
           }
         }
-        // reomve blue links
-        for (let n=0; n<that.onesideLinks.length; n++){
-          for (let m=0; m<that.onesideLinks[n].length; m++) {
-            if (that.onesideLinks[n].length > 0) {
+        // reomve oneside links
+        for (let n=0; n<that.twosideLinks.length; n++){
+          for (let m=0; m<that.twosideLinks[n].length; m++) {
+            if (that.twosideLinks[n].length > 0) {
             }
-            if (that.onesideLinks[n][m].indexOf(select_number) >= 0) {
-              let front = that.onesideLinks[n].slice(0, m)
-              let back = that.onesideLinks[n].slice(m + 1, that.onesideLinks[n][m].length)
-              that.onesideLinks[n] = front.concat(back)
+            if (that.twosideLinks[n][m].indexOf(select_number) >= 0) {
+              let front = that.twosideLinks[n].slice(0, m)
+              let back = that.twosideLinks[n].slice(m + 1, that.twosideLinks[n][m].length)
+              that.twosideLinks[n] = front.concat(back)
             }
           }
         }
         d3.selectAll('line').each(function(ld, li) {
           let selection = d3.select(this)
-          if ((that.twosideLinks[parseInt(ld.id)].length != 0) && (that.onesideLinks[ld.id].length == 0)) {
-            selection.lower()
-            selection.attr('stroke',  that.onesideColor)
-            selection.attr('stroke-width', that.onesideThickness)
+          if ((that.onesideLinks[parseInt(ld.id)].length != 0) && (that.twosideLinks[ld.id].length == 0)) {
+            if (that.graph.shortest_path.nodes.indexOf(that.onesideLinks[ld.id][0]) >= 0) {
+              selection.attr('stroke', that.givenNodesColors[that.graph.shortest_path.nodes.indexOf(that.onesideLinks[ld.id][0])])
+              selection.attr('stroke-width', that.onesideThickness)
+            } else {
+              let count = 0
+              for (let i=0; i<2; i++) {
+                if (that.selectedNodes.indexOf(that.graph.shortest_path.nodes[i]) >= 0) {
+                  count += 1
+                }
+              }
+              selection.attr('stroke', that.colors[that.selectedNodes.indexOf(that.onesideLinks[ld.id][0]) - count])
+              selection.attr('stroke-width', that.onesideThickness)
+            }
           }
-          else if ((that.twosideLinks[parseInt(ld.id)].length === 0) && (that.onesideLinks[ld.id].length == 0)){
+          else if ((that.onesideLinks[parseInt(ld.id)].length === 0) && (that.twosideLinks[ld.id].length == 0)){
             selection.attr('stroke', d3.rgb(100, 100, 100))
             selection.attr('stroke-width', 0.4)
           }
@@ -653,6 +693,9 @@ export default {
                 let _selection = d3.select(this)
                 if ((relNodes.indexOf(nd.id) >= 0) && (that.selectedNodes.indexOf(nd.id) < 0)) {
                   _selection.attr('r', that.relatedSize)
+                } else if (that.selectedNodes.indexOf(nd.id) >= 0) {
+                  _selection.attr('stroke', that.givenNodesColors[that.graph.shortest_path.nodes.indexOf(nd.id)])
+                  _selection.attr('stroke-width', that.givenNodesStrokeWidth)
                 }
               })
             d3.selectAll('line')
@@ -660,9 +703,9 @@ export default {
                 let _selection = d3.select(this)
                 for (let i=0; i<relLinks.length; ++i) {
                   if (relLinks[i].id == ld.id) {
-                    that.twosideLinks[parseInt(ld.id)].push(parseInt(d.id))
+                    that.onesideLinks[parseInt(ld.id)].push(parseInt(d.id))
                     _selection.lower()
-                    _selection.attr('stroke',  that.onesideColor)
+                    _selection.attr('stroke',  that.givenNodesColors[that.graph.shortest_path.nodes.indexOf(d.id)])
                     _selection.attr('stroke-width', that.onesideThickness)
                     _selection.attr('opacity', that.linkOpacity)
                   }
