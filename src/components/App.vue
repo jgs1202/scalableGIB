@@ -61,7 +61,7 @@ export default {
       twosideThickness: 3,
       onesideThickness: 1.5,
       colors: [],
-      givenNodesColors: [d3.rgb(100, 149, 237), d3.rgb(255, 215, 0)],
+      givenNodesColors: [d3.rgb(100, 149, 237), d3.rgb(64, 224, 208)],
       twosideColor: d3.rgb(255, 99, 71),
       onesideColor:  d3.rgb(100, 149, 237),
       answerColor: d3.rgb(255, 105, 180),
@@ -166,7 +166,7 @@ export default {
                 // return that.color(d.group / that.graph.groups.length);
                 // return d3.interpolateRainbow(d.group / that.graph.groups.length)
                 if (that.graph.shortest_path.nodes.indexOf(d.id) >= 0) {
-                  return 'red'
+                  return that.twosideColor
                 } else {
                   return 'black'
                 }
@@ -237,11 +237,7 @@ export default {
       params.set('path_length_difference', that.graph.shortest_path.length - that.selectedNodes.length)
       params.set('groupSize', that.graph.groupSize)
       params.set('file', '' + that.$parent.nums[that.$parent.level] + '.json')
-      if (that.checkAnswer() == 1){
-        that.answer = 1
-      } else {
-        that.answer = 0
-      }
+      that.answer = 1
       params.set('answer', that.answer)
       params.set('time', that.limit_second * 1000)
       console.log(params)
@@ -504,7 +500,7 @@ export default {
                   }
                   selection.attr('r', that.selectSize)
                   if (that.graph.shortest_path.nodes.indexOf(nd.id) >= 0) {
-                    selection.attr('fill', 'red')
+                    selection.attr('fill', that.twosideColor)
                     selection.attr('stroke', that.givenNodesColors[that.graph.shortest_path.nodes.indexOf(nd.id)])
                     selection.attr('stroke-width', that.givenNodesStrokeWidth)
                   } else {
@@ -591,7 +587,7 @@ export default {
               selection.attr('r', that.normalSize)
               selection.attr('stroke-width', 0)
               if (that.graph.shortest_path.nodes.indexOf(nd.id) >= 0) {
-                selection.attr('fill', 'red')
+                selection.attr('fill', that.twosideColor)
               } else {
                 selection.attr('fill', 'black')
               }
