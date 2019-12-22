@@ -9,7 +9,7 @@ if len(argvs) != 2:
     print('lack of argvs')
     sys.exit()
 
-os.chdir('/Users/Aoyama/Documents/Program/scalable-GIB/GIB/rust-fd-layout/')
+os.chdir('/Users/Aoyama/Documents/Program/scalable-GIB/data_generation/rust-fd-layout/')
 
 main = []
 if argvs[1] == 'all':
@@ -24,7 +24,6 @@ inp = input('Are you really run this program? This can damage your data. (y/n) :
 if inp == 'y':
     for path in main:
         for dir in os.listdir(path):
-            print(path + dir)
             try:
                 for file in os.listdir(path + dir):
                     if (file[-5:] == '.json'):

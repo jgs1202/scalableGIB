@@ -63,7 +63,7 @@ def inner_edge_ratio(nodes, links):
 
 
 def modify_density(nums, densityTwitter, links, nodes, m, nodesize):
-    print('density : ' + str(linear_density(nums[0], nums[1])))
+    print(linear_density(nums[0], nums[1]), nums[0], nums[1])
     count = 0
     if linear_density(nums[0], nums[1]) < densityTwitter:
         while (abs(linear_density(nums[0], nums[1]) - densityTwitter) > 0.01):
@@ -203,13 +203,13 @@ def add_link(m, nodes, links, nums, thre, nodesize):
 
 
 def makeData():
-    eachNum = 5
+    eachNum = 40
     # nodelevels = ['low', 'mid', 'high']
     nodelevels = ['mid']
-    nodeSizes = [21]
+    nodeSizes = [20]
     # nodeSizes = [10, 50, 100]
     grouplevels = ['low', 'mid', 'high']
-    groupSizes = [11, 20, 40]
+    groupSizes = [10, 20, 40]
     thre = 0.3
     nodeThre = 0.4
     pin = 0.286
@@ -227,6 +227,7 @@ def makeData():
     pbridge = round(pbridge * thre, 4)
     # pgroup = round(pgroup * thre, 3)
     pout = round(pout * thre, 5)
+
     for nodelevel in range(len(nodelevels)):
         for grouplevel in range(len(grouplevels)):
             for each in range(eachNum):

@@ -32,7 +32,7 @@ export default {
       groupingForce: 0,
       dataNum: 0,
       dir: 0,
-      groupLevels: ['high', 'low'],
+      groupLevels: ['low', 'high'],
       nodeLevels: ['mid'],
       groupLevel: 0,
       nodeLevel: 0,
@@ -42,7 +42,7 @@ export default {
       chargeForce: -0.1,
       tempStrength: 0.6,
       radius: 100,
-      each: 10,
+      each: 30,
       timer: null,
     }
   },

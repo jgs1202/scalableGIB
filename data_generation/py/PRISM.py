@@ -17,7 +17,7 @@ def makeData(center, links, boxes, data):
     # print(data['links'])
     for i in data['boxes']:
         list = []
-        list.extend([ i['one'], i['two'], i['three'], i['four'] ])
+        list.extend([i['one'], i['two'], i['three'], i['four']])
         boxes.append(list)
     # print(len(data['boxes']))
     linkWeights = []
@@ -47,7 +47,6 @@ def makeData(center, links, boxes, data):
                 dic['node1'] = i
                 dic['node2'] = i+j
                 links.append(dic)
-    print(links)
 
 def checkPRISM(center, links, boxes):
     oldcenter = copy.deepcopy(center)
@@ -141,24 +140,21 @@ def checkPRISM(center, links, boxes):
                             # print('8')
                             center[links[i]['node2']][1] = center[links[i]['node1']][1] + center[links[i]['node1']][3] + center[links[i]['node2']][3] + 10
         num += 1
-    print('step1 : ' + str(num))
-
 
 
 def checkAll(center, boxes, data):
     oldcenter = copy.deepcopy(center)
     links = []
     ex = 0
-    exex =0
+    exex = 0
     # set viutual links
-    length  = len(boxes)
+    length = len(boxes)
     for i in range(length):
-        for j in range(1,length - i):
+        for j in range(1, length - i):
             dic = {}
             dic['node1'] = i
             dic['node2'] = i + j
             links.append(dic)
-    # print(links)
 
     t = []
     num = 0
@@ -172,9 +168,6 @@ def checkAll(center, boxes, data):
         excenter = copy.deepcopy(center)
         for i in range(length):
             t.append(1.0)
-
-        # center[5][2] = 800
-        # print(center)
 
         for i in range(length):
             dic={}
@@ -255,20 +248,12 @@ def checkAll(center, boxes, data):
                         else:
                             # print('8')
                             center[links[i]['node2']][1] = center[links[i]['node1']][1] + center[links[i]['node1']][3] + center[links[i]['node2']][3] + 10
-        # import pylab as pl
-        # pl.xticks([0, width])
-        # pl.yticks([0, height])
-        # for i in center:
-        #     # if i[2] == 15:
-        #     pl.gca().add_patch( pl.Rectangle(xy=[i[0]-i[2], height - i[1]-i[3]], width=i[2]*2, height=i[3]*2, linewidth='1.0', fill=False) )
-        # pl.show()
         if int(t.count(1.0)) == int(len(links)):
             double += 1
         else:
             double = 0
         num += 1
-    # print(t)
-    print('step2 : ' + str(num))
+    # print('step2 : ' + str(num))
     # with open('PRISM_boxes.csv', 'w') as f:
     #     writer = csv.writer(f)
     #     for i in center:
@@ -352,11 +337,17 @@ if __name__ == '__main__':
         if datum['id'] != 1:
             # if i['dir'] == './12-0.0005-0.05/':
             out = '../data/FDGIB/temp/'
-            print(datum['file'])
-            try:
-                a = os.listdir(out + datum['level'])
-            except:
-                os.mkdir(out + datum['level'])
+            print(datum['level'])
+            if datum['level'][:3] == 'hig':
+                try:
+                    a = os.listdir(out + 'high')
+                except:
+                    os.mkdir(out + 'high')
+            if datum['level'][:3] == 'low':
+                try:
+                    a = os.listdir(out + 'low')
+                except:
+                    os.mkdir(out + 'low')
             main(datum, out + datum['level'])
             # sys.exit()
     cmd = 'python resize.py'

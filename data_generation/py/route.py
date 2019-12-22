@@ -59,7 +59,7 @@ def difficulty(data, source, target):
     # print('calculating difficulty...')
     links = data['links']
     shortest_length = data['shortest_path']['length']
-    depth_margin = 1
+    depth_margin = 2
     nodes = []
     tree = Tree('header', None, -1)
 
@@ -104,18 +104,16 @@ def link_number(data, index):
     return count
 
 
-def check_duplicate_group(data):
+def check_group_duplicate(data):
     flag = True
     for path in data['shortest_path']['path']:
-        group = []
+        groups = []
         for node in path:
-            group.append(data['nodes'][node]['group'])
-        index = list(set(group))
-        for group_name in index:
-            if group.count(group_name) > 2:
+            groups.append(data['nodes'][node]['group'])
+        index = list(set(groups))
+        for i in index:
+            if groups.count(i) > 2:
                 flag = False
-        if not flag:
-            break
     return flag
 
 
@@ -139,10 +137,10 @@ def pickup2nodes(data):
                     data['shortest_path']['path'].append(sp)
                     data['shortest_path']['length'] = len(sp)
                 if data['shortest_path']['length'] <= 5 and data['shortest_path']['length'] >= 5:
-                    if check_duplicate_group(data):
+                    if check_group_duplicate(data):
                         data['shortest_path']['difficulty'] = difficulty(data, rand[0], rand[1])
                         # print(data['shortest_path']['difficulty'])
-                        if data['shortest_path']['difficulty'] > 0.01 and data['shortest_path']['difficulty'] < 0.02:
+                        if data['shortest_path']['difficulty'] > 0.02 and data['shortest_path']['difficulty'] < 0.025:
                             break
             if i == max - 1:
                 print("max!!!!!!!!!!")

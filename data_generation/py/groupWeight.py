@@ -94,7 +94,7 @@ def test(path, file, dir):
         writer.writerow(Gskew)
 
 if __name__ == '__main__':
-    main = '../data/origin/FDGIB/'
+    main = '../data/origin/'
     levels = ['low-mid/', 'high-mid/']
     # global dir
     for level in levels:

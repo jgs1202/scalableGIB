@@ -5,15 +5,6 @@ import json
 import sys
 
 
-def delete_file(outputs):
-    for layout in outputs:
-        for dir in os.listdir(layout):
-            if dir != '.DS_Store':
-                for file in os.listdir(layout + dir):
-                    dir += '/'
-                    os.system('rm ' + layout + dir + file)
-
-
 def add(layout):
     mains = []
     outputs = []
@@ -29,8 +20,6 @@ def add(layout):
         mains.append('../data/' + layout + '/temp/')
         outputs.append('../data/' + layout + '/comp/')
         layouts.append(layout)
-
-    delete_file(outputs)
 
     for pathNumber, path in enumerate(mains):
         for dir in os.listdir(path):
