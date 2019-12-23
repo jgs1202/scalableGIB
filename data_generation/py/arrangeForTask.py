@@ -98,6 +98,7 @@ def random_arrange(each_num):
     make_dir(out)
     for i in range(each_num * 4):
         data = json.load(open(input_paths[layouts[i]] + level_names[levels[i]] + str(questions[i]) + '.json', 'r'))
+        data['arranged_filename'] = str(i) + '.json'
         f = open(out + str(i) + '.json', 'w')
         json.dump(data, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
 

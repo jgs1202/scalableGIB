@@ -10,7 +10,6 @@ from define_model import define_model, get_x_coord, get_y_coord
 
 def run(graph_data, width, height, outfile):
     graph = json_graph.node_link_graph(graph_data)
-    print(len(graph_data['nodes']), len(graph.nodes()))
     groups = {graph.nodes()[u]['group'] for u in graph.nodes()}
     sizes = [(len([u for u in graph.nodes()
                    if graph.nodes[u]['group'] == group]), group)
@@ -33,7 +32,7 @@ def run(graph_data, width, height, outfile):
 
     model = define_model(graph, K)
     solver = SolverFactory("cbc")
-    result = solver.solve(model, tee=True, timelimit=100)
+    result = solver.solve(model, tee=True, timelimit=500)
     opt_tree = [{
                     'id': K[j].group,
                     'x': get_x_coord(K, model, j),
@@ -54,7 +53,7 @@ def run(graph_data, width, height, outfile):
     graph_data['groups'] = opt_tree
     for link in graph_data['links']:
         link['value'] = 1
-    json.dump(graph_data, open(outfile, 'w'),  ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
+    json.dump(graph_data, open(outfile, 'w'), ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
     print('computation time: {}'.format(result.solver.time))
 
 

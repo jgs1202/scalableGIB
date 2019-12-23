@@ -8,6 +8,17 @@ import signal
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 
+class GeneratorLen(object):
+    def __init__(self, gen, length):
+        self.gen = gen
+        self.length = length
+
+    def __len__(self): 
+        return self.length
+
+    def __iter__(self):
+        return self.gen
+
 # 一つのノードから最短経路のパス（+1）数内でいける全てのノード分の答えのノードの割合を揃える
 class Tree(object):
     def __init__(self, id, parent, depth):
@@ -121,33 +132,37 @@ def pickup2nodes(data):
     # print('choosing 2 nodes...')
     graph = nx.readwrite.json_graph.node_link_graph(data)
     length = len(graph.nodes)
-    max = 100000
+    max = 10000
 
     for i in range(max):
-        try:
-            data['shortest_path'] = {}
-            data['shortest_path']['path'] = []
-            rand = [random.randint(0, length - 1), random.randint(0, length - 1)]
-            while rand[1] == rand[0] or data['nodes'][rand[0]]['group'] == data['nodes'][rand[1]]['group']:
-                rand[1] = random.randint(0, length - 1)
-            if link_number(data, rand[0]) > 1 and link_number(data, rand[1]) > 1:
-                sps = nx.all_shortest_paths(graph, source=rand[0], target=rand[1])
-                data['shortest_path']['nodes'] = [rand[0], rand[1]]
-                for sp in sps:
+        data['shortest_path'] = {}
+        data['shortest_path']['path'] = []
+        rand = [random.randint(0, length - 1), random.randint(0, length - 1)]
+        while rand[1] == rand[0] or data['nodes'][rand[0]]['group'] == data['nodes'][rand[1]]['group']:
+            rand[1] = random.randint(0, length - 1)
+        if link_number(data, rand[0]) > 1 and link_number(data, rand[1]) > 1:
+            sps = nx.all_shortest_paths(graph, source=rand[0], target=rand[1])
+            data['shortest_path']['nodes'] = [rand[0], rand[1]]
+            try:
+                ls = list(sps)
+                for sp in ls:
+                    # print(len(sp))
                     data['shortest_path']['path'].append(sp)
                     data['shortest_path']['length'] = len(sp)
                 if data['shortest_path']['length'] <= 5 and data['shortest_path']['length'] >= 5:
                     if check_group_duplicate(data):
-                        data['shortest_path']['difficulty'] = difficulty(data, rand[0], rand[1])
+                        data['shortest_path']['difficulty'] = []
+                        data['shortest_path']['difficulty'].append(difficulty(data, rand[0], rand[1]))
+                        data['shortest_path']['difficulty'].append(difficulty(data, rand[1], rand[0]))
                         # print(data['shortest_path']['difficulty'])
-                        if data['shortest_path']['difficulty'] > 0.02 and data['shortest_path']['difficulty'] < 0.025:
-                            break
-            if i == max - 1:
-                print("max!!!!!!!!!!")
-                sys.exit()
-        except:
-            pass
-    print(data['shortest_path']['difficulty'])
+                        if data['shortest_path']['difficulty'][0] > 0.01 and data['shortest_path']['difficulty'][0] < 0.03:
+                            if data['shortest_path']['difficulty'][1] > 0.01 and data['shortest_path']['difficulty'][1] < 0.03:
+                                break
+            except:
+                pass
+        if i == max - 1:
+            print('max!!')
+            data['shortest_path'] = None
     return data
 
 

@@ -42,7 +42,7 @@ export default {
       chargeForce: -0.1,
       tempStrength: 0.6,
       radius: 100,
-      each: 30,
+      each: 40,
       timer: null,
     }
   },
@@ -605,6 +605,7 @@ export default {
         data.level = that.graph.level
         data.file = that.graph.file
         data.id = that.dir + '' + that.dataNum + '.json'
+        data.shortest_path = that.data.shortest_path
         // data.linkSize = that.graph,linkSize
         // data.nodeSize = that.graph.nodeSize
 

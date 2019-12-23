@@ -6,6 +6,7 @@ import os
 import sys
 import numpy as np
 import random
+from route import pickup2nodes
 
 threshold = 0.5
 
@@ -14,17 +15,17 @@ def max_link():
     return 100
 
 
-def p_in(groupsize, nodesize, nodes_lenth):
+def p_in(groupsize, nodesize, nodes_length):
     def index(nodesize):
         if nodesize < 30:
             return 0
         else:
             # return /(nodesize - 30) / 60
             return 0
-    if nodes_lenth > 15:
+    if nodes_length > 15:
         p = 0.15 * threshold
     else:
-        p = 0.15 * 11.4 / (nodes_lenth - 2)
+        p = 0.15 * 11.4 / (nodes_length - 2)
     # print(nodes_lenth, p)
     return p
     # return 0.4 * threshold
@@ -231,29 +232,36 @@ def makeData():
     for nodelevel in range(len(nodelevels)):
         for grouplevel in range(len(grouplevels)):
             for each in range(eachNum):
-                m = groupSizes[grouplevel]
-                nodes = [[] for i in range(m)]
-                links = []
-                nums = [0, 0]
-                nodesize = nodeSizes[nodelevel]
-
-                add_node(m, nodesize, nodes, nums)
-                nodes_for_write = nodes_writing(nodes)
-                add_link(m, nodes, links, nums, thre, nodesize)
-                modify_density(nums, densityTwitter, links, nodes_for_write, m, nodesize)
-                inner_edge_ratio(nodes_for_write, links)
-
                 data = {}
-                data['groups'] = [{} for i in range(m)]
-                data['groupSize'] = m
-                data['grouplevel'] = grouplevels[grouplevel]
-                data['nodelevel'] = nodelevels[nodelevel]
-                data['nodes'] = nodes_for_write
-                data['linkSize'] = len(links)
-                data['nodeSize'] = len(nodes_for_write)
-                data['links'] = links
-                data['level'] = grouplevels[grouplevel] + '-' + nodelevels[nodelevel]
-                data['file'] = str(each) + '.json'
+                data['shortest_path'] = None
+                while(data['shortest_path'] == None):
+                    data = {}
+                    m = groupSizes[grouplevel]
+                    nodes = [[] for i in range(m)]
+                    links = []
+                    nums = [0, 0]
+                    nodesize = nodeSizes[nodelevel]
+
+                    add_node(m, nodesize, nodes, nums)
+                    nodes_for_write = nodes_writing(nodes)
+                    add_link(m, nodes, links, nums, thre, nodesize)
+                    modify_density(nums, densityTwitter, links, nodes_for_write, m, nodesize)
+                    inner_edge_ratio(nodes_for_write, links)
+
+                    data['groups'] = [{} for i in range(m)]
+                    data['groupSize'] = m
+                    data['grouplevel'] = grouplevels[grouplevel]
+                    data['nodelevel'] = nodelevels[nodelevel]
+                    data['nodes'] = nodes_for_write
+                    data['linkSize'] = len(links)
+                    data['nodeSize'] = len(nodes_for_write)
+                    data['links'] = links
+                    data['level'] = grouplevels[grouplevel] + '-' + nodelevels[nodelevel]
+                    data['file'] = str(each) + '.json'
+
+                    data = pickup2nodes(data)
+                print('difficulty : ' + str(data['shortest_path']['difficulty'][0]) + ', ' + str(data['shortest_path']['difficulty'][1]))
+
                 if not os.path.exists('../data/origin/' + grouplevels[grouplevel] + '-' + nodelevels[nodelevel]):
                     os.mkdir('../data/origin/' + grouplevels[grouplevel] + '-' + nodelevels[nodelevel])
                 f = open('../data/origin/' + grouplevels[grouplevel] + '-' + nodelevels[nodelevel] + '/' + str(each) + '.json', 'w')
