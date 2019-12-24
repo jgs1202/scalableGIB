@@ -34,10 +34,12 @@ def rename_FDGIB(max):
         ref = 0
         while(number < max):
             try:
+                print(ref, number)
                 data = json.load(open(path + str(ref) + '.json', 'r'))
                 f = open(path + str(number) + '.json', 'w')
                 json.dump(data, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
                 number += 1
+                ref += 1
             except:
                 ref += 1
 
@@ -97,6 +99,7 @@ def random_arrange(each_num):
 
     make_dir(out)
     for i in range(each_num * 4):
+        # print(input_paths[layouts[i]] + level_names[levels[i]] + str(questions[i]) + '.json')
         data = json.load(open(input_paths[layouts[i]] + level_names[levels[i]] + str(questions[i]) + '.json', 'r'))
         data['arranged_filename'] = str(i) + '.json'
         f = open(out + str(i) + '.json', 'w')

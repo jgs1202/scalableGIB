@@ -2,6 +2,8 @@
 from flaski.app import db
 import os
 
-
-os.remove("./flaski/test.db")
+try:
+    os.remove("./flaski/test.db")
+except:
+    pass
 db.create_all()

@@ -44,7 +44,7 @@ export default {
       links: [],
       boxes: [],
       choice: [],
-      dataMax: 30,
+      dataMax: null,
       startTime: null,
       time: null,
       answer: null,
@@ -76,6 +76,7 @@ export default {
   mounted: function() {
     window.addEventListener('keyup', this.onClick)
     var that = this;
+    that.dataMax = that.$parent.total / 6
     that.colors = that.$refs.d3ColorMap.colors
     if (that.$parent.level == 0){
       that.level = 'easy'
@@ -217,9 +218,9 @@ export default {
     },
     autoCorrect: function() {
       let that = this
+      that.time = Date.now() - that.startTime
       window.removeEventListener('keyup', that.onClick)
       clearTimeout(that.timer)
-      that.time = Date.now() - that.startTime
       const params = new URLSearchParams()
       // username, gender, age, layout, path, groupSize, file, answer, time
       params.set('userName', that.$parent.userName)
@@ -237,10 +238,11 @@ export default {
       params.set('path', pathString)
       params.set('path_length_difference', that.graph.shortest_path.length - that.selectedNodes.length)
       params.set('groupSize', that.graph.groupSize)
-      params.set('file', '' + that.$parent.nums[that.$parent.level] + '.json')
+      params.set('origin_filename', '' + that.graph.file)
+      params.set('filename', '' + that.graph.arranged_filename)
       that.answer = 1
       params.set('answer', that.answer)
-      params.set('time', that.limit_second * 1000)
+      params.set('time', that.time * 1000)
       console.log(params)
       const url = `http://127.0.0.1:5000/data/${params.toString()}`
       axios.get(url)
@@ -280,7 +282,8 @@ export default {
       params.set('path', pathString)
       params.set('path_length_difference', that.graph.shortest_path.length - that.selectedNodes.length)
       params.set('groupSize', that.graph.groupSize)
-      params.set('file', '' + that.$parent.nums[that.$parent.level] + '.json')
+      params.set('origin_filename', '' + that.graph.file)
+      params.set('filename', '' + that.graph.arranged_filename)
       if (that.checkAnswer() == 1){
         that.answer = 1
       } else {
@@ -324,7 +327,8 @@ export default {
         params.set('path', pathString)
         params.set('path_length_difference', that.graph.shortest_path.length - that.selectedNodes.length)
         params.set('groupSize', that.graph.groupSize)
-        params.set('file', '' + that.$parent.nums[that.$parent.level] + '.json')
+        params.set('origin_filename', '' + that.graph.file)
+        params.set('filename', '' + that.graph.arranged_filename)
         if (that.checkAnswer() == 1){
           that.answer = 1
         } else {
