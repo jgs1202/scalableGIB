@@ -605,7 +605,8 @@ export default {
         data.level = that.graph.level
         data.file = that.graph.file
         data.id = that.dir + '' + that.dataNum + '.json'
-        data.shortest_path = that.data.shortest_path
+        console.log(that.graph.shortest_path)
+        data.shortest_path = that.graph.shortest_path
         // data.linkSize = that.graph,linkSize
         // data.nodeSize = that.graph.nodeSize
 

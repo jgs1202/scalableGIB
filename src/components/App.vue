@@ -83,13 +83,13 @@ export default {
       that.level = 'difficult'
     }
     console.log('mounted')
-    that.restart()
+    that.restart(true)
   },
   methods: {
-    restart: function() {
+    restart: function(first) {
       var that = this;
       console.log('num is ' + '' + that.$parent.nums[that.$parent.level])
-      if ((that.$parent.nums[that.$parent.level] % that.dataMax == 0) && (that.$parent.nums[that.$parent.level] != 0)) {
+      if ((that.$parent.nums[that.$parent.level] % that.dataMax == 0) && (that.$parent.nums[that.$parent.level] != 0) && (!first)) {
         if (that.$parent.nums[that.$parent.level] == this.$parent.total) {
           this.$parent.already = 1
         }
@@ -129,8 +129,9 @@ export default {
         }
         that.startTime = Date.now()
         that.timer = setTimeout(that.timelimit, that.limit_second * 1000);
+        console.log('add\n\n\n\n')
+        that.$parent.nums[that.$parent.level] += 1
       }
-      that.$parent.nums[that.$parent.level] += 1
     },
     setTable() {
       let that = this
@@ -255,7 +256,7 @@ export default {
         d3.selectAll('circle').remove()
         d3.selectAll('line').remove()
         d3.selectAll('rect').remove()
-        that.restart()
+        that.restart(false)
       }, 2000)
     },
     timelimit: function() {

@@ -105,7 +105,7 @@ def random_arrange(each_num):
 
 def main():
     # arrange()
-    random_arrange(25)
+    random_arrange(30)
 
 if __name__ == '__main__':
     main()

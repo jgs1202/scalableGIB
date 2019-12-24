@@ -317,6 +317,14 @@ def checkAll(center, boxes, data):
             pass
 
 
+def delte_temp():
+    path = '../data/FDGIB/temp/'
+    levels = ['low/', 'high/']
+
+    for level in levels:
+        for file in os.listdir(path + level):
+            os.system('rm ' + path + level + file)
+
 
 def main(data, out):
     center = []
@@ -327,6 +335,8 @@ def main(data, out):
     checkAll(center, boxes, data)
 
 if __name__ == '__main__':
+    delte_temp()
+
     global width
     global height
     width = 1620.7

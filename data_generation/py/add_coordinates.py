@@ -5,6 +5,14 @@ import json
 import sys
 
 
+def delete_comp(outputs):
+    levels = ['low/', 'high/']
+    for output in outputs:
+        for level in levels:
+            for file in os.listdir(output + level):
+                os.system('rm ' + output + level + file)
+
+
 def add(layout):
     mains = []
     outputs = []
@@ -21,6 +29,7 @@ def add(layout):
         outputs.append('../data/' + layout + '/comp/')
         layouts.append(layout)
 
+    delete_comp(outputs)
     for pathNumber, path in enumerate(mains):
         for dir in os.listdir(path):
             if dir != '.DS_Store':
