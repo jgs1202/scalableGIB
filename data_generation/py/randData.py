@@ -64,7 +64,7 @@ def inner_edge_ratio(nodes, links):
 
 
 def modify_density(nums, densityTwitter, links, nodes, m, nodesize):
-    print(linear_density(nums[0], nums[1]), nums[0], nums[1])
+    # print(linear_density(nums[0], nums[1]), nums[0], nums[1])
     count = 0
     if linear_density(nums[0], nums[1]) < densityTwitter:
         while (abs(linear_density(nums[0], nums[1]) - densityTwitter) > 0.01):
@@ -246,7 +246,7 @@ def makeData():
                     nodes_for_write = nodes_writing(nodes)
                     add_link(m, nodes, links, nums, thre, nodesize)
                     modify_density(nums, densityTwitter, links, nodes_for_write, m, nodesize)
-                    inner_edge_ratio(nodes_for_write, links)
+                    # inner_edge_ratio(nodes_for_write, links)
 
                     data['groups'] = [{} for i in range(m)]
                     data['groupSize'] = m

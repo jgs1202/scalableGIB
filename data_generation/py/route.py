@@ -66,11 +66,11 @@ def vis_tree(nodes, depth):
         print(" ")
 
 
-def difficulty(data, source, target):
+def difficulty(data, source, target, margin):
     # print('calculating difficulty...')
     links = data['links']
     shortest_length = data['shortest_path']['length']
-    depth_margin = 2
+    depth_margin = margin
     nodes = []
     tree = Tree('header', None, -1)
 
@@ -152,12 +152,17 @@ def pickup2nodes(data):
                 if data['shortest_path']['length'] <= 5 and data['shortest_path']['length'] >= 5:
                     if check_group_duplicate(data):
                         data['shortest_path']['difficulty'] = []
-                        data['shortest_path']['difficulty'].append(difficulty(data, rand[0], rand[1]))
-                        data['shortest_path']['difficulty'].append(difficulty(data, rand[1], rand[0]))
+                        data['shortest_path']['difficulty'].append(difficulty(data, rand[0], rand[1], 0))
+                        data['shortest_path']['difficulty'].append(difficulty(data, rand[1], rand[0], 0))
                         # print(data['shortest_path']['difficulty'])
-                        if data['shortest_path']['difficulty'][0] > 0.01 and data['shortest_path']['difficulty'][0] < 0.03:
-                            if data['shortest_path']['difficulty'][1] > 0.01 and data['shortest_path']['difficulty'][1] < 0.03:
-                                break
+                        if data['shortest_path']['difficulty'][0] > 0.01 and data['shortest_path']['difficulty'][0] < 0.02:
+                            if data['shortest_path']['difficulty'][1] > 0.01 and data['shortest_path']['difficulty'][1] < 0.02:
+                                diffs = []
+                                diffs.append(difficulty(data, rand[0], rand[1], 2))
+                                diffs.append(difficulty(data, rand[1], rand[0], 2))
+                                if diffs[0] > 0.01 and diffs[0] < 0.02:
+                                    if diffs[1] > 0.01 and diffs[1] < 0.02:
+                                        break
             except:
                 pass
         if i == max - 1:

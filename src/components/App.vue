@@ -55,6 +55,7 @@ export default {
       relatedSize: 3,
       selectSize: 3,
       selectedNodes: [],
+      nodeHistory: [],
       relatedNodes: [],
       twosideLinks: [],
       onesideLinks: [],
@@ -101,6 +102,8 @@ export default {
         d3.json("./src/data/random/" + that.$parent.nums[that.$parent.level] + ".json").then(function(graph) {
           that.graph = graph
           that.setTable()
+          console.log(that.nodeHistory)
+          that.nodeHistory = []
           that.relatedNodes = []
           that.selectedNodes = []
           that.selectedNodes.push(that.graph.shortest_path.nodes[0])
@@ -228,6 +231,14 @@ export default {
       params.set('age', that.$parent.age)
       params.set('layout', that.graph.layout)
       params.set('level', that.$parent.level)
+      let nodeHistoryString = ""
+        for (let i=0; i<that.nodeHistory.length; ++i){
+          if (i != 0) {
+            nodeHistoryString += " "
+          }
+          nodeHistoryString += "" + that.nodeHistory[i]
+        }
+        params.set('nodeHistory', nodeHistoryString)
       let pathString = ""
       for (let i=0; i<that.selectedNodes.length; ++i){
         if (i != 0) {
@@ -242,7 +253,7 @@ export default {
       params.set('filename', '' + that.graph.arranged_filename)
       that.answer = 1
       params.set('answer', that.answer)
-      params.set('time', that.time * 1000)
+      params.set('time', that.time)
       console.log(params)
       const url = `http://127.0.0.1:5000/data/${params.toString()}`
       axios.get(url)
@@ -272,6 +283,14 @@ export default {
       params.set('age', that.$parent.age)
       params.set('layout', that.graph.layout)
       params.set('level', that.$parent.level)
+      let nodeHistoryString = ""
+        for (let i=0; i<that.nodeHistory.length; ++i){
+          if (i != 0) {
+            nodeHistoryString += " "
+          }
+          nodeHistoryString += "" + that.nodeHistory[i]
+        }
+        params.set('nodeHistory', nodeHistoryString)
       let pathString = ""
       for (let i=0; i<that.selectedNodes.length; ++i){
         if (i != 0) {
@@ -306,7 +325,7 @@ export default {
       that.restart()
     },
     onClick: function(event) {
-      if (event.keyCode == '13') {
+      if (event.keyCode == 'aiueo') {
         var that = this
         clearTimeout(that.timer)
         that.time = Date.now() - that.startTime
@@ -317,6 +336,14 @@ export default {
         params.set('age', that.$parent.age)
         params.set('layout', that.graph.layout)
         params.set('level', that.$parent.level)
+        let nodeHistoryString = ""
+        for (let i=0; i<that.nodeHistory.length; ++i){
+          if (i != 0) {
+            nodeHistoryString += " "
+          }
+          nodeHistoryString += "" + that.nodeHistory[i]
+        }
+        params.set('nodeHistory', nodeHistoryString)
         let pathString = ""
         for (let i=0; i<that.selectedNodes.length; ++i){
           if (i != 0) {
@@ -473,6 +500,8 @@ export default {
       let that = this
       let preference = d.name
       let select_number = d.id
+      that.nodeHistory.push(d.id)
+      console.log(d.id)
       if (that.selectedNodes.indexOf(d.id) < 0){
         let relLinks = []
         let relNodes = []
