@@ -7,9 +7,11 @@
 <script>
 import Vue from 'vue'
 import App from './components/App.vue'
+import tutorial from './components/tutorial.vue'
 import Menu from './components/menu.vue'
 import dataInput from './components/dataInput.vue'
 Vue.component('dataInput', dataInput)
+Vue.component('tutorial', tutorial)
 Vue.component('App', App)
 Vue.component('Menu', Menu)
 export default {
@@ -25,7 +27,7 @@ export default {
       nums: [0, 0],
       total: 120,
       levelIndex: ['high', 'low'],
-      level: null,
+      level: 0,
     }
   },
   mounted: function(){

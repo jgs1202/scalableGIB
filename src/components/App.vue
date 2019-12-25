@@ -79,11 +79,6 @@ export default {
     var that = this;
     that.dataMax = that.$parent.total / 6
     that.colors = that.$refs.d3ColorMap.colors
-    if (that.$parent.level == 0){
-      that.level = 'easy'
-    } else if (that.$parent.level == 1) {
-      that.level = 'difficult'
-    }
     console.log('mounted')
     that.restart(true)
   },
@@ -101,8 +96,12 @@ export default {
         // d3.json("./src/data/" + that.$parent.levelIndex[that.$parent.level] + '/' + that.$parent.nums[that.$parent.level] + ".json").then(function(graph) {
         d3.json("./src/data/random/" + that.$parent.nums[that.$parent.level] + ".json").then(function(graph) {
           that.graph = graph
+          if (that.graph.groupSize == 10) {
+            that.level = 0
+          } else {
+            that.level = 1
+          }
           that.setTable()
-          console.log(that.nodeHistory)
           that.nodeHistory = []
           that.relatedNodes = []
           that.selectedNodes = []
@@ -133,7 +132,6 @@ export default {
         }
         that.startTime = Date.now()
         that.timer = setTimeout(that.timelimit, that.limit_second * 1000);
-        console.log('add\n\n\n\n')
         that.$parent.nums[that.$parent.level] += 1
       }
     },
@@ -325,7 +323,7 @@ export default {
       that.restart()
     },
     onClick: function(event) {
-      if (event.keyCode == 'aiueo') {
+      if (event.keyCode == '13') {
         var that = this
         clearTimeout(that.timer)
         that.time = Date.now() - that.startTime
@@ -501,7 +499,6 @@ export default {
       let preference = d.name
       let select_number = d.id
       that.nodeHistory.push(d.id)
-      console.log(d.id)
       if (that.selectedNodes.indexOf(d.id) < 0){
         let relLinks = []
         let relNodes = []
