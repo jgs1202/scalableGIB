@@ -193,17 +193,22 @@ export default {
       }
       return flag
     },
-    autoCorrect: function() {
-      let that = this
-      window.removeEventListener('keyup', that.onClick)
-      setTimeout(function() {
-        window.addEventListener('keyup', that.onClick)
+    enterAfterCorrect: function(event) {
+      if (event.keyCode == 13) {
+        let that = this
+        window.removeEventListener('keyup', that.enterAfterCorrect)
         d3.selectAll('rect').attr('stroke-width', 0.6).attr('stroke', 'black')
         d3.selectAll('circle').remove()
         d3.selectAll('line').remove()
         d3.selectAll('rect').remove()
+        window.addEventListener('keyup', that.onClick)
         that.restart(false)
-      }, 2000)
+      }
+    },
+    autoCorrect: function() {
+      let that = this
+      window.removeEventListener('keyup', that.onClick)
+      window.addEventListener('keyup', that.enterAfterCorrect)
     },
     onClick: function(event) {
       if (event.keyCode == '13') {
