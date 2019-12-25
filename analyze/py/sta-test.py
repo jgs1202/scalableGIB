@@ -5,20 +5,18 @@ from scipy.stats import f_oneway, friedmanchisquare, shapiro, wilcoxon
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+layout_number = 2
+
 
 def verify_layout(layout):
-    if layout == 'STGIB':
+    if layout == 'FDGIB':
         return 0
-    elif layout == 'Chatu':
-        return 1
-    elif layout == 'FDGIB':
-        return 2
     elif layout == 'TRGIB':
-        return 3
+        return 1
 
 
 def allocate(data):
-    output = [[[] for j in range(4)] for i in range(4)]
+    output = [[[] for j in range(layout_number)] for i in range(layout_number)]
     for task in range(len(data)):
         for datum in data[task]:
             output[task][verify_layout(datum['layout'])].append(datum)
@@ -26,8 +24,8 @@ def allocate(data):
 
 
 def get_stalist(data):
-    means = [[[] for j in range(4)] for i in range(4)]
-    times = [[[] for j in range(4)] for i in range(4)]
+    means = [[[] for j in range(layout_number)] for i in range(layout_number)]
+    times = [[[] for j in range(layout_number)] for i in range(layout_number)]
     for task in range(len(data)):
         for layout in range(len(data[task])):
             for datum in data[task][layout]:
@@ -39,16 +37,15 @@ def get_stalist(data):
 def box_graph(means, times, data):
     mean = []
     time = []
-    for i in range(4):
-        mean.append((means[i][0], means[i][1], means[i][2], means[i][3]))
-        time.append((times[i][0], times[i][1], times[i][2], times[i][3]))
-    for i in range(4):
+    for i in range(layout_number):
+        mean.append((means[i][0], means[i][1]))
+        time.append((times[i][0], times[i][1]))
+    for i in range(layout_number):
         sns.set()
         sns.set_style("whitegrid", {'grid.linestyle': '--'})
-        sns.set_context("paper", 1.5, {"lines.linewidth": 4})
+        sns.set_context("paper", 1.5, {"lines.linewidth": layout_number})
         sns.set_palette("winter_r", 8)
-        sns.set('talk', 'whitegrid', 'dark',
-            rc={"lines.linewidth": 2, 'grid.linestyle': '--'})
+        sns.set('talk', 'whitegrid', 'dark', rc={"lines.linewidth": 2, 'grid.linestyle': '--'})
         fig, ax = plt.subplots()
         bp = ax.boxplot(mean[i], vert=True, patch_artist=True)
         # bp = ax.boxplot(time[i], vert=True, patch_artist=True)
@@ -62,7 +59,7 @@ def box_graph(means, times, data):
             plt.setp(box, ls="solid", color="black", linewidth=1.5)
         for box, color in zip(bp["boxes"], sns.color_palette("Set3", 6)):
             box.set_facecolor(color)
-        fig.subplots_adjust(top=0.95, bottom=0.15, left=0.10 , right=0.97)
+        fig.subplots_adjust(top=0.95, bottom=0.15, left=0.10, right=0.97)
         ax.set_xticklabels(['ST-GIB', 'CD-GIB', 'FD-GIB', 'TR-GIB'], fontsize=24)
         plt.tick_params(labelsize=22)
         plt.xlabel('layout', fontsize=28)
@@ -73,7 +70,7 @@ def box_graph(means, times, data):
         # ax.legend(bp["boxes"], ['ST-GIB', 'CD-GIB', 'FD-GIB', 'TR-GIB'], loc='upper right')
         plt.legend()
         plt.grid()
-        plt.savefig('../src/trajectory/mean' + str(i+1) + '.png')
+        plt.savefig('../src/trajectory/mean' + str(i + 1) + '.png')
         # plt.savefig('../src/trajectory/time' + str(i+1) + '.png')
         plt.close()
 
@@ -117,8 +114,6 @@ def main():
     # print(wilcoxon(all_data[3][1]['answer'], all_data[3][3]['answer']))
     # print(wilcoxon(all_data[3][2]['answer'], all_data[3][3]['answer']))
 
-
-
     # for i in range(len(all_data)):
     #     for j in range(len(all_data[i])):
     #         for k in range(len(all_data[i][j]['time'])):
@@ -128,7 +123,6 @@ def main():
     # print(shapiro(all_data[1][0]['time']), shapiro(all_data[1][1]['time']), shapiro(all_data[1][2]['time']), shapiro(all_data[1][3]['time']))
     # print(shapiro(all_data[2][0]['time']), shapiro(all_data[2][1]['time']), shapiro(all_data[2][2]['time']), shapiro(all_data[2][3]['time']))
     # print(shapiro(all_data[3][0]['time']), shapiro(all_data[3][1]['time']), shapiro(all_data[3][2]['time']), shapiro(all_data[3][3]['time']))
-    
 
     # result1 = f_oneway(all_data[0][0]['time'], all_data[0][1]['time'], all_data[0][2]['time'], all_data[0][3]['time'])
     # result2 = f_oneway(all_data[1][0]['time'], all_data[1][1]['time'], all_data[1][2]['time'], all_data[1][3]['time'])

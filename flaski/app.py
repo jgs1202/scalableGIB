@@ -10,6 +10,7 @@ db = SQLAlchemy(app)
 
 class Choice(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.String(40), unique=False)
     username = db.Column(db.String(40), unique=False)
     gender = db.Column(db.String(80), unique=False)
     age = db.Column(db.String(20), unique=False)
@@ -25,7 +26,8 @@ class Choice(db.Model):
     time = db.Column(db.String(80), unique=False)
     # choice2 = db.Column(db.String(80), unique=False)
 
-    def __init__(self, username, gender, age, layout, level, node_history, path, path_length_difference, groupSize, origin_file, file, answer, time):
+    def __init__(self, date, username, gender, age, layout, level, node_history, path, path_length_difference, groupSize, origin_file, file, answer, time):
+        self.date = date
         self.username = username
         self.gender = gender
         self.age = age

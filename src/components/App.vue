@@ -218,6 +218,8 @@ export default {
       return flag
     },
     enterAfterCorrect: function(event) {
+      console.log('correct')
+      console.log(event.keyCode)
       if (event.keyCode == 13) {
         let that = this
         window.removeEventListener('keyup', that.enterAfterCorrect)
@@ -236,6 +238,9 @@ export default {
       clearTimeout(that.timer)
       const params = new URLSearchParams()
       // username, gender, age, layout, path, groupSize, file, answer, time
+      let now = new Date()
+      let date = '' + now.getFullYear() + (now.getMonth() + 1) + now.getDate() + now.getHours() + now.getMinutes()
+      params.set('date', date)
       params.set('userName', that.$parent.userName)
       params.set('gender', that.$parent.gender)
       params.set('age', that.$parent.age)
@@ -272,6 +277,14 @@ export default {
         })
       that.choice = []
       window.addEventListener('keyup', that.enterAfterCorrect)
+      setTimeout(function() {
+        window.dispatchEvent( new KeyboardEvent( "keyup", {
+          code: 'Enter',
+          key: 'Enter',
+          charKode: 13,
+          keyCode: 13,
+        }))
+      }, 1000)
     },
     timelimit: function() {
       var that = this
@@ -279,6 +292,9 @@ export default {
       that.time = Date.now() - that.startTime
       const params = new URLSearchParams()
       // username, gender, age, layout, path, groupSize, file, answer, time
+      let now = new Date()
+      let date = '' + now.getFullYear() + (now.getMonth() + 1) + now.getDate() + now.getHours() + now.getMinutes()
+      params.set('date', date)
       params.set('userName', that.$parent.userName)
       params.set('gender', that.$parent.gender)
       params.set('age', that.$parent.age)
@@ -332,6 +348,9 @@ export default {
         that.time = Date.now() - that.startTime
         const params = new URLSearchParams()
         // username, gender, age, layout, path, groupSize, file, answer, time
+        let now = new Date()
+        let date = '' + now.getFullYear() + (now.getMonth() + 1) + now.getDate() + now.getHours() + now.getMinutes()
+        params.set('date', date)
         params.set('userName', that.$parent.userName)
         params.set('gender', that.$parent.gender)
         params.set('age', that.$parent.age)
