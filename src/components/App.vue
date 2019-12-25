@@ -277,14 +277,6 @@ export default {
         })
       that.choice = []
       window.addEventListener('keyup', that.enterAfterCorrect)
-      setTimeout(function() {
-        window.dispatchEvent( new KeyboardEvent( "keyup", {
-          code: 'Enter',
-          key: 'Enter',
-          charKode: 13,
-          keyCode: 13,
-        }))
-      }, 1000)
     },
     timelimit: function() {
       var that = this
