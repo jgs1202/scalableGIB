@@ -89,7 +89,7 @@ export default {
         this.$parent.currentPage = 'Menu'
       } else {
         // d3.json("./src/data/" + that.$parent.levelIndex[that.$parent.level] + '/' + that.$parent.nums[that.$parent.level] + ".json").then(function(graph) {
-        d3.json("./src/data/random/" + that.num + ".json").then(function(graph) {
+        d3.json("./src/data/tutorial/" + that.num + ".json").then(function(graph) {
           that.graph = graph
           that.nodeHistory = []
           that.relatedNodes = []
