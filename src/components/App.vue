@@ -217,6 +217,18 @@ export default {
       }
       return flag
     },
+    enterAfterCorrect: function(event) {
+      if (event.keyCode == 13) {
+        let that = this
+        window.removeEventListener('keyup', that.enterAfterCorrect)
+        d3.selectAll('rect').attr('stroke-width', 0.6).attr('stroke', 'black')
+        d3.selectAll('circle').remove()
+        d3.selectAll('line').remove()
+        d3.selectAll('rect').remove()
+        window.addEventListener('keyup', that.onClick)
+        that.restart(false)
+      }
+    },
     autoCorrect: function() {
       let that = this
       that.time = Date.now() - that.startTime
@@ -258,17 +270,8 @@ export default {
         .then(res => {
           // console.log(res.data)
         })
-
       that.choice = []
-
-      setTimeout(function() {
-        window.addEventListener('keyup', that.onClick)
-        d3.selectAll('rect').attr('stroke-width', 0.6).attr('stroke', 'black')
-        d3.selectAll('circle').remove()
-        d3.selectAll('line').remove()
-        d3.selectAll('rect').remove()
-        that.restart(false)
-      }, 2000)
+      window.addEventListener('keyup', that.enterAfterCorrect)
     },
     timelimit: function() {
       var that = this
