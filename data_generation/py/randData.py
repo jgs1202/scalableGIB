@@ -204,7 +204,7 @@ def add_link(m, nodes, links, nums, thre, nodesize):
 
 
 def makeData():
-    eachNum = 40
+    eachNum = 10
     # nodelevels = ['low', 'mid', 'high']
     nodelevels = ['mid']
     nodeSizes = [20]

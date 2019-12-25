@@ -70,7 +70,7 @@ export default {
       jsonDataInfo: "sample",
       tableData: [],
       timer: null,
-      limit_second: 30,
+      limit_second: 1,
       givenNodesStrokeWidth: 2,
     }
   },
@@ -218,7 +218,6 @@ export default {
       return flag
     },
     enterAfterCorrect: function(event) {
-      console.log('correct')
       console.log(event.keyCode)
       if (event.keyCode == 13) {
         let that = this
@@ -278,8 +277,17 @@ export default {
       that.choice = []
       window.addEventListener('keyup', that.enterAfterCorrect)
     },
+    enterTimeLimit: function(event) {
+      if (event.keyCode == 13) {
+        let that = this
+        window.removeEventListener('keyup', that.enterTimeLimit)
+        window.addEventListener('keyup', that.onClick)
+        that.restart(false)
+      }
+    },
     timelimit: function() {
       var that = this
+      window.removeEventListener('keyup', that.onClick)
       clearTimeout(that.timer)
       that.time = Date.now() - that.startTime
       const params = new URLSearchParams()
@@ -327,11 +335,10 @@ export default {
         })
 
       that.choice = []
-      d3.selectAll('rect').attr('stroke-width', 0.6).attr('stroke', 'black')
       d3.selectAll('circle').remove()
       d3.selectAll('line').remove()
       d3.selectAll('rect').remove()
-      that.restart()
+      window.addEventListener('keyup', that.enterTimeLimit)
     },
     onClick: function(event) {
       if (event.keyCode == '32') {
