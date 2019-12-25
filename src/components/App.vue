@@ -70,7 +70,7 @@ export default {
       jsonDataInfo: "sample",
       tableData: [],
       timer: null,
-      limit_second: 1,
+      limit_second: 30,
       givenNodesStrokeWidth: 2,
     }
   },

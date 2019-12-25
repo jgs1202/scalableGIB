@@ -134,6 +134,9 @@ def pickup2nodes(data):
     length = len(graph.nodes)
     max = 10000
 
+    low_difficulty = 0.02
+    high_difficulty = 0.03
+
     for i in range(max):
         data['shortest_path'] = {}
         data['shortest_path']['path'] = []
@@ -155,13 +158,13 @@ def pickup2nodes(data):
                         data['shortest_path']['difficulty'].append(difficulty(data, rand[0], rand[1], 0))
                         data['shortest_path']['difficulty'].append(difficulty(data, rand[1], rand[0], 0))
                         # print(data['shortest_path']['difficulty'])
-                        if data['shortest_path']['difficulty'][0] > 0.01 and data['shortest_path']['difficulty'][0] < 0.02:
-                            if data['shortest_path']['difficulty'][1] > 0.01 and data['shortest_path']['difficulty'][1] < 0.02:
+                        if data['shortest_path']['difficulty'][0] > low_difficulty and data['shortest_path']['difficulty'][0] < high_difficulty:
+                            if data['shortest_path']['difficulty'][1] > low_difficulty and data['shortest_path']['difficulty'][1] < high_difficulty:
                                 diffs = []
                                 diffs.append(difficulty(data, rand[0], rand[1], 2))
                                 diffs.append(difficulty(data, rand[1], rand[0], 2))
-                                if diffs[0] > 0.01 and diffs[0] < 0.02:
-                                    if diffs[1] > 0.01 and diffs[1] < 0.02:
+                                if diffs[0] > low_difficulty and diffs[0] < high_difficulty:
+                                    if diffs[1] > low_difficulty and diffs[1] < high_difficulty:
                                         break
             except:
                 pass
