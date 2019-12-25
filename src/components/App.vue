@@ -334,7 +334,7 @@ export default {
       that.restart()
     },
     onClick: function(event) {
-      if (event.keyCode == '13') {
+      if (event.keyCode == '32') {
         var that = this
         clearTimeout(that.timer)
         that.time = Date.now() - that.startTime

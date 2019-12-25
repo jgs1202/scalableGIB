@@ -209,17 +209,9 @@ export default {
       let that = this
       window.removeEventListener('keyup', that.onClick)
       window.addEventListener('keyup', that.enterAfterCorrect)
-      setTimeout(function() {
-        window.dispatchEvent( new KeyboardEvent( "keyup", {
-          code: 'Enter',
-          key: 'Enter',
-          charKode: 13,
-          keyCode: 13,
-        }))
-      }, 1000)
     },
     onClick: function(event) {
-      if (event.keyCode == '13') {
+      if (event.keyCode == '32') {
         var that = this
         that.choice = []
         d3.selectAll('rect').attr('stroke-width', 0.6).attr('stroke', 'black')
