@@ -16,7 +16,7 @@
             <el-col :span='10' :offset="7"> 
               <el-alert :closable=false :center=true title="Press space to start experiments." type="success">
               </el-alert>
-            </el-col>s
+            </el-col>
           </el-row>
         </div>
       </div>
