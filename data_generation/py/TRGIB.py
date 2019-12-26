@@ -4,6 +4,16 @@ import json
 from STGIB import ST
 import datetime
 
+
+def delte_temp():
+    path = '../data/TRGIB/temp/'
+    levels = ['low/', 'high/']
+
+    for level in levels:
+        for file in os.listdir(path + level):
+            os.system('rm ' + path + level + file)
+
+
 if __name__ == '__main__':
     main = '../data/origin/'
     width = 960
@@ -11,6 +21,8 @@ if __name__ == '__main__':
 
     actualLevels = ['high', 'low']
     refLevels = ['high-mid', 'low-mid']
+
+    delte_temp()
 
     dir = False
     # for dir in os.listdir(main):

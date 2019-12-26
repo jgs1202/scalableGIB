@@ -219,7 +219,7 @@ export default {
     },
     enterAfterCorrect: function(event) {
       console.log(event.keyCode)
-      if (event.keyCode == 13) {
+      if (event.keyCode == 32) {
         let that = this
         window.removeEventListener('keyup', that.enterAfterCorrect)
         d3.selectAll('rect').attr('stroke-width', 0.6).attr('stroke', 'black')
@@ -278,7 +278,7 @@ export default {
       window.addEventListener('keyup', that.enterAfterCorrect)
     },
     enterTimeLimit: function(event) {
-      if (event.keyCode == 13) {
+      if (event.keyCode == 32) {
         let that = this
         window.removeEventListener('keyup', that.enterTimeLimit)
         window.addEventListener('keyup', that.onClick)
@@ -341,7 +341,7 @@ export default {
       window.addEventListener('keyup', that.enterTimeLimit)
     },
     onClick: function(event) {
-      if (event.keyCode == '32') {
+      if (event.keyCode == 13) {
         var that = this
         clearTimeout(that.timer)
         that.time = Date.now() - that.startTime
