@@ -42,7 +42,7 @@ export default {
       chargeForce: -0.1,
       tempStrength: 0.6,
       radius: 100,
-      each: 40,
+      each: 10,
       timer: null,
     }
   },

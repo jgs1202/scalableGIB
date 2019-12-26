@@ -32,7 +32,7 @@ def run(graph_data, width, height, outfile):
 
     model = define_model(graph, K)
     solver = SolverFactory("cbc")
-    result = solver.solve(model, tee=True, timelimit=500)
+    result = solver.solve(model, tee=True, timelimit=300)
     opt_tree = [{
                     'id': K[j].group,
                     'x': get_x_coord(K, model, j),

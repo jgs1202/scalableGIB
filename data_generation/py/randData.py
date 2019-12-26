@@ -204,13 +204,13 @@ def add_link(m, nodes, links, nums, thre, nodesize):
 
 
 def makeData():
-    eachNum = 10
+    eachNum = 40
     # nodelevels = ['low', 'mid', 'high']
     nodelevels = ['mid']
     nodeSizes = [20]
     # nodeSizes = [10, 50, 100]
-    grouplevels = ['low', 'mid', 'high']
-    groupSizes = [10, 20, 40]
+    grouplevels = ['low', 'high']
+    groupSizes = [10, 40]
     thre = 0.3
     nodeThre = 0.4
     pin = 0.286
@@ -232,6 +232,7 @@ def makeData():
     for nodelevel in range(len(nodelevels)):
         for grouplevel in range(len(grouplevels)):
             for each in range(eachNum):
+                print(each + grouplevel * eachNum + nodelevel * eachNum * len(grouplevels))
                 data = {}
                 data['shortest_path'] = None
                 while(data['shortest_path'] == None):

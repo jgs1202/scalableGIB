@@ -165,6 +165,8 @@ def pickup2nodes(data):
                                 diffs.append(difficulty(data, rand[1], rand[0], 2))
                                 if diffs[0] > low_difficulty and diffs[0] < high_difficulty:
                                     if diffs[1] > low_difficulty and diffs[1] < high_difficulty:
+                                # if diffs[0] > 0.1 and diffs[0] < 0.3:
+                                    # if diffs[1] > 0.1 and diffs[1] < 0.3:
                                         break
             except:
                 pass
