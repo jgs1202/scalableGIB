@@ -14,7 +14,7 @@
           <br><br>
           <el-row :gutter='20' v-if='nextPage != null'>
             <el-col :span='10' :offset="7"> 
-              <el-alert :closable=false :center=true title="Press enter to start experiments." type="success">
+              <el-alert :closable=false :center=true title="Press space to start experiments." type="success">
               </el-alert>
             </el-col>s
           </el-row>
@@ -71,7 +71,7 @@ export default {
     },
     submit: function(event) {
       // console.log('key')
-      if (event.keyCode == 13) {
+      if (event.keyCode == 32) {
         if (this.nextPage == null) {
           swal("Choose a task.")
         } else {
