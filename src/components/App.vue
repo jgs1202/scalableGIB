@@ -592,7 +592,7 @@ export default {
                 if (order >= 0) {
                   selection.attr('stroke', that.givenNodesColors[order])
                   selection.attr('stroke-width', that.onesideThickness)
-                  selection.attr('opacity', that.linkOpacity) 
+                  selection.attr('opacity', that.linkOpacity)
                 } else {
                   let count = 0
                   for (let i=0; i<2; i++) {
@@ -602,7 +602,7 @@ export default {
                   }
                   selection.attr('stroke', that.colors[that.selectedNodes.indexOf(d.id) - count])
                   selection.attr('stroke-width', that.onesideThickness)
-                  selection.attr('opacity', that.linkOpacity) 
+                  selection.attr('opacity', that.linkOpacity)
                 }
               }
             }
