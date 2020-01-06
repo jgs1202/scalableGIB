@@ -28,9 +28,9 @@ class AOIPreprocess():
     def __init__(self, gaze_data):
         self.each_block = 20
         self.xvs, self.yvs, self.circles = [], [], []
-        self.ratio = 1
-        self.x_offset = 0
-        self.y_offset = 0
+        self.ratio = 2.15
+        self.x_offset = 247
+        self.y_offset = 138
         self.gaze_data = gaze_data
 
     def inpolygon(self, x, y, xs, ys):
@@ -43,23 +43,37 @@ class AOIPreprocess():
             return False
 
     def process(self):
+        print('processing...')
+        file_number = 0
+        self.gaze_data['AOI'] = 0
+        graph = load_graph(file_number)
+        self.set_group_data(graph)
         for i in range(len(self.gaze_data)):
-            block = int(data['RecordingName'][i][-1]) - 1
-            segment = int(data['SegmentName'][i][-1]) - 1
-            file_number = block * self.each_block + segment
-            graph = load_graph(file_number)
+            if i != 0 and i % int(len(self.gaze_data) / 100) == 0:
+                print(str(int(i / int(len(self.gaze_data) / 100))) + "% done...")
+            block = int(self.gaze_data['RecordingName'][i][-1]) - 1
+            try:
+                segment = int(self.gaze_data['SegmentName'][i][-2:]) - 1
+            except:
+                segment = int(self.gaze_data['SegmentName'][i][-1]) - 1
+            file_tmp = block * self.each_block + segment
+
+            if file_number != file_tmp:
+                graph = load_graph(file_number)
+                self.set_group_data(graph)
+                file_number = file_tmp
 
             if graph['layout'] == 'FDGIB':
                 layout_num = 0
             elif graph['layout'] == 'TRGIB':
                 layout_num = 1
 
-            self.set_group_data(graph)
-            self.set_AOI(graph)
-            print(self.gaze_data['AOI'])
+            self.set_AOI(graph, i)
+        self.gaze_data.to_csv('../data/data_with_AOI.csv')
 
     def set_group_data(self, graph):
-        for group in graph['groups']:
+        self.xvs, self.yvs, self.circles = [], [], []
+        for num, group in enumerate(graph['groups']):
             if group != graph['groups'][-1]:
                 x = group['x'] * self.ratio + self.x_offset
                 y = group['y'] * self.ratio + self.y_offset
@@ -68,27 +82,23 @@ class AOIPreprocess():
                 self.xvs.append([x, x + dx, x + dx, x])
                 self.yvs.append([y, y, y + dy, y + dy])
                 center = [x + dx / 2, y + dy / 2]
-                nodes = [node for node in graph['nodes'] if node['group'] == group['id']]
+                nodes = [node for node in graph['nodes'] if node['group'] == num]
                 coordinates = [[node['cx'] * self.ratio + self.x_offset, node['cy'] * self.ratio + self.y_offset] for node in nodes]
                 ds = [distance(coordinates[i], center) for i in range(len(coordinates))]
                 max_distance = max(ds)
                 self.circles.append([center[0], center[1], max_distance])
 
-    def set_AOI(self, graph):
-        self.gaze_data['AOI'] = 0
-        for fixation in range(0, len(self.gaze_data)):
-            x = self.gaze_data['FixationPointX (MCSpx)'][fixation]
-            y = self.gaze_data['FixationPointY (MCSpx)'][fixation]
-            for group in range(graph['groupSize']):
-                if pow(x - self.circles[group][0], 2) + pow(y - self.circles[group][1], 2) <= pow(self.circles[group][2], 2):
-                    self.gaze_data['AOI'][fixation] = - group
-                elif self.inpolygon(x, y, self.xvs[group], self.yvs[group]) and (pow(x - self.circles[group][0], 2) + pow(y - self.circles[group][1], 2) > pow(self.circles[group][2], 2)):
-                    self.gaze_data['AOI'][fixation] = group
+    def set_AOI(self, graph, index):
+        x = self.gaze_data['FixationPointX (MCSpx)'][index]
+        y = self.gaze_data['FixationPointY (MCSpx)'][index]
+        for group in range(graph['groupSize']):
+            if self.inpolygon(x, y, self.xvs[group], self.yvs[group]):
+                self.gaze_data['AOI'][index] = group + 1
 
 
 if __name__ == '__main__':
     path = '../data/data_dropona.csv'
-    path = '../data/analyze-gib-sample-data.csv'
+    # path = '../data/analyze-gib-sample-data.csv'
     data = read_csv(path)
     session = AOIPreprocess(data)
     session.process()

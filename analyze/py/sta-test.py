@@ -5,33 +5,36 @@ from scipy.stats import f_oneway, friedmanchisquare, shapiro, wilcoxon
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-layout_number = 2
+layouts_number = 2
+levels_number = 2
 
 
-def verify_layout(layout):
+def layout_num(layout):
     if layout == 'FDGIB':
         return 0
     elif layout == 'TRGIB':
         return 1
 
 
-def allocate(data):
-    output = [[[] for j in range(layout_number)] for i in range(layout_number)]
-    for task in range(len(data)):
-        for datum in data[task]:
-            output[task][verify_layout(datum['layout'])].append(datum)
-    return output
+def level_num(groupSize):
+    groupSize = int(groupSize)
+    if groupSize == 10:
+        return 0
+    elif groupSize == 40:
+        return 1
 
 
 def get_stalist(data):
-    means = [[[] for j in range(layout_number)] for i in range(layout_number)]
-    times = [[[] for j in range(layout_number)] for i in range(layout_number)]
-    for task in range(len(data)):
-        for layout in range(len(data[task])):
-            for datum in data[task][layout]:
-                means[task][layout].append(datum['correct'] / datum['people'] * 100)
-                times[task][layout].append(datum['meanTime'])
-    return means, times
+    means = [[[] for j in range(levels_number)] for i in range(layouts_number)]
+    correct_times = [[[] for j in range(levels_number)] for i in range(layouts_number)]
+    times = [[[] for j in range(levels_number)] for i in range(layouts_number)]
+    for layout in range(layouts_number):
+        for level in range(levels_number):
+            for datum in data[layout][level]:
+                means[layout][level].append(datum['correct'] / datum['people'] * 100)
+                times[layout][level].append(datum['totalMeanTime'])
+                correct_times[layout][level].append(datum['meanCorrectTime'])
+    return means, times, correct_times
 
 
 def box_graph(means, times, data):
@@ -76,27 +79,20 @@ def box_graph(means, times, data):
 
 
 def main():
-    data = json.load(open('../src/trajectory/perQuestion.json'))
-    allocated = allocate(data)
-    means, times = get_stalist(allocated)
+    data = json.load(open('../data/perQuestion.json'))
+    means, times, correct_times = get_stalist(data)
 
-    all_data = json.load(open('../flaski/answers.json'))
-    # print(len(all_data[1][0]['answer']), len(all_data[1][1]['answer']), len(all_data[1][2]['answer']), len(all_data[1][3]['answer']))
-    # print(friedmanchisquare(all_data[0][0]['answer'], all_data[0][1]['answer'], all_data[0][2]['answer'], all_data[0][3]['answer']))
-    # print(friedmanchisquare(all_data[1][0]['answer'], all_data[1][1]['answer'], all_data[1][2]['answer'], all_data[1][3]['answer']))
-    # print(friedmanchisquare(all_data[2][0]['answer'], all_data[2][1]['answer'], all_data[2][2]['answer'], all_data[2][3]['answer']))
-    # print(friedmanchisquare(all_data[3][0]['answer'], all_data[3][1]['answer'], all_data[3][2]['answer'], all_data[3][3]['answer']))
+    all_data = json.load(open('../data/answers.json'))
+    print(friedmanchisquare(all_data[0][0]['answer'], all_data[1][0]['answer']))
+    print(friedmanchisquare(all_data[0][1]['answer'], all_data[1][1]['answer']))
 
-    # print(friedmanchisquare(all_data[0][0]['time'], all_data[0][1]['time'], all_data[0][2]['time'], all_data[0][3]['time']))
-    # print(friedmanchisquare(all_data[1][0]['time'], all_data[1][1]['time'], all_data[1][2]['time'], all_data[1][3]['time']))
-    # print(friedmanchisquare(all_data[2][0]['time'], all_data[2][1]['time'], all_data[2][2]['time'], all_data[2][3]['time']))
-    # print(friedmanchisquare(all_data[3][0]['time'], all_data[3][1]['time'], all_data[3][2]['time'], all_data[3][3]['time']))
+    print(friedmanchisquare(all_data[0][0]['time'], all_data[1][0]['time']))
+    print(friedmanchisquare(all_data[0][1]['time'], all_data[1][1]['time']))
 
-    for i in range(len(all_data)):
-        for j in range(len(all_data[i])):
-            for k in range(len(all_data[i][j]['time'])):
-                all_data[i][j]['answer'][k] *= 100
-
+    # for layout in range(len(all_data)):
+    #     for level in range(len(all_data[layout])):
+    #         for que in range(len(all_data[layout][level])):
+    #             print(len(all_data[layout][level][que]))
     box_graph(means, times, all_data)
     # print('time')
     # print(wilcoxon(all_data[3][0]['time'], all_data[3][1]['time']))
