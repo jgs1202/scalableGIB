@@ -13,7 +13,7 @@
           </el-row>
           <br><br>
           <el-row :gutter='20' v-if='nextPage != null'>
-            <el-col :span='10' :offset="7"> 
+            <el-col :span='10' :offset="7">
               <el-alert :closable=false :center=true title="Press space to start experiments." type="success">
               </el-alert>
             </el-col>
@@ -37,6 +37,14 @@ export default {
       age: null,
       gender: "Male",
       nextPage: null,
+      optionHistgram: {
+        titile: "データ解析を行いますか？\n実験中は行わないでください",
+        icon: "warning",
+        buttons: {
+          cancel: "Cancel",
+          ok: true
+        }
+      }
     }
   },
   mounted: function() {
@@ -48,6 +56,7 @@ export default {
         setTimeout(that.toWhite, 2000)
       }
     }
+    window.addEventListener('keyup', that.goHistgram)
   },
   methods: {
     send: function(event) {
@@ -68,6 +77,16 @@ export default {
         this.$parent.level = 1
         this.nextPage = 'tutorial'
         window.addEventListener('keyup', this.submit, false)
+    },
+    goHistgram: function(event) {
+      if (event.keyCode == 72) {
+        swal(that.optionHistgram).then(function(val) {
+          if (val) {
+            window.removeEventListener('keyup', that.goHistgram)
+            this.$parent.currentPage = 'histgram'
+          }
+        })
+      }
     },
     submit: function(event) {
       // console.log('key')

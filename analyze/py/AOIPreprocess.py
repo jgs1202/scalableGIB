@@ -42,15 +42,26 @@ class AOIPreprocess():
         else:
             return False
 
+    def delete_data(self):
+        rmList = ['StudioVersionRec', 'StudioProjectName', 'RecordingResolution', 'MediaPosX (ADCSpx)', 'MediaPosY (ADCSpx)', 'LocalTimeStamp', 'EyeTrackerTimestamp', 'SaccadicAmplitude', 'AbsoluteSaccadicDirection', 'RelativeSaccadicDirection', 'GazePointIndex', 'GazePointLeftX (ADCSpx)', 'GazePointLeftY (ADCSpx)', 'GazePointRightX (ADCSpx)', 'GazePointRightY (ADCSpx)', 'GazePointLeftX (ADCSmm)', 'GazePointLeftY (ADCSmm)', 'GazePointRightX (ADCSmm)', 'GazePointRightY (ADCSmm)', 'StrictAverageGazePointX (ADCSmm)', 'StrictAverageGazePointY (ADCSmm)', 'EyePosLeftX (ADCSmm)', 'EyePosLeftY (ADCSmm)', 'EyePosLeftZ (ADCSmm)', 'EyePosRightX (ADCSmm)', 'EyePosRightY (ADCSmm)', 'EyePosRightZ (ADCSmm)', 'DistanceLeft', 'DistanceRight', 'PupilLeft', 'PupilRight', 'ValidityLeft', 'ValidityRight']
+        for word in rmList:
+            self.gaze_data = self.gaze_data.drop(columns=word)
+
     def process(self):
         print('processing...')
         file_number = 0
+        self.delete_data()
         self.gaze_data['AOI'] = 0
+        self.gaze_data['AOIsBeforeFixation'] = 0
+        self.gaze_data['AOIsAfterFixation'] = 0
+
+        calc_margin = 100
         graph = load_graph(file_number)
         self.set_group_data(graph)
-        for i in range(len(self.gaze_data)):
-            if i != 0 and i % int(len(self.gaze_data) / 100) == 0:
-                print(str(int(i / int(len(self.gaze_data) / 100))) + "% done...")
+        for i in range(len(self.gaze_data) - calc_margin):
+            if len(self.gaze_data) > 100:
+                if i != 0 and i % int(len(self.gaze_data) / 10) == 0:
+                    print(str(int(i / int(len(self.gaze_data) / 100))) + "% done...")
             block = int(self.gaze_data['RecordingName'][i][-1]) - 1
             try:
                 segment = int(self.gaze_data['SegmentName'][i][-2:]) - 1
@@ -58,8 +69,9 @@ class AOIPreprocess():
                 segment = int(self.gaze_data['SegmentName'][i][-1]) - 1
             file_tmp = block * self.each_block + segment
 
+            # print(file_tmp, file_number, block, segment, self.gaze_data['SegmentName'][i][-2:])
             if file_number != file_tmp:
-                graph = load_graph(file_number)
+                graph = load_graph(file_tmp)
                 self.set_group_data(graph)
                 file_number = file_tmp
 
@@ -69,6 +81,10 @@ class AOIPreprocess():
                 layout_num = 1
 
             self.set_AOI(graph, i)
+        for i in range(len(self.gaze_data) - calc_margin):
+            if i != 0 and i % int(len(self.gaze_data) / 10) == 0:
+                print(str(int(i / int(len(self.gaze_data) / 100))) + "% done...")
+            self.set_move(i)
         self.gaze_data.to_csv('../data/data_with_AOI.csv')
 
     def set_group_data(self, graph):
@@ -93,10 +109,53 @@ class AOIPreprocess():
         y = self.gaze_data['FixationPointY (MCSpx)'][index]
         for group in range(graph['groupSize']):
             if self.inpolygon(x, y, self.xvs[group], self.yvs[group]):
+                if graph['groupSize'] < group + 1:
+                    print(graph['groupSize'], group + 1)
                 self.gaze_data['AOI'][index] = group + 1
+
+    def count_AOIs_in_a_time_window(self, index, direction, start, time_window):
+        # direction is 1 or -1
+        count = 0
+        step = 1
+        span = 0
+        old_AOI = self.gaze_data['AOI'][index]
+        while span < time_window:
+            try:
+                ref_start = self.gaze_data['RecordingTimestamp'][index + step * direction]
+                ref_end = ref_start + self.gaze_data['GazeEventDuration'][index + step * direction]
+
+                if direction == -1:
+                    span = abs(start - ref_start)
+                    if old_AOI != self.gaze_data['AOI'][index + step * direction]:
+                        old_AOI = self.gaze_data['AOI'][index + step * direction]
+                        if abs(start - ref_end) < time_window:
+                            count += 1
+
+                if direction == 1:
+                    span = abs(start - ref_end)
+                    if old_AOI != self.gaze_data['AOI'][index + step * direction]:
+                        old_AOI = self.gaze_data['AOI'][index + step * direction]
+                        if abs(start - ref_start) < time_window:
+                            count += 1
+                step += 1
+            except:
+                break
+        return count
+
+    def set_move(self, index):
+        time_window = 1000 * 2
+        start = self.gaze_data['RecordingTimestamp'][index]
+        duration = self.gaze_data['GazeEventDuration'][index]
+        end = start + duration
+        mid = int(start + duration / 2)
+
+        self.gaze_data['AOIsBeforeFixation'][index] = self.count_AOIs_in_a_time_window(index, -1, mid, time_window)
+        self.gaze_data['AOIsAfterFixation'][index] = self.count_AOIs_in_a_time_window(index, 1, mid, time_window)
 
 
 if __name__ == '__main__':
+    # path = '../data/scalable-gib-data-only-first.tsv'
+    # dropnull_data(path)
     path = '../data/data_dropona.csv'
     # path = '../data/analyze-gib-sample-data.csv'
     data = read_csv(path)
