@@ -1,0 +1,81 @@
+\begin{table*}
+
+  \caption{配布キットのファイル一覧}\label{tab:kit}
+  \begin{center}
+    \begin{tabular}{ll}
+      \verb+kuee.cls+ & 修論$\cdot$卒論用 \LaTeX2e{} クラスファイル \\
+      \verb+kueethesis.bst+ & 修論$\cdot$卒論用 \JBibTeX{} 文献スタイルファイル \\
+      \verb+sample.tex+ & 使用の手引(このドキュメント)を作るファイル \\
+      \verb+sample.bib+ & 使用の手引の参考文献を収めたファイル \\
+    \end{tabular}
+  \end{center}
+\end{table*}
+\kueeseparator
+ 
+\begin{figure*}
+
+  \begin{center}
+    \unitlength=1mm
+    \begin{picture}(100,100)(-50,-50)
+      \put(0,-50){\vector(0,1){100}}
+      \put(-50,0){\vector(1,0){100}}
+      \put(0,0){\makebox(0,0)[rt]{$o$}}
+      \put(50,0){\makebox(0,0)[lt]{$x$}}
+      \put(0,50){\makebox(0,0)[rb]{$y$}}
+      \put(0,0){\vector(2,1){30}}
+      \put(30,15){\makebox(0,0)[lt]{$\vec{a}$}}
+      \put(0,0){\vector(1,2){15}}
+      \put(15,30){\makebox(0,0)[lt]{$\vec{b}$}}
+      \thicklines
+      \put(0,0){\vector(1,1){45}}
+      \put(45,45){\makebox(0,0)[lt]{$\vec{a}+\vec{b}$}}
+    \end{picture}
+  \end{center}
+  \caption{figure 環境の例}
+  \label{fig:example}
+\end{figure*}
+\kueeseparator
+ 
+\clearpage
+\clearpage
+\clearpage
+\clearpage
+\clearpage
+\begin{table*}
+
+  \caption{本文ページのデフォルト・レイアウト}\label{tab:text}
+  \begin{center}
+    \begin{tabular}{|l|r|}
+      \hline
+      \verb+\textwidth+ & 424pt \\ \hline
+      \verb+\textheight+ & 604pt \\ \hline
+      \verb+\oddsidemargin+ & 0.5cm \\ \hline
+      \verb+\evensidemargin+ & 0.5cm \\ \hline
+      \verb+\topmargin+ & 0pt \\ \hline
+      \verb+\headheight+ &12pt \\ \hline
+      \verb+\headsep+ & 25pt \\ \hline
+      \verb+\footskip+ & 30pt \\ \hline
+    \end{tabular}
+  \end{center}
+\end{table*}
+\kueeseparator
+ 
+\begin{table*}
+
+  \caption{図・表ページのデフォルト・レイアウト}\label{tab:fig}
+  \begin{center}
+    \begin{tabular}{|l|r|}
+      \hline
+      \verb+\textwidth+ & 424pt + 1cm \\ \hline
+      \verb+\textheight+ & 604pt + 67pt \\ \hline
+      \verb+\oddsidemargin+ & 0pt \\ \hline
+      \verb+\evensidemargin+ & 0pt \\ \hline
+      \verb+\topmargin+ & 0pt \\ \hline
+      \verb+\headheight+ & 0pt \\ \hline
+      \verb+\headsep+ & 0pt \\ \hline
+      \verb+\footskip+ & 0pt \\ \hline
+    \end{tabular}
+  \end{center}
+\end{table*}
+\kueeseparator
+ 

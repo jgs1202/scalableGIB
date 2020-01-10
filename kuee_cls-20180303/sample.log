@@ -1,0 +1,208 @@
+This is e-pTeX, Version 3.14159265-p3.7.1-161114-2.6 (utf8.euc) (TeX Live 2017) (preloaded format=platex 2018.4.5)  6 JAN 2020 16:17
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**sample.tex
+(./sample.tex
+pLaTeX2e <2017/05/05> (based on LaTeX2e <2017-04-15>)
+Babel <3.10> and hyphenation patterns for 84 language(s) loaded.
+(./kuee.cls
+Document Class: kuee 2018/03/03
+(/usr/local/texlive/2017/texmf-dist/tex/platex/base/jreport.cls
+Document Class: jreport 2017/03/05 v1.7e Standard pLaTeX class
+\c@@paper=\count82
+(/usr/local/texlive/2017/texmf-dist/tex/platex/base/jsize12.clo
+File: jsize12.clo 2017/03/05 v1.7e Standard pLaTeX file (size option)
+)
+\c@part=\count83
+\c@chapter=\count84
+\c@section=\count85
+\c@subsection=\count86
+\c@subsubsection=\count87
+\c@paragraph=\count88
+\c@subparagraph=\count89
+\c@figure=\count90
+\c@table=\count91
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\symmincho=\mathgroup4
+LaTeX Font Info:    Overwriting symbol font `mincho' in version `bold'
+(Font)                  JY1/mc/m/n --> JY1/gt/m/n on input line 702.
+\toclineskip=\dimen118
+\@lnumwidth=\dimen119
+\bibindent=\dimen120
+\heisei=\count92
+)
+\@kuee@appseq=\count93
+\kuee@post=\write3
+\@kuee@open=\count94
+\@kuee@seq=\count95
+)
+(./sample.aux (./chapter1.aux))
+\openout1 = `sample.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <20.74> on input line 42.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <14.4> on input line 42.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 42.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 42.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 42.
+ [0]
+LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <17.28> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 43.
+LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <17.28> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 43.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <17.28> on input line 43.
+LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 43.
+LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 43.
+ [1
+
+
+]
+\clearpage
+LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <20.74> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 47.
+LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <20.74> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 47.
+(./sample.toc)
+\tf@toc=\write4
+\openout4 = `sample.toc'.
+
+ [2
+
+]
+\openout2 = `chapter1.aux'.
+
+ (./chapter1.tex
+\clearpage
+第{1}章.
+) [1
+
+
+]
+\clearpage
+第{2}章.
+\@kuee1chapter=\count96
+\@kuee1table=\count97
+\openout3 = `sample.fff'.
+
+(sample.fff) [2
+
+
+]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 109.
+
+ (/usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 109.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 110.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 110.
+
+[3]
+Overfull \hbox (57.31529pt too wide) in paragraph at lines 154--157
+[]\JY1/mc/m/n/12 本文は通常の \OT1/cmr/m/n/12 L[]T[]X \JY1/mc/m/n/12 のテキスト
+として記述します[][][][]． いくつかの点で \OT1/cmr/m/n/12 j-report/jreport/repo
+rt
+ []
+
+LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <14.4> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 158.
+LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <14.4> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 158.
+\@kuee2chapter=\count98
+\@kuee2figure=\count99
+[4]
+
+LaTeX Font Warning: Font shape `JT1/mc/m/sc' undefined
+(Font)              using `JT1/mc/m/n' instead on input line 258.
+
+
+LaTeX Font Warning: Font shape `JY1/mc/m/sc' undefined
+(Font)              using `JY1/mc/m/n' instead on input line 258.
+
+[5] [6]
+第{3}章.
+[7
+
+] (./sample.bbl [8
+
+]
+
+LaTeX Font Warning: Font shape `JT1/gt/m/it' undefined
+(Font)              using `JT1/gt/m/n' instead on input line 7.
+
+
+LaTeX Font Warning: Font shape `JY1/gt/m/it' undefined
+(Font)              using `JY1/gt/m/n' instead on input line 7.
+
+) [9
+
+]
+付 録{A} .
+
+Underfull \hbox (badness 10000) in paragraph at lines 347--347
+[][]\JY1/mc/m/sc/10 情報学研究科 知能情報学専攻 言語メデ ィ ア研 \OT1/cmr/m/n/1
+0 (\JY1/mc/m/sc/10 当時\OT1/cmr/m/n/10 )\JY1/mc/m/sc/10 ． 現在 ， 豊橋技術科学
+大学 ．
+ []
+
+\c@tsuaffil=\count100
+
+Underfull \hbox (badness 10000) in paragraph at lines 353--353
+[][]\JY1/mc/m/sc/10 情報学研究科 通信情報システム専攻 小野寺研 ． 現在 ， 滋賀
+県立大学 ．
+ []
+
+[10
+
+]
+付 録{B} .
+\@kuee3chapter=\count101
+\@kuee3table=\count102
+\@kuee4chapter=\count103
+\@kuee4table=\count104
+AED kuee: Processing end Figures and Tables [11
+
+] (./sample.fff [12]) [13]
+(./sample.aux (./chapter1.aux))
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 529 strings out of 493653
+ 6082 string characters out of 6148875
+ 65114 words of memory out of 5000000
+ 4160 multiletter control sequences out of 15000+600000
+ 20594 words of font info for 79 fonts, out of 8000000 for 9000
+ 929 hyphenation exceptions out of 8191
+ 28i,10n,25p,157b,451s stack positions out of 5000i,500n,10000p,200000b,80000s
+
+Output written on sample.dvi (16 pages, 30116 bytes).
