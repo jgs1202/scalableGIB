@@ -38,7 +38,7 @@ export default {
       gender: "Male",
       nextPage: null,
       optionHistgram: {
-        titile: "データ解析を行いますか？\n実験中は行わないでください",
+        title: "データ解析を行いますか？\n実験中は行わないでください",
         icon: "warning",
         buttons: {
           cancel: "Cancel",
@@ -49,6 +49,7 @@ export default {
   },
   mounted: function() {
     let that = this
+    console.log('menu mounted')
     var sync = document.getElementsByClassName('sync')
     for (let i = 0; i < sync.length; i++) {
       if (that.$parent.already == 1) {
@@ -79,17 +80,32 @@ export default {
         window.addEventListener('keyup', this.submit, false)
     },
     goHistgram: function(event) {
+      let that = this
       if (event.keyCode == 72) {
+        window.removeEventListener('keyup', that.submit)
         swal(that.optionHistgram).then(function(val) {
           if (val) {
             window.removeEventListener('keyup', that.goHistgram)
-            this.$parent.currentPage = 'histgram'
+            that.$parent.currentPage = 'histgram'
+          } else {
+            window.addEventListener('keyup', this.submit, false)
+          }
+        })
+      }
+      if (event.keyCode == 83) {
+        window.removeEventListener('keyup', that.submit)
+        swal(that.optionHistgram).then(function(val) {
+          if (val) {
+            window.removeEventListener('keyup', that.goHistgram)
+            that.$parent.currentPage = 'scarf'
+          } else {
+            window.addEventListener('keyup', this.submit, false)
           }
         })
       }
     },
     submit: function(event) {
-      // console.log('key')
+      console.log('submit')
       if (event.keyCode == 32) {
         if (this.nextPage == null) {
           swal("Choose a task.")

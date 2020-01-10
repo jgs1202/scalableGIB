@@ -9,6 +9,7 @@ import copy
 
 
 def layout_num(layout):
+    print(layout)
     if layout == 'FDGIB':
         return 0
     elif layout == 'TRGIB':
@@ -68,7 +69,7 @@ def main(fd_index):
         out_alldata[layout][level][que].append(datum)
         out_answers[layout][level]['answer'].append(datum['answer'])
         out_answers[layout][level]['all_time'].append(datum['time'])
-        if datum['answer'] == 1:
+        if datum['answer'] == str(1):
             out_answers[layout][level]['correct_time'].append(datum['time'])
 
     for layout in range(each_layout):

@@ -1,7 +1,7 @@
 import json
 import math
 from statistics import mean, stdev
-from scipy.stats import f_oneway, friedmanchisquare, shapiro, wilcoxon
+from scipy import stats
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -83,32 +83,38 @@ def main():
     means, times, correct_times = get_stalist(data)
 
     all_data = json.load(open('../data/answers.json'))
-    print(friedmanchisquare(all_data[0][0]['answer'], all_data[1][0]['answer']))
-    print(friedmanchisquare(all_data[0][1]['answer'], all_data[1][1]['answer']))
+    for layout in range(len(all_data)):
+        for level in range(len(all_data[layout])):
+            for answer in range(len(all_data[layout][level]['answer'])):
+                all_data[layout][level]['answer'][answer] = int(all_data[layout][level]['answer'][answer])
+            for time in range(len(all_data[layout][level]['all_time'])):
+                all_data[layout][level]['all_time'][time] = int(all_data[layout][level]['all_time'][time])
+            for time in range(len(all_data[layout][level]['correct_time'])):
+                all_data[layout][level]['correct_time'][time] = int(all_data[layout][level]['correct_time'][time])
 
-    print(friedmanchisquare(all_data[0][0]['time'], all_data[1][0]['time']))
-    print(friedmanchisquare(all_data[0][1]['time'], all_data[1][1]['time']))
+    print(mean(all_data[0][0]['answer']), mean(all_data[1][0]['answer']))
+    print(stats.mannwhitneyu(all_data[0][0]['answer'], all_data[1][0]['answer']))
+    print(mean(all_data[0][1]['answer']), mean(all_data[1][1]['answer']))
+    print(stats.mannwhitneyu(all_data[0][1]['answer'], all_data[1][1]['answer']))
+
+    print(mean(all_data[0][0]['correct_time']), mean(all_data[1][0]['correct_time']))
+    print(stats.mannwhitneyu(all_data[0][0]['correct_time'], all_data[1][0]['correct_time']))
+    print(mean(all_data[0][1]['correct_time']), mean(all_data[1][1]['correct_time']))
+    print(stats.mannwhitneyu(all_data[0][1]['correct_time'], all_data[1][1]['correct_time']))
 
     # for layout in range(len(all_data)):
     #     for level in range(len(all_data[layout])):
     #         for que in range(len(all_data[layout][level])):
     #             print(len(all_data[layout][level][que]))
-    box_graph(means, times, all_data)
-    # print('time')
-    # print(wilcoxon(all_data[3][0]['time'], all_data[3][1]['time']))
-    # print(wilcoxon(all_data[3][0]['time'], all_data[3][2]['time']))
-    # print(wilcoxon(all_data[3][0]['time'], all_data[3][3]['time']))
-    # print(wilcoxon(all_data[3][1]['time'], all_data[3][2]['time']))
-    # print(wilcoxon(all_data[3][1]['time'], all_data[3][3]['time']))
-    # print(wilcoxon(all_data[3][2]['time'], all_data[3][3]['time']))
+    print('time')
+    print(stats.wilcoxon(all_data[0][0]['all_time'], all_data[1][0]['all_time']))
+    print(stats.wilcoxon(all_data[0][1]['all_time'], all_data[1][1]['all_time']))
 
-    # print('accuracy')
-    # print(wilcoxon(all_data[3][0]['answer'], all_data[3][1]['answer']))
-    # print(wilcoxon(all_data[3][0]['answer'], all_data[3][2]['answer']))
-    # print(wilcoxon(all_data[3][0]['answer'], all_data[3][3]['answer']))
-    # print(wilcoxon(all_data[3][1]['answer'], all_data[3][2]['answer']))
-    # print(wilcoxon(all_data[3][1]['answer'], all_data[3][3]['answer']))
-    # print(wilcoxon(all_data[3][2]['answer'], all_data[3][3]['answer']))
+    print('accuracy')
+    print(stats.wilcoxon(all_data[0][0]['answer'], all_data[1][0]['answer']))
+    print(stats.wilcoxon(all_data[0][1]['answer'], all_data[1][1]['answer']))
+
+    box_graph(means, times, all_data)
 
     # for i in range(len(all_data)):
     #     for j in range(len(all_data[i])):
