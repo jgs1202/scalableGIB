@@ -176,7 +176,14 @@ export default {
           .attr('y', scarf.margin_top + person / scarf.data.length * scarf.height + scarf.eachHeight / 4 * 3)
           .attr("font-family", "sans-serif")
           .attr("font-size", "12px")
-          .attr("fill", "black");
+          .attr("fill", function(d, i) {
+            console.log(scarf.data[person])
+              if (scarf.data[person].answer == 1) {
+                return 'blue'
+              } else {
+                return 'red'
+              }
+          })
       }
 
       d3.select('svg').append('g')
@@ -227,7 +234,7 @@ export default {
           .data(a)
           .enter().append("text")
           .text('AOIs')
-          .attr('x', scarf.legend.left + 10)
+          .attr('x', scarf.legend.left + 6)
           .attr('y', function(d, num){
             return scarf.legend.top - 10
           })

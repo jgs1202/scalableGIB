@@ -1,17 +1,114 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
-\bibitem{GuideBook}
-奥村晴彦, 黒木裕介, \LaTeX2e{}美文書作成入門, (技術評論社, 2017), 改訂7版.
+\bibitem{harel2000fast}
+David Harel and Yehuda Koren, A fast multi-scale method for drawing large
+  graphs, {\em International symposium on graph drawing\/}, (Springer, 2000),
+  pp. 183--196.
 
-\bibitem{LaTeX}
-Leslie Lamport, {\em {\LaTeX \rm:} {A} Document Preparation System\/},
-  (Addison-Wesley, 1986), (邦訳：『文書処理システム {\LaTeX}』 Edgar Cooke,
-  倉沢良一 監訳, 大野俊治, 小暮博道, 藤浦はる美 訳, アスキー， 1990年).
+\bibitem{koren2003drawing}
+Yehuda Koren, Liran Carmel, and David Harel, Drawing huge graphs by algebraic
+  multigrid optimization, {\em Multiscale Modeling \& Simulation\/}, Vol.~1,
+  No.~4, (2003), pp. 645--673.
 
-\bibitem{OldTebiki}
-傳康晴, 修論・卒論作成の手引き, (1991年11月25日版).
+\bibitem{hachul2004drawing}
+Stefan Hachul and Michael J{\"u}nger, Drawing large graphs with a
+  potential-field-based multilevel algorithm, {\em International Symposium on
+  Graph Drawing\/}, (Springer, 2004), pp. 285--295.
 
-\bibitem{Tebiki2004}
-土屋雅稔, 修論・卒論作成の手引き, (2004年1月21日版).
+\bibitem{giacomo}
+Emilio Di~Giacomo, Walter Didimo, Giuseppe Liotta, and Fabrizio Montecchiani,
+  Area requirement of graph drawings with few crossings per edge, Vol.~46,
+  (2013), pp. 909--916.
+
+\bibitem{Newman:2010:NI:1809753}
+Mark Newman, {\em Networks: An Introduction\/}, (Oxford University Press, Inc.,
+  New York, NY, USA, 2010).
+
+\bibitem{girvan2002community}
+Michelle Girvan and Mark~EJ Newman, Community structure in social and
+  biological networks, {\em Proceedings of the national academy of sciences\/},
+  Vol.~99, No.~12, (2002), pp. 7821--7826.
+
+\bibitem{newman2004detecting}
+Mark~EJ Newman, Detecting community structure in networks, {\em The European
+  Physical Journal B\/}, Vol.~38, No.~2, (2004), pp. 321--330.
+
+\bibitem{Vehlow2017VisualizingGS}
+Corinna Vehlow, Fabian Beck, and Daniel Weiskopf, Visualizing group structures
+  in graphs: A survey, {\em Comput. Graph. Forum\/}, Vol.~36, (2017), pp.
+  201--225.
+
+\bibitem{doi:10.1177/1473871612455749}
+Helen Gibson, Joe Faith, and Paul Vickers, A survey of two-dimensional graph
+  layout techniques for information visualisation, {\em Information
+  Visualization\/}, Vol.~12, No. 3-4, (2013), pp. 324--357.
+
+\bibitem{saket2014group}
+Bahador Saket, Paolo Simonetto, and Stephen Kobourov, Group-level graph
+  visualization taxonomy, {\em arXiv preprint arXiv:1403.7421\/}, (2014).
+
+\bibitem{onoue2017optimal}
+Yosuke Onoue and Koji Koyamada, Optimal tree reordering for group-in-a-box
+  graph layouts, {\em SIGGRAPH Asia 2017 Symposium on Visualization\/}, (ACM,
+  2017), p.~13.
+
+\bibitem{chaturvedi2014group}
+Snigdha Chaturvedi, Cody Dunne, Zahra Ashktorab, R~Zachariah, and Ben
+  Shneiderman, Group-in-a-box meta-layouts for topological clusters and
+  attribute-based groups: Space-efficient visualizations of network communities
+  and their ties, {\em Computer Graphics Forum\/}, Vol.~33, (Wiley Online
+  Library, 2014), pp. 52--68.
+
+\bibitem{bruls2000squarified}
+Mark Bruls, Kees Huizing, and Jarke~J Van~Wijk, Squarified treemaps, {\em Data
+  visualization 2000\/}, (Springer, 2000), pp. 33--42.
+
+\bibitem{andrienko2012visual}
+Gennady Andrienko, Natalia Andrienko, Michael Burch, and Daniel Weiskopf,
+  Visual analytics methodology for eye movement studies, {\em IEEE Transactions
+  on Visualization and Computer Graphics\/}, Vol.~18, No.~12, (2012), pp.
+  2889--2898.
+
+\bibitem{duchowski2007eye}
+Andrew~T Duchowski, Eye tracking methodology, {\em Theory and practice\/}, Vol.
+  328, (2007).
+
+\bibitem{kurzhals2014evaluating}
+Kuno Kurzhals, Brian Fisher, Michael Burch, and Daniel Weiskopf, Evaluating
+  visual analytics with eye tracking, {\em Proceedings of the Fifth Workshop on
+  Beyond Time and Errors: Novel Evaluation Methods for Visualization\/}, (ACM,
+  2014), pp. 61--69.
+
+\bibitem{schneider2012nih}
+Caroline~A Schneider, Wayne~S Rasband, and Kevin~W Eliceiri, Nih image to
+  imagej: 25 years of image analysis, {\em Nature methods\/}, Vol.~9, No.~7,
+  (2012), p. 671.
+
+\bibitem{schindelin2012fiji}
+Johannes Schindelin, Ignacio Arganda-Carreras, Erwin Frise, Verena Kaynig, Mark
+  Longair, Tobias Pietzsch, Stephan Preibisch, Curtis Rueden, Stephan Saalfeld,
+  Benjamin Schmid, et~al., Fiji: an open-source platform for biological-image
+  analysis, {\em Nature methods\/}, Vol.~9, No.~7, (2012), p. 676.
+
+\bibitem{carpenter2006cellprofiler}
+Anne~E Carpenter, Thouis~R Jones, Michael~R Lamprecht, Colin Clarke, In~Han
+  Kang, Ola Friman, David~A Guertin, Joo~Han Chang, Robert~A Lindquist, Jason
+  Moffat, et~al., Cellprofiler: image analysis software for identifying and
+  quantifying cell phenotypes, {\em Genome biology\/}, Vol.~7, No.~10, (2006),
+  p. R100.
+
+\bibitem{Chen491035}
+Jianxu Chen, Liya Ding, Matheus~P. Viana, Melissa~C. Hendershott, Ruian Yang,
+  Irina~A. Mueller, and Susanne~M. Rafelski, The allen cell structure
+  segmenter: a new open source toolkit for segmenting 3d intracellular
+  structures in fluorescence microscopy images, {\em bioRxiv\/}, (2018).
+
+\bibitem{eades84}
+P.~Eades, A heuristic for graph drawing, {\em Congressus Numerantium\/},
+  Vol.~42, (1984), pp. 149--160.
+
+\bibitem{Kobourov2013ForceDirectedDA}
+Stephen~G. Kobourov, Force-directed drawing algorithms, {\em Handbook of Graph
+  Drawing and Visualization\/}, (2013), pp. 383--408.
 
 \end{thebibliography}

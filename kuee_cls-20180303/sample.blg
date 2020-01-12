@@ -1,48 +1,50 @@
 This is pBibTeX, Version 0.99d-j0.33 (utf8.euc) (TeX Live 2017)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: sample.aux
-A level-1 auxiliary file: chapter1.aux
 The style file: kueethesis.bst
 Database file #1: sample.bib
-You've used 4 entries,
+Warning--empty journal in giacomo
+Warning--can't use both volume and number fields in chaturvedi2014group
+You've used 22 entries,
             2383 wiz_defined-function locations,
-            580 strings with 4266 characters,
-and the built_in function-call counts, 732 in all, are:
-= -- 59
-> -- 19
-< -- 0
-+ -- 9
-- -- 5
-* -- 18
-:= -- 112
-add.period$ -- 4
-call.type$ -- 4
-change.case$ -- 2
+            703 strings with 8066 characters,
+and the built_in function-call counts, 8404 in all, are:
+= -- 782
+> -- 253
+< -- 39
++ -- 99
+- -- 77
+* -- 453
+:= -- 1008
+add.period$ -- 22
+call.type$ -- 22
+change.case$ -- 21
 chr.to.int$ -- 0
-cite$ -- 4
-duplicate$ -- 54
-empty$ -- 73
-format.name$ -- 10
-if$ -- 174
+cite$ -- 24
+duplicate$ -- 538
+empty$ -- 698
+format.name$ -- 154
+if$ -- 2115
 int.to.chr$ -- 0
-int.to.str$ -- 4
-missing$ -- 4
-newline$ -- 15
-num.names$ -- 4
-pop$ -- 33
+int.to.str$ -- 22
+missing$ -- 23
+newline$ -- 69
+num.names$ -- 22
+pop$ -- 138
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 40
+skip$ -- 525
 stack$ -- 0
-substring$ -- 0
-swap$ -- 1
-text.length$ -- 0
+substring$ -- 448
+swap$ -- 195
+text.length$ -- 39
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 0
-while$ -- 4
-width$ -- 5
-write$ -- 42
-is.kanji.str$ -- 32
+warning$ -- 2
+while$ -- 64
+width$ -- 24
+write$ -- 259
+is.kanji.str$ -- 268
+(There were 2 warnings)
