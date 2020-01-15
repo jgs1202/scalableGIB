@@ -6,6 +6,7 @@ from pyomo.opt import SolverFactory
 from squarify import squarify, normalize_sizes, squarify_tree_structure
 from define_model import Kx, K_group
 from define_model import define_model, get_x_coord, get_y_coord
+import sys
 
 
 def run(graph_data, width, height, outfile):
@@ -50,6 +51,9 @@ def run(graph_data, width, height, outfile):
         'dx': width,
         'dy': height,
     })
+    for i in range(len(opt_tree) - 1):
+        if 'name' in graph_data['groups'][i]:
+            opt_tree[i]['name'] = graph_data['groups'][i]['name']
     graph_data['groups'] = opt_tree
     for link in graph_data['links']:
         link['value'] = 1

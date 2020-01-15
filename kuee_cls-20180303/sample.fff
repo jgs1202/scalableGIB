@@ -19,3 +19,45 @@
 \clearpage
 \clearpage
 \clearpage
+\begin{table*}
+[b]
+  \begin{center}
+  \caption{実験1のデータ生成に用いたパラメータ}
+  \label{tab:parameters}
+  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|} \hline
+  $m_{\text{mean}}$ & $m_{\text{stdev}}$ & $m_{\text{min}}$ & $m_{\text{max} }$ & $V_{\text{mean}}$ & $V_{\text{stdev}}$ & $V_{\text{min}}$ & $p_{\text{in}}$ & $p_{\text{group}}$ & $p_{\text{bridge}}$ & $p_{\text{out}}$ \\ \hline
+  11.4 & 5.4 & 6 & 17 & 21.0 & 14.12 & 4 & 0.0858 & 0.06 & 0.015 & 0.0006\\ \hline
+  \end{tabular}
+  \end{center}
+\end{table*}
+\kueeseparator
+ 
+\begin{figure*}
+
+  \centering
+  \label{fig:computation_4layout}
+  \includegraphics[width=15cm]{./images/4sta.png}
+  \caption{実験1で用いたグラフにおける可読性に影響を与える指標の計算結果}
+\end{figure*}
+\kueeseparator
+ 
+\begin{figure*}
+
+  \centering
+  \label{fig:screenshot_ex1}
+  \includegraphics[width=15cm]{./images/screenshot.png}
+  \caption{実験1のスクリーンショット。タスク2において一番大きいグループを選ぶ問題である。大きいグループをクリックしエンターを押すことで解答が送信される。}
+\end{figure*}
+\kueeseparator
+ 
+\begin{figure*}
+
+  \centering
+  \label{fig:result_ex1}
+  \includegraphics[width=15cm]{./images/8sta.png}
+  \caption{実験1のタスク結果を箱ひげ図で表したもの。上段はタスクの正答率、下段は完了時間を示す。}
+\end{figure*}
+\kueeseparator
+ 
+\clearpage
+\clearpage

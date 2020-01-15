@@ -2,6 +2,7 @@
 \renewcommand{\include}[1]{}
 \renewcommand\documentclass[2][]{}
 \usepackage[dvipdfmx]{graphicx}
+\usepackage{amsmath}
 
 \title{\LaTeX を用いた修論$\cdot$卒論の執筆}
 \etitle{Usage of The \LaTeX{} Style File for KUEE}
@@ -114,7 +115,7 @@ GIBは各グループに属するノードがノード数に比例した大き�
 しかし、理化学研究所の研究員らが元来グループを箱として表現していたことから、GIBは研究目的に沿うものだと判断した。
 
 GIBは表現型特徴ネットワークを表すのに適したレイアウトであるが、種類が多いためにどのレイアウトが一番有効であるか分かっていない。
-いくつかの研究\cite{onoue2017optimal,chaturvedi2014group}で、計算的実験によりGIBが評価されているが、我々の知る限りユーザー実験によりGIBを評価した研究は未だ存在しない。
+いくつかの研究\cite{onoue2017optimal,chaturvedi2014group}で、計算的実験と小規模なユーザー実験によりGIBが評価されているが、我々の知る限りユーザー実験によりGIBを評価した研究は未だ存在しない。
 上述したようにいくつかの計算可能な指標がグラフの可読性に影響することが分かっている\cite{harel2000fast,koren2003drawing,hachul2004drawing,giacomo}が、グラフの理解には人間の認知の観点からも様々な未解明の要因が影響するため、ユーザー実験を通した評価の必要性は高い。
 
 以上のことから、我々は2種https://ja.overleaf.com/project/5b990a8b21b7c041ba8d08ba類のユーザー実験を行い、4種のGIBのうちどのレイアウトが最もデータ駆動型科学において表現型ネットワーク解析に有効かを検証する。
@@ -203,91 +204,436 @@ Vehlowらは複雑ネットワークの可視化手法に関する調査論文�
 ある2つのグループの中に包含関係があることもあり、これの有無が階層構造性となる。
 Vehlowらは今までに提案された複雑ネットワーク向けの可視化手法のそれぞれのカテゴリに分けて紹介している。
 
+GIBレイアウトも複雑ネットワークを可視化視する手法の一つである\cite{rodrigues2011group,chaturvedi2014group,onoue2017optimal}。
+GIBには主に4つの種類(ST-GIB, CD-GIB, FD-GIB, TR-GIB)があり、本研究ではこれらを対象として比較実験を行う。
+GIBはそれぞれのグループにスクリーン画面を割り当てて別箇に描画できるため、同一グループ内のネットワークを観察することが容易になる。
+またグループを囲う箱の面積がグループに属するノードの数に比例しているため、グループの大きさも表現することができる。
+Vehlowらの分類においては、当手法は上書き、重複性無し、階層構造性無しというカテゴリに分類される。
+重複性無し、階層構造性無し、という性質の複雑ネットワーク向けにはいくつかの手法が紹介されている\cite{chaturvedi2014group,henry2007nodetrix,shneiderman2006network,bach2013graphdiaries,dekker2001visualisation}。
+この内グループ情報の符号化に色のみを用いるものや、グループ情報をネットワークと分離して表現するものはGIBよりも効果的でないと考えられる。
+遷移行列を用いたものは本研究の意義に沿わない。
+同一グループを図形で囲う上書き方式が有効であり、その中でも計算的にグループの配置を調整しやすい四角形で囲んだもの、即ちGIBが一番有効であると考える。
 
-% The GIB layout is also a visualization for group structure; it is presented in~\cite{rodrigues2011group,chaturvedi2014group,onoue2017optimal}.
-% % There are 4 major variants of GIB, which we consider in this research: ST-GIB, CD-GIB, FD-GIB, and TR-GIB.
-% % This layout has the advantage of visualizing each group in a clearly separate way, which allows the observation of the relationship between two nodes in the same group easily.
-% % It can also show a group size visually with the area of a rectangular.
-% This method is categorized as a superimposed visualization and is best for networks without group overlapping in Vehlow's taxonomy. ST-GIB and TR-GIB can be also applied for networks with hierarchical structure.
-% % An example of network data in which GIB is effective is Twitter data with some groups defined with the user locations because their locations cannot overlap.
-% Chaturvedi et al.~\cite{chaturvedi2014group} compared three types of GIBs: ST-GIB, CD-GIB, and FD-GIB, by calculating several objective measures: edge-box overlap, percent screen space wasted, execution time, and mean group-box aspect ratio.
-% They also provide several case studies.
-% % They observed strong differences in the computational measures among the three layouts; especially, FD-GIB is good at reducing the number of edge-box overlaps but not at saving screen space.
+少なくとも4種類あるGIBのうちいくつかは、計算的指標により評価がされている。
+ChaturvediらはST-GIB, CD-GIB, FD-GIBの三種を309のTwitterネットワークを用いて、エッジと箱の交差数、スクリーン画面の使用効率、計算時間、平均の箱のアスペクト比を計算することにより比較した\cite{chaturvedi2014group}。
+またその予備実験としてST-GIBとCD-GIBを9人の被験者を用いて4つのタスクにおいてその使いやすさを0 - 9のスコアで被験者に評価してもらった。
+予備位実験ではCD-GIBの方が使いやすいという結果が出ている。
+計算実験では三種類のレイアウト間で優位な差が確認されている。
+FD-IGBはエッジと箱の交差数が少ないという利点があったが、スクリーン画面を浪費していた。
+CD-GIBは計算時間が短く、ST-GIBはスクリーン画面の使用効率がよかった。
+しかし、予備実験はタスクにおいて精度などの指標を用いてない他、計算実験では多数のエッジを一本にまとめて描いたグラフを使用していて信頼性に欠けるなど、評価の点では問題がある。
+尾上と小山田はTR-GIBの有効性を示すため、計算によりTR-GIBによりグループの近接性（重み付けたエッジの長さの総和）が小さくなることを示しているが、他手法と比較したわけではなくユーザー実験も行っていない\cite{onoue2017optimal}。
 
-% Although such objective evaluation is effective, it is insufficient because certain hidden factors such as human cognition also influence readability. A user study in which participants use the graphs to complete multiple tasks could facilitate a more-thorough discussion of the layout's effectiveness and appropriately evaluate GIBs while considering such hidden factors.
-% The algorithm proposed by Didimo and Montecchiani~\cite{6295786} also produces a good layout for visualizing group structure with arranging groups in boxes; however, this looks similar to FD-GIB.
-% For the sake of easy comparisons, we focus on only four GIB layouts in this study.
+計算指標による可視化の有効性評価は効果的であるが、グラフの可読性は複雑な人間の認知の観点からも考える必要があり、手法の有効性を根拠づけるには不十分である。
+複数レイアウトを用いて被検者に特定のタスクを行わせるユーザー実験を行うことで、レイアウトの有効性をより実践的に評価することができる他、人間の認知といった計算では網羅できない観点も考慮することが可能となる。
+DidimoとMontecchianiはforce-directed レイアウトに基づく良いGIBレイアウトを提案しているが\cite{6295786}、可視化結果が今回対象となるFD-GIBに酷似しているため、今回の実験対象からは外している。
 
-% \subsection{アイトラッキングシステムによる可視化の評価}
-% \label{sec:evaluation_with_eyetracking}
-% Several studies have evaluated visualization techniques through eye tracking~\cite{burch2011evaluation,pohl2009comparing,netzel2014comparative,jianu2014display,7539393}, which have been widely used to collect gaze data and measure the participants' visual attention~\cite{andrienko2012visual,duchowski2007eye,kurzhals2014evaluating}.
-% Such systems are often used to analyze how well participants perform in a user study. Researchers can elicit clues about why one visualization is better than another by analyzing gaze data.
 
-% Burch et al.\ evaluated three variants of tree diagrams through eye tracking~\cite{burch2011evaluation}.
-% %They gave participants a task to find the least common ancestor of a set of given nodes. They collected gaze data as well as task accuracy and completion time, and they analyzed it using techniques designed for the analysis of gaze data, such as trajectory map, heat map, and gaze flow between a pair of areas of interest (AOIs).
-% Their analysis of eye-tracking data explained why the task-completion results differed, as they found that the task with the layout with the least accuracy required users to look over complex cross-check trajectories.
+\section{視線追跡システムによる可視化の評価}
+\label{sec:evaluation_with_eyetracking}
+視線追跡システムは視線データとユーザーの注意点を記録するため、ヒューマンコンピューターインタラクションの分野で広く用いられている\cite{andrienko2012visual,duchowski2007eye,kurzhals2014evaluating}。
+可視化の評価に視線追跡システムを用いた研究はいくつかある\cite{burch2011evaluation',pohl2009comparing,netzel2014comparative,jianu2014display,7539393}。
+こうした研究では、ユーザー実験中に視線データを記録ことで被験者がスクリーンのどの部分に注目しタスクを行なったかを議論している。
+視線追跡データを解析することにより、実験で観測された差が生まれた理由についての糸口が得られる。
 
-% Several studies provide guidelines on the visual analytics of eye-tracking data~\cite{andrienko2012visual,kurzhals2014evaluating,duchowski2007eye}.
-% Eye-tracking datasets are often very large and difficult to analyze; hence, spatiotemporal gaze data requires specific methodologies for analysis.
-% Burch et al.\ mentioned two methods for analyzing gaze data~\cite{Burch2013VisualTS}, focusing on either areas of interest (AOIs) or gaze trajectories.
-% Since early studies, researchers have known that although AOI plays a crucial role in the analysis process of eye movement data, people concentrate on interesting and informative regions of a display~\cite{yarbus1967eye}.
-% GIB divides the screen into boxes that are naturally regarded as AOIs. Thus, AOI analysis was also used in the present study as it is particularly in the analysis conducted herein.% For effective and meaningful analytics, it is important to know what kind of methods are most appropriate, and these studies can give researchers some hints.
-% % We collect gaze data during the tasks in order to reveal which elements in a visualization affect performance.
-% % We suppose that this study becomes more meaningful by following these analysis methods.
+Burchらはツリーダイアグラム可視化手法の3種類を視線追跡システムを用いて評価した\cite{burch2011evaluation}.
+彼らは与えられたノードの最低次共通親ノードを探すというタスクを探すというタスクを用いてユーザー実験を行なった。
+実験中は正答率と完了時間に加え視線追跡データが記録され、Burchらは様々な手法をもって視線データを可視化し解析を行なった。
+可視化には、軌跡マップやヒートマップ、関心領域(AOI)間の視線フロー図などが用いられた。
+AOI(Area of Interest)は生命科学分野でよく用いられる考え方で、画像中の特定の領域に符号を割り当てたものである。
+実験中にAOIを割り当てることで各AOI毎にデータ分析が可能になる。
+視線追跡データを解析することにより、Burchらは異なる可視化手法間でタスク結果が異なった理由について考察している。
+正答率が一番低かったレイアウトにおいては被験者が頻繁にクロスチェックをしていて、解答に迷っている様子が観察された。
 
-% \section{GIB Layouts}
-% %{}
-% This section describes the four evaluated GIB variants, examples of which are shown in Figure~\ref{GIB-examples}.
-% Each graph in this figure has a different GIB layout, but all layouts are representations of the same network data.
-% As regards evaluation, Chaturvedi et al.\ have performed a computational experiment on three of these layouts: ST-GIB, CD-GIB, and FD-GIB \cite{chaturvedi2014group}.
-% Onoue et al.\ showed that TR-GIB is advantageous over ST-GIB in terms of computational measures \cite{onoue2017optimal}.
-% Our target layouts are the four abovementioned layouts which need to be evaluated from the perspective of human cognition through user experiment.
-% % We use the force-directed layout to draw network within a group, but it is also possible to use other methods.
+こうした解析方法についてガイドラインを提供している研究もある\cite{andrienko2012visual,kurzhals2014evaluating,duchowski2007eye}.
+時空間的スケールを持つ視線追跡データは量が膨大であり、解析にも特殊な方法を要する。
+Burchらは視線データを解析する方法には二つの種類があると言及している\cite{Burch2013VisualTS}.
+一つはAOIに基づいたもので、二つ目は視線の軌跡に基づいたものである。
+ユーザーは興味のある領域や情報的に有益な領域に集中するがために、AOIが視線データ解析に重要だという事は古くから知られていた\cite{yarbus1967eye}.
+GIBはスクリーンにいくつかの箱を配置する。
+これらの箱は自然とAOIの役割を果たすため、本研究においてAOIに基づいたアプローチは視線データ解析に有効であると考える。
+本研究ではGIBレイアウト間でユーザー実験に差が出た理由を明らかにするために視線追跡システムを用いる。
 
-% \subsection{ST-GIB}
-% The squarified treemap GIB (ST-GIB) (Figure~\ref{GIB-examples}(a)) proposed by Rodrigues et al.~\cite{rodrigues2011group} is based on the squarified treemap algorithm developed by Bruls et al.~\cite{bruls2000squarified}.
-% Bruls et al.'s method was originally designed for tree mapping, which is a visualization method that considers rectangular regions and numerical columns as inputs to divide a region into tiles, whose areas are proportional to their values~\cite{shneiderman1992tree}.
+\chapter{GIB Layouts}
+\label{chap:GIBs}
 
-% In ST-GIB, each group is considered a vertex of the treemap and is depicted in the shape of a tile with nodes belonging to the group.
-% The treemap algorithm facilitates a space-filling arrangement with boxes having low aspect ratios, which is important for analyzing the box's content~\cite{bruls2000squarified}.
-% However, the ST-GIB layout exclusively uses the squarified treemap algorithm to arrange groups; hence, the relationships among nodes are not considered when drawing the tiles.
-% As a result, links frequently overlap, significantly hampering the user's understanding of the network~\cite{468391,purchase1997aesthetic,purchase1998performance,purchase2002empirical}.
-% To arrange tiles using ST-GIB, we utilized the squarify Python library (https://github.com/laserson/squarify) that implements Bruls' algorithm. This method arranges the boxes in order of box size, which simplifies the comparison of group sizes for users.
+本章では評価の対象となる4種類のGIBについて記述する。
+図\ref{fig:example_GIB}は対象となるGIBの例を示したものである。
+図\ref{fig:example_GIB}の各図はレイアウトは異なるものの同じネットワークデータを可視化したものである。
+これらのレイアウトはChaturvediら\cite{chaturvedi2014group}と尾上及び小山田\cite{onoue2017optimal}がいくつかの計算的指標によって評価したものであるが、レイアウトの有効性は計算指標のみでは測れるものでは無く、ユーザー実験の必要性は依然として残っている。
 
-% \subsection{CD-GIB}
-% Chaturvedi et al.~\cite{chaturvedi2014group} proposed the croissant-and-doughnut GIB (CD-GIB) (Figure~\ref{GIB-examples}(b)).
-% They developed this layout to improve ST-GIB such that it considers link information connecting a node to another node belonging to a different group.
-% In particular, they arranged tiles based on the G-degree and G-skewness.
-% A group's G-degree is defined as the number of other groups it is connected to, and its G-skewness is the proportion of nodes included in the two most-connected groups (groups with the highest G-degree).
-% A layout is then chosen from croissant-GIB, doughnut-GIB, or ST-GIB according to the total number of groups and the G-skewness of the graph.
-% Chaturvedi et al.\ defined criteria for appropriately using the three methods, and we applied the same criteria.
+\section{ST-GIB}
+Squarified-Treemap GIB (ST-GIB) (図\ref{fig:example_GIB} (a)はRodoriguesらによって提唱された物であり、Brulsによって提唱されたSquarified Treemapアルゴリズムに基づいたものである\cite{bruls2000squarified}.
+Brulsらのアルゴリズムは元々ツリーマッピングに向けたものであった。
+ツリーマッピングとは、スクリーン画面のサイズとデータ列を入力として、スクリーン画面をデータに比例する面積を持つタイルに分割する方法である\cite{shneiderman1992tree}.
+ST-GIBは各グループをツリーにおける頂点と捉え、Squarified Treemapアルゴリズムによって画面を分割し、それぞれのタイルにグループ毎のネットワークを描画することによって生成される。
 
-% Croissant-GIB places the most-connected box, which has the highest G-degree, at the center-top of the screen. The other boxes are set such that they surround the most-connected box, resulting in a croissant shape. Another layout, called doughnut-GIB, assigns the most-connected box to the center with other boxes surrounding it to form a doughnut shape.
+ツリーマップ法はスクリーン画面を効率的に活用できる上、それぞれの箱のアスペクト比が1に近いため、箱の中に描画されている各グループ内のネットワークが理解しやすいとされている\cite{bruls2000squarified}。
+ST-GIBは箱の配置をSquarified Treemapアルゴリズムに依存しているが、この方法では各グループに含まれるノードの数のみが影響し、ノードを繋ぐエッジの情報が考慮されていない。
+そのためエッジが長くなったりエッジの交差数が増えるといったネットワークグラフの可読性を下げる要因が観測されている\cite{468391,purchase1997aesthetic,purchase1998performance,purchase2002empirical}.
+ST-GIBの実装にはBrulsらの手法を用いたsquarify Python ライブラリ (https://github.com/laserson/squarify)を使用した。
+この手法では箱をその大きさの順で並べるために、被験者は箱の大きさを容易に比較することができると期待される。
 
-% The most-connected group is placed close to the center to reduce edge overlaps; hence, the readability is better than that when using ST-GIB.
-% However, the aspect ratios of the boxes tend to be less uniform, which makes the area of the boxes difficult to estimate.
+\section{CD-GIB}
+図\ref{fig:example_GIB} (b) に示されるCroissant-and-doughnut GIB (CD-GIB)はChaturvediらによって提案された\cite{chaturvedi2014group}ものである。
+これはグループ間をまたがるエッジの情報を追加することにより、ST-GIBのエッジの情報が考慮されていないという欠点を克服しようとしたものである。
+具体的には、G-degreeとG-skewnessの二つの指標によりCroissant-GIBレイアウトかDoughnut-GIBレイアウトのどちらかを選びタイルを配置する。
+グループのG-degreeはそのグループがエッジにより繋がっている他のグループの数にと定義される。
+また、全ノード数に対する最もG-degreeが高い2つのグループに含まれるノードの数の割合をG-skewnessとする。
+これらの指標を用い、以下の基準でレイアウトを決定する。
+\begin{itemize}
+  \item Case1: G-degree $\ge$ or G-skewness $<$ 0.1: ST-GIB
+  \item Case2: G $>$ 3 and 0.1 $\le$ G-skewness $\le$ 0.45: Doughnut-GIB
+  \item Case3: G $>$ 3 and G-skewness $>$ 0.45: Croissant-GIB
+\end{itemize}
+Chaturvediらは実験的にこの基準を決め、我々も同様にこれを用いた。
 
-% \subsection{FD-GIB}
-% Chaturvedi et al.~\cite{chaturvedi2014group} also proposed the FD-GIB layout (Figure~\ref{GIB-examples}(c)).
-% In FD-GIB, the group boxes are arranged with a force-directed layout run on the whole network, with the vertices for this layout representing entire groups and the edges between them representing the links between groups.
-% Then, group boxes are overlaid on this initial layout.%, centered at the group's position.
-% FD-GIB can cause group overlaps, which are then removed using the PRISM method~\cite{gansner2008efficient}.
+Croissant-GIBではまずG-degreeが最大のグループをスクリーン画面の中央上部に配置する。
+他のグループはG-degreeの大きい順に最初に配置したグループの周りを取り囲むように配置される。
+結果として最初に配置した箱以外がクロワッサンのよう三日月型を形作るため、Croissant-GIBレイアウトと呼ばれる。
+Doughnut-GIBでは最大G-degreeを持つグループをスクリーン画面の中央に配置する。
+他のグループはCroissant-GIB同様にG-degreeの大きい順に最初には配置したグループを取り囲むように配置され、円形を形作るため
+Doughnut型となる。
 
-% Chaturvedi et al.\ used the Harel--Koren fast multiscale layout~\cite{harel2002graph} to arrange the rectangles in FD-GIB, but we use the D3.js force simulation~\cite{Bostock:2011:DDD:2068462.2068631} because of its easy availability and good results.
-% However, as reported by Chaturvedi et al.~\cite{chaturvedi2014group}, according to experimental evaluations of several layout algorithms performed by Hachul et al.~\cite{Hachul:2005:ECF:2102325.2102348,Hachul2007LargeGraphLA}, several good options are available~\cite{harel2002graph,koren2003drawing}.
-% % , such as the high-dimensional embedding approach~\cite{harel2002graph} or the algebraic multi-grid method~\cite{koren2003drawing}.
+これらのこれらのレイアウトでは、他のグループとの接続が多いレイアウトがスクリーン画面の中央付近に配置されるため、エッジの長さが短くなり交差数が減り、ST-GIBよりも高い可読性が期待できる。
+しかし、箱のアスペクト比が1から遠く、グループの大きさを推測するのが難しい他グループ内部のネットワークの表現に適していないと思われる。
 
-% This layout clearly displays the aggregate topology, but it uses more screen space.
-% The area of each group must be smaller than that of the other layouts; hence, the relationships within a single group are more difficult to observe. However, this layout can maintain a consistent aspect ratio because of which participants can easily recognize the size differences between boxes.
+\section{FD-GIB}
+図\ref{fig:example_GIB}(c) に示されるForce-Directed GIB (FD-GIB) もまたChaturvediらにより提案された手法である。
+このレイアウトでは、まず各グループをノードと捉え、それらがグループ間にまたがるエッジにより繋がっているネットワークを想定し、それをforce-directedレイアウトにより描画する。
+このようにして各グループの位置を決めた後、グループを表す箱をその中心がforce-directedレイアウトにより配置された対応するノードの位置に一致するよう配置され、
+その後箱の内部にグループ内部のネットワークが描画される。
+このアルゴリズムでは箱が重なってしまうこともあり、これはPRISM法により取り除かれる\cite{gansner2008efficient}.
 
-% \subsection{TR-GIB}
-% Onoue et al.\ developed TR-GIB to minimize the weighted sum of distances between groups by reordering the sibling nodes laid out by ST-GIB~\cite{onoue2017optimal}.
-% An example of this layout is shown in Figure~\ref{GIB-examples}(d).
-% This method is visually similar to ST-GIB, but the tiles are reordered by solving an optimization problem to reduce the total length of the links between groups.
-% As treemaps, such as ST-GIB, have a tree-like structure, vertices with the same depth in a tree can be reordered.
-% The shorter edges in TR-GIB reduce the number of edge crossings, thereby improving the readability of the graph.
-% % Specifically, the sum of the distances between two groups is weighted according to the number of edges between the two groups, and this sum is taken as the group proximity.
-% We expect this layout to have the advantages of ST-GIB (i.e., good aspect ratio and screen efficiency) with an additional advantage of fewer edge overlaps.
+Force-directedレイアウトによりグラフを描画する方法にはいくつかの種類がある。
+ChaturvediらはHarel--Koren fast multiscaleレイアウト\cite{harel2002graph}を使用したが、我々はD3.js force simulation\cite{Bostock:2011:DDD:2068462.2068631}を使用した。
+これは可用性を考慮したが故であるが、Harel--Korenらの方法同様に良い結果が出ると知られている。
+しかし、Chaturvediらが述べているように\cite{chaturvedi2014group}、Hachulらの
+実験\cite{Hachul:2005:ECF:2102325.2102348}により他にも高次元埋め込み法\cite{harel2002graph}や代数的マルチグリッド法\cite{koren2003drawing}など良い手法があると確かめられている.
+
+Force-directedレイアウトは複雑ネットワークに向けたものではないが、エッジの短さやトポロジーの見やすさなど様々な利点を持つと言われる\cite{Kobourov2013ForceDirectedDA}。
+FD-GIBでも同様の効果が期待でき、特にグループ間のネットワークを表現する機能は高いと思われる。
+また、箱のアスペクト比を1に保つことができるため、グループ間の大きさを推定するのも容易だろう。
+しかし、他手法に比べスクリーン画面の使用効率が悪く箱が小さいため、グループ内部のデータ解析では劣ると考えられる。
+
+\section{TR-GIB}
+Tree-Reordering GIB (TR-GIB) (図\ref{fig:example_GIB} (d))は尾上と小山田により提唱されたレイアウトである。
+ST-GIBはツリー構造をタイルとして二次元スクリーンに描画するツリーマップに基づいたものである。
+ツリーマップはツリー構造を保っているために、ツリーにおける同階層のタイル同士は並べ替えることができる。
+ST-GIBにおいても、同様に並び替えることのできるタイルがある。
+TR-GIBはこの特性を利用したもので、ST-GIBにおいてタイルの並び替えを行い、エッジの長さを短くしたものである。
+具体的には、グループ近接性を最小化する最適化問題を問題を解く事によりこれが得られる。
+グループ近接性は、異なるグループ間をの距離をそのグループ間に跨るエッジの本数で重み付けしたものの総和と定義され、式\ref{eq:group_proximity}と表される。
+\begin{equation}
+\label{eq:group_proximity}
+  \sum_{t_1 \in C}^{} \sum_{t_2 \in C}^{} w_{t_1 t_2}(d_{t_1 t_2}^x + d_{t_1 t_2}^y)
+\end{equation}
+ここで、$C$はグループの集合、$w_{t_1 t_2}$はグループ$t_1, t_2$を跨るエッジの本数、$d_{t_1 t_2}^x, d_{t_1 t_2}^y$はそれぞれグループ$t_1, t_2$間の距離の$x, y$成分である。
+これを最小化する事で、エッジの長さが短いレイアウトが得られる。
+
+エッジの長さが短いと、交差数が少なくなるためTR-GIBは高い可読性が期待される。
+また、このレイアウトはST-GIBの特徴も依然として保っていて、箱のアスペクト比が1に近くまたスクリーン画面を効率的に使用できる。
+グループの大きさの推定やグループ内部ネットワークの描画にも高い効果が期待される。
+
+\chapter{実験1}
+\label{chap:experiment1}
+本章では一つ目の実験に対して記述する。
+一つ目の実験は4種類のGIBレイアウトを対象として4つのタスクを行う実験であり、対象レイアウトを様々な側面から概略的に評価し良いレイアウトを導き出すとともに可読性に影響する要因を明らかにすることを目指す。
+
+\section{実験に用いたデータ}
+\label{sec:data}
+本節では実験に用いたデータの生成法について記述する。
+本研究ではその可用性から実験にランダムに生成したデータを用いた。
+GIBの対象となるネットワークデータはノードとエッジ、グループからなる。
+\ref{subsec:data_algorithm}項ではランダムデータの生成アルゴリズムについて述べる。
+\ref{subsec:data_for_ex1}項で実験1用に生成したデータの特徴と各種パラメータに
+ついて説明し、\ref{subsec:metric_of_data}項では実験で用いたデータに対し計算したいくつかの指標をもとに各レイアウトについて議論する。
+
+\subsection{データ生成アルゴリズム}
+\label{subsec:data_algorithm}
+
+本研究で用いたランダムデータの生成法は尾上と小山田が用いた方法を参考にしたものである\cite{onoue2017optimal}.
+GIBが対象とする複雑ネットワークデータは下記のようないくつかの特徴を持つ。
+\begin{enumerate}
+  \item 同一グループ内部のネットワークは密である。
+  \item 異なるグループ間のネットワークは比較的疎である。
+  \item 異なるグループ間でも、比較的密な繋がりを持つグループのペアが存在する。
+\end{enumerate}
+こうした特徴は表現型特徴ネットワークを含む多くの複雑ネットワークでも確認できる。
+特徴1はグループ内ノード同士の関係性に関するものである。
+グループはノードの特性やネットワークのトポロジーから定まるものであるため、同じグループ内にあるノードは関係性が高い。
+異なるグループに属するノードの関係性が低い (特徴2) ことも同様の理由から明らかである。
+特徴3は異なるグループの類似性に言及したものである。
+例えば、企業間取引ネットワークの中でグループを業種で分けたとする。
+この際、金融業界と農業界の繋がりは比較的疎であると考えられるが、農業界と林業界はその類似性のために比較的密な関係を持つであろう。
+このように、複雑ネットワークには比較的密な繋がりを有するグループのペアが存在する。
+
+本研究で用いるデータ生成アルゴリズムは上述した特徴を実現する。
+データ生成は以下の流れで行なった。
+\begin{description}
+  \item{(1)} 平均$m_{\text{mean}}$、標準偏差$m_{\text{stdev}}$を用いて$m$を決定し、mこのグループ${G_1, ..., G_m}$を用意する。
+  \item{(2)}グループ毎のノード数$|G_i|$は平均$n_{\text{mean}}$、標準偏差$n_{\text{stdev}}$の正規分布により決定する。
+  \item{(3)} ノードのペア$(u, v) \forall u,v \in G_i, u \neq v$に対し確率$p_{\text{in}}$でエッジを生成する。
+  \item{(4)} グループのペア$G_i, G_j$に対し、確率$p_{\text{group}}$でグループ間エッジの有無を決定する。エッジが存在するグループ$G_i, G_j$において、ノードのペア$(u, v) u \in G_i, v \in G_j$に確率$p_{\text{bridge}}$でエッジを生成する。
+  \item{(5)} 全グループ内のノードのペア$(u, v)$のうち未だエッジが存在しないものに対し、確率$p_{\text{out}}$でエッジを生成する。
+\end{description}
+以上の方法で特徴1, 2, 3を満たすデータを生成する。
+本手法では、同一グループ内のノードを繋ぐエッジ（以下内部エッジ）と異なるグループに属するノードを繋ぐエッジ（以下外部エッジ）を個別に計算する。
+
+\subsection{実験用データ}
+\label{subsec:data_for_ex1}
+
+本実験では、Chaturevediらが報告した309のTwitterデータ\cite{chaturvedi2014group}に倣いデータ生成に用いるパラメータを決定した。
+本研究はTwitterに焦点を当てたものではないが、Twitterデータは複雑ネットワークの例として頻繁に用いられる。
+309のTwitterデータの平均値に合わせ生成したデータを実験に用いることで、レイアウトの有効性をより確かに測定できると考えた。
+表\ref{tab:parameters}に本実験で用いたデータを生成パラメータを示す。
+これらのパラメータはノード、内部エッジ、外部エッジ、グループの数がChaturvediらが報告したTwitterデータに一致するように決定された。
+しかし、生成されたデータのノードとエッジの数はタスクを行うのには大きすぎたため、$v_{\text{mean}}$と$v_{\text{stdev}}$に0.4、$p_{\text{in}}, p_{\text{bridge}}, p_{\text{out}}$に0.3を積算した。
+図\ref{fig:example_GIB}に表されるグラフは表\ref{tab:parameters}に示されるパラメータを用いて生成したグラフである。
+
+実験に使用するグラフを描画するため、生成したネットワークデータ4種のGIBレイアウトを適用した。
+GIBレイアウトはグループを表す箱を配置するための手法であるため、グループ内部のネットワークが個別に配置する必要がある。
+これにはD3.jsのforce simulation\cite{Bostock:2011:DDD:2068462.2068631}に基づくforce-directedレイアウトを利用した。
+この手法では、ノード間の斥力とエッジ間の引力、ノードが属するグループを表す箱の中心からの引力に基づきノードが配置される。
+グループ内部のネットワーク描写方法はタスクパフォーマンスに影響するため、実験に用いる全グラフでこれを統一している。
+Force-directedレイアウトは可読性の高さと見た目の美しさからグラフ描画の分野でよく用いられている\cite{Kobourov2013ForceDirectedDA}。
+本実験においてもグループ内部ネットワークの描写法として適当だと考えた。
+
+エッジバンドリングは、大規模グラフにおいて大量のエッジにより生まれる視覚的乱雑さがを軽減する方法として知られている\cite{lhuillier2017state}。
+直線のエッジのみでグラフを描画すると、グラフが視覚的に複雑になり可読性が下がることも考えられる。
+一方で直線のエッジは2ノードを明確に繋ぐので、その関係性がわかりやすいという利点もある。
+本実験ではタスクの難易度と結果の解析の容易性を考慮しエッジを直線で描いている。
+Chaturvediら\cite{chaturvedi2014group}と尾上と小山田\cite{onoue2017optimal}は論文内でグラフ描画にエッジバンドリングを用いていたが、直線でエッジを描画してもGIBの根本的な特徴は依然として存在し、4種類のGIBをユーザー実験で評価するのに十分であると考える。
+
+エッジの色は実験的にグレーを選択し、ノードの色はグループ毎に変えるためd3.js\cite{Bostock:2011:DDD:2068462.2068631}のd3.interpolateRainbowを用いた。
+
+
+\begin{table}[b]
+  \begin{center}
+  \caption{実験1のデータ生成に用いたパラメータ}
+  \label{tab:parameters}
+  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|} \hline
+  $m_{\text{mean}}$ & $m_{\text{stdev}}$ & $m_{\text{min}}$ & $m_{\text{max} }$ & $V_{\text{mean}}$ & $V_{\text{stdev}}$ & $V_{\text{min}}$ & $p_{\text{in}}$ & $p_{\text{group}}$ & $p_{\text{bridge}}$ & $p_{\text{out}}$ \\ \hline
+  11.4 & 5.4 & 6 & 17 & 21.0 & 14.12 & 4 & 0.0858 & 0.06 & 0.015 & 0.0006\\ \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\subsection{使用したデータの計算的指標}
+\label{subsec:metric_of_data}
+
+様々な計算的指標がグラフの可読性に影響することが知られていて、これらを計算することでユーザー実験の結果に目算を立てることができる他、実験結果の考察に役立つ。
+我々はユーザー実験の前に、実際に実験に用いたデータに対してエッジ交差数、エッジ長の均一性、スクリン画面使用効率、箱のアスペクト比の4つの指標を計算した。
+これらの指標はChaturvediらが行なった計算実験\cite{chaturvedi2014group}に基づいて決定した。
+Chaturvediらは外部エッジをグループの組み合わせごとに一本にバンドリングし描いていたため、エッジと箱の交差数を計算していたが、今回はバンドリングを行なっていないためエッジの交差数を代わりに計算する。
+計算した指標それぞれについて以下で詳細に説明する。
+
+\begin{description}
+  \item{\bf エッジ交差数} グラフに含まれるエッジの合計の交差数を数えたものである。可読性を高めるためにはこの指標は小さくあるべきであると知られている。グラフに長いエッジが含まれると、多くのエッジと交差する可能性が上がるためにエッジ交差数が増える。
+  \item{\bf エッジ長の均一性} この指標はグラフに含まれるエッジの長さがどれくらい均一化を表す指標である。Gibsonらはエッジ長が均一でないとグラフが歪になりネットワークの構造を理解することが難しくなると述べている\cite{doi:10.1177/1473871612455749}。
+  エッジ長が均一であればグラフの可読性が向上すると考えられる。
+  我々はこの指標としてエッジの長さの分散を計算したため、分散が小さいほどエッジ長が均一であると言える。
+  この計算は全レイアウトにおいて平均の箱のサイズが等しいという条件になるようノードの座標をスケールして行なった。
+  \item{\bf スクリーン画面使用効率} 2次元の可視化図においてスクリーン画面の使用効率の高いレイアウトは可読性が高いと知られている\cite{shneiderman1992tree}.
+  GIBにおいても画面の使用効率はそれぞれの箱の大きさに直結する。
+  箱が小さくなれば内部エッジが短くなりネットワークを理解することが難しくなる。
+  効果的なグラフ可視化には、本指標は高いほど良いと考えられる。
+  \item{\bf 箱のアスペクト比}
+  Brulsらは、箱が正方形に近いレイアウトではグループの大きさが比較しやすくネットワークも理解しやすいと述べている\cite{bruls2000squarified}.
+  同様に、横や縦に長い箱では可読性が低くなるとも述べられている。
+  本指標は1に近いほど高い可読性が期待できる。
+\end{description}
+
+図\ref{fig:computation_4layout}に4指標の計算結果を示す。
+上述したように、効率的なグラフ可視化には少ないエッジ交差数、均一なエッジ長、高いスクリーン画面使用効率、箱のアスペクト比が低いことが求められる。
+エッジ交差数においては、TR-GIBが最も良い結果を出し、ST-GIBにおいてエッジが一番多く交差していた。
+エッジ長の均一性では、TR-GIBが最も良くFD-GIBが最も不均一であった。
+スクリーン画面使用効率はST-GIBとTR-GIBが最もよく、ついでCD-GIB, FD-GIBとなった。
+FD-GIBがは箱がすべて正方形のため箱のアスペクト比は最高であり、CD-GIBが最も悪い結果となった。
+TR-GIBが4つの指標全てで良い結果を出したい一方で、CD-GIBとFD-GIBはいくつかの指標で他の手法より劣っていた。
+ST-GIBはエッジ交差数以外は平均して良い結果となった。
+
+\begin{figure}
+  \centering
+  \label{fig:computation_4layout}
+  \includegraphics[width=15cm]{./images/4sta.png}
+  \caption{実験1で用いたグラフにおける可読性に影響を与える指標の計算結果}
+\end{figure}
+
+
+\section{タスク}
+\label{sec:task_ex1}
+本実験におけるタスクはVehlowら\cite{Vehlow2017VisualizingGS}とSaketら\cite{saket2014group}の2つの調査論文を参考に決定した。
+Vehlowらは複雑ネットワーク可視化手法の分類とともに、それらを評価するために用いられるタスクについても分類を行なっている。
+分類にはGroup-only tasks (GOTs), group-vertex tasks (GVTs), group-edge tasks (GETs), group-network tasks (GNTs) の4種類が存在する。
+GETはエッジがグループ化されているネットワークで使用可能なタスクのために、本実験にはこれを除いた3つのカテゴリのタスクが適用できる。
+SaketらはGOTs, group-nodeタスク、group-linkタスク、GNTsの4分類でタスクを紹介している。
+これら4カテゴリのタスクはすべて本研究に用いることが可能であるが、group-linkタスクはVehlowらの分類におけるGNTsに酷似している。
+VehlowらとSaketらはそれぞれのタスク分類に対しタスクの例を紹介している。
+我々はそれらの中から以下のタスクを選び用いた。
+\begin{itemize}
+  \item {\bf タスク1：グループタスク} ネットワーク内にいくつのグループが存在しているか。
+  \item {\bf タスク2：グループ・ノードタスク} どのグループが一番大きい（小さい）か。
+  \item {\bf タスク3：グループ・内部エッジタスク} どのグループが一番多く（少なく）内部エッジを含むか。
+  \item {\bf タスク4：グループ・外部エッジタスク} どのグループが一番多く外部エッジを含むか。
+\end{itemize}
+
+タスク1はVeflowの分類におけるGOTsに属し、グループの数を判断するものである。
+これはノードやエッジの情報を必要とせず、ネットワークグラフ全体を見ることが求められる。
+このタスクによりネットワーク全体の構造を理解するのに適したレイアウトが明らかになると期待される。
+
+タスク2はGVTsに属するもので、ノードの情報を理解することが求められる。
+GIBにおいてはグループに含まれるノードの数は箱の大きさとして表現される。
+グループの大きさは複雑ネットワークにおける重要な指標であり、これが読み取りやすいレイアウトほど良いとされる。
+本タスクはグループの大きさが理解しやすいレイアウトを特定することを目指したものである。
+
+タスク3はGNTsの一種であり、内部リンクに関するものである
+内部リンクの可読性はネットワーク解析で重要な意味を持つ。
+本タスクでは内部リンクの数の分かりやすさを通し、内部リンクの可読性を高めるレイアウトを明らかにすることを目指す。
+
+タスク4もGNTsの一種であるが、タスク3と異なり外部リンクに焦点を当てたものである。
+複雑ネットワークにおいては内部リンク同様外部リンクも重要な意味をもつ。
+外部リンクの情報が理解しやすいレイアウトが本タスクで明らかになることが期待される。
+
+タスク2とタスク3では被験者はノードおよびリンクが最大のグループと最小のグループを探す2種類のタスクに取り組む。
+複雑ネットワークの解析では、グループはその大きさに関わらず理解しやすいことが求められる。
+言い換えれば、大きいグループや小さいグループのどちらかのみが効果的に可視化されるレイアウトは実用的でない。
+よってタスク2とタスク3では問題が半分終わった時点でタスクを変更した。
+一方で、外部リンクが一番少ないグループを見つけることは非常に困難だったため、タスク4では外部リンクが一番多いグループを特定するという一種類のみを用いた。
+問題があまりに難しい場合、被験者はランダムに解答してしまうために有意義なデータが記録できないと思われるからである。
+
+\section{仮説}
+本節では実験で検証する仮説について記述する。
+\ref{chap:GIBs}章で述べたように用いる4種のGIBは異なる特徴を持っているため、レイアウト毎にタスクの結果は異なると考える。
+以下の仮説は各タスクにおけるレイアウトの効果と、その要因に関して述べたものである。
+\begin{itemize}
+  \item{\bf 仮説1} ST-GIBがタスク1で最も良い結果を残す。ST-GIBでは各箱が縦横に整然と並べられてる上その並びは箱の大きさの順であり、グループの数が数えやすいと考える。
+  \item{\bf 仮説2} ST-GIBがタスク2で最も良い結果を残す。ST-GIBではグループはその大きさ順に並ぶため、一番大きい（小さい）グループは常に左上（右下）に配置される。被験者がレイアウトがST-GIBだと判別することができれば、答えを特定するのは容易だと思われる。
+  \item{\bf 仮説3} CD-GIBはタスク2において他手法より有効でない。CD-GIBでは箱のアスペクト比が大きいためにその面積を視覚的に推定するのが難しく、良い結果を残せないと考える。
+  \item{\bf 仮説4} TR-GIBはタスク3で最も良い結果を残す。TR-GIBはST-GIB同様にアスペクト比とスクリーン画面使用効率で優れているため、各グループがCD-GIBやFD-GIBよりも内部ネットワークが大きく描画される。
+  加えてTR-GIBではエッジ交差数が少ないために内部エッジを外部エッジからの干渉なしに表現することが可能であると思われる。
+  \item{\bf 仮説5} FD-GIBはタスク3において他手法より有効でない。FD-GIBでは箱が小さいために内部リンクが短くなり、リンクの数を把握することが難しいと考える。
+  \item{\bf 仮説6} TR-GIBとFD-GIBがタスク4では有効と考える。TR-GIBはエッジ交差数が少なく、またFD-GIBはスクリーン使用効率こそ低いが外部リンクが描かれるための余白があるとも言える。
+  これらのレイアウトは外部リンクの数を認識することが容易だと考える。
+\end{itemize}
+
+\section{実験デザイン}
+本実験は、各タスクにおいてレイアウトのみ種類を独立変数とした多重比較検定を反復測定により行う。
+グループの数などいくつかの値が刺激毎に異なるが、これらは正規分布に従っているため考慮しないものとする。
+
+実験における各タスクはそれぞれのレイアウトが30問ずつの計120問で構成され、被験者は4タスクで計480問に取り組んだ。
+被験者の慣れの影響を考慮し各刺激において異なるネットワークデータを用いた。
+同じネットワークデータに4種類のレイアウトを適用し、タスクの結果を比較することも可能であるが、この場合被験者がレイアウトは異なるが同じデータを実験中に4回見てしまうために被験者がデータに慣れてしまうと考えたためである。
+また実験中に視線データを記録する都合上、被験者は同じ順番で問題に取り組んだ。
+
+刺激毎にタスクが異なると被験者が混乱するため、120問を完了するまで継続して一つのタスクを行なった。
+各タスク内では問題の順番がランダム化されており、どのレイアウトが刺激として与えられるかはランダムとなっている。
+同様に、疲労と慣れの効果を軽減するためタスクを行う順番は被験者毎にランダムにした。
+各タスクは20問毎の6ブロックに分かれており、各ブロックが終わる毎に30秒ほどの休憩を挟んだ。
+1タスクが終了すると5分までの比較的長い休憩を挟んだ。
+
+\section{実験の流れ}
+実験の前に、被験者に年齢、性別、勉強の分野などを問うアンケートを行なった。
+その後生体計測や視線追跡、GIBレイアウトに関する説明を行った。
+生体計測に関しては、被験者にその安全性やデータの取り扱いに理解をいただき同意書に署名を得た。
+本事件を行う前に、被験者がネットワークを理解し実験を行えるかを確かめるためにチュートリアルを行なった。
+チュートリアルは本実験を模したものであり、データのみが本実験と異なっている。
+被験者はチュートリアルを行うことで本実験前に各タスクに向けての準備を行った。
+
+以上のプロセスの後本実験を行なった。
+被験者はランダムな順番でタスクを行った。
+タスク2とタスク3では\ref{sec:task_ex1}で述べたように60問毎に問題を切り替えた。
+この際60問は4レイアウトが15問ずつで構成された。
+タスクには時間制限を設けておらず、解答が行われるとサーバーに送信された。
+被験者には解答時間よりも精度に重点を置くよう促した。
+これは被験者が問題を早く解こうとすると誤答率が上がる他視線追跡データが実の無いものとなってしまい、本研究の意義にそぐわないためである。
+図\ref{fig:screenshot_ex1}に実際の実験のスクリーンショットを示す。
+これはタスク2において一番大きいグループを選ぶ問題であるが、グループがクリックされると選んだグループがハイライトされるようになっている。
+エンターキーを押すと正否と完了時間が記録され、自動的に次の問題へと移行する。
+
+本実験は人工照明で照らされた簡素な部屋で行われた。
+実験に余計な干渉が入らないよう被験者は実験前に携帯電話の電源を切るように促された。
+実験中、被験者は$1,920 \times 1,080$ピクセルのディスプレイから65cm離れた位置に顎台を持って顔を固定された。
+視線追跡データはTobii Pro X3-1120により録画され、I-VTフィルター\cite{olsen2012tobii}を用いて眼球運動が注視か断続性運動かを判定した。
+
+\begin{figure}
+  \centering
+  \label{fig:screenshot_ex1}
+  \includegraphics[width=15cm]{./images/screenshot.png}
+  \caption{実験1のスクリーンショット。タスク2において一番大きいグループを選ぶ問題である。大きいグループをクリックしエンターを押すことで解答が送信される。}
+\end{figure}
+
+\section{被験者}
+\label{sec:participants}
+被験者は20人で、そのうち8人が女性、12人が男性であった。
+このうち1名の被験者の実験中に技術的な問題が発生したため、計19人のデータのみを実験結果として用いる。
+被験者の平均年齢は20.8歳で、最低年齢が18歳、最高年齢が24歳であった。
+全員が日本国籍者かつ京都大学の学生であり、4人が工学を学んでいてその他は様々な分野の学生であった。
+通常、日本では文章を左から右に読み、この方向はタスクに影響することが知られている\cite{yarbus1967eye}.
+全被験者は正常もしくは矯正された視力を有していた。
+実験は休憩を含み1.5時間から2時間ほど要し、被験者にはそれぞれ3,000円が支払われた。
+
+\section{実験結果}
+\label{sec:result_ex1}
+本章ではユーザー実験の結果について記述する。
+実験では正答率と完了時間に加え視線追跡データが測定された。
+結果は2項に分けて述べる。
+\ref{subsec:task_result_ex1}項ではタスクの正答率の完了時間について分散分析を行い結果を議論する。
+\ref{subsec:eyetrack_result_ex1}項では視線追跡データに基づいて各仮説を検証する。
+
+\subsection{正答率及び完了時間}
+\label{subsec:task_result_ex1}
+本項ではタスクにおける正答率及び完了時間をについて記述する。
+データが正規分布に従っていなかったため、ノンパラメトリックな分散分析を行った。
+Friedmanの検定を用いて4群間に有意差があるかを判定し、その後Wilcoxonの符号順位検定を行った。
+全検定においてp値は0.05を用いた。
+以下では各タスク毎の統計分析結果を述べる。
+各レイアウトはその視覚的特徴の違いにより長所と短所があり、それゆえ全タスクは独立であると考えている。
+図\ref{fig:result_ex1}に正答率と完了時間の結果を示す。
+
+{\bf タスク1.} 全レイアウトでの平均正答率は97.7\%であり、平均完了時間は4480msであった。
+Friedman検定により完了時間に有意差が確認され($p < 0.001$)、正答率には有意な差は見られなかった。
+Wilcoxonの事後検定により、ST-GIBとTR-GIBでの完了速度ががCD-GIBとFD-GIBのものより有意に短いと明らかになった。
+また、同様にCD-GIBとFD-GIB間にも有意差が見られ、CD-GIBの方が効果的であった。
+被験者はST-GIBにおいてCD-GIBとTR-GIBにおいてよりも500msほど、FD-GIBにおいてよりも900msほど早くタスクを完了した。
+これは仮説1を支持する結果となった。
+
+{\bf タスク2.} ST-GIBは正答率が最も高いレイアウトであり、その正答率は89.6\%で完了時間が2425msであった。
+完了時間はFD-GIBが最も短く、正答率は83.0\%で完了時間は2425msであった。
+Friedman検定により、正答率と完了時間に有意差が見られた。
+Wilcoxonの事後検定から、ST-GIBが他手法より正答率が高いこと（CD-GIBとFD-GIBに対し$p<0.001$、TR-GIBに対し$p=0.0041$）が分かり、またCD-GIBが他手法より正答率が低いこと(ST-GIBに対し$p<0.001$、FD-GIBに対し$p=0.0041$、TR-GIBに対し$p=0.0019$)が明らかになった。
+これらの結果は仮説2, 3を支持するものであった。
+FD-GIBとTR-GIBはCD-GIBより正答率が高かったが、グループがその大きさ順に並んでいるST-GIBには及ばなかった。
+
+{\bf タスク3.} FD-GIBが正答率（78.8\%）、完了時間（3383ms）においても良い結果を時残した。
+Friedman検定からこのどちらにも有意差が見られ、$p<0.001$だった。
+Wilcoxon検定より、FD-GIBが他手法よりも正答率（ST-GIBとCD-GIBに対して$p<0.001$、TR-GIBに対して$p=0.017$）と完了時間（ST-GIBに対して$p=0.007$、CD-GIBとTR-GIBに対して$p<0.001$）の両方で有意な効果が見られた。
+また、TR-GIBはST-GIB（$p=0.039$）とCD-GIB（$p=0.049$）より良い正答率を残した。
+これらの結果は仮説4と5に反駁するものであった。
+FD-GIBは正答率と完了時間の両面で最良の結果を残した。
+TR-GIBはの成績は悪いものでは無かったが、正答率はFD-GIBより6\%低く、完了時間は500msほど長く要した。
+
+{\bf タスク4.} 全体の平均正答率は61.2\%、平均完了時間は5405msであり、Friedman検定により完了時間（$p=0.039$）のみに有意差が見られた。
+Wilcoxonの事後検定によりTR-GIBの完了時間がFD-GIBのものより有意に短いことが観察され、仮説6を裏付ける結果とはならなかった。
+
+
+\begin{figure}
+  \centering
+  \label{fig:result_ex1}
+  \includegraphics[width=15cm]{./images/8sta.png}
+  \caption{実験1のタスク結果を箱ひげ図で表したもの。上段はタスクの正答率、下段は完了時間を示す。}
+\end{figure}
+
+\subsection{仮説検証}
+\label{subsec:eyetrack_result_ex1}
+本項では視線追跡データに基づき各仮説について議論する。
+視線追跡データの解析には主に2種類の方法がある。
+一つ目は注視点座標や注視時間などの定量化できる指標を用いて統計的に議論するもの、二つ目はAOIや注視点の軌跡に基づき視覚的に解析を行うものである。
+定量的な指標として、本実験では{\bf DB}と{\bf DA}という指標を計算している。
+これらは被験者が正解のグループ以外のグループを注視した数に関するものである。
+被験者が初めて正解のグループを注視するまでにそれ以外のグループを注視した回数をDB (Distractors Before target)、被験者が初めて正解のグループを注視してからそれ以外のグループを注視した回数をDA (Distractors After target)としている。
+
+視覚分析は視線データを軌跡マップやヒートマップとして解析するものである。
 
 
 

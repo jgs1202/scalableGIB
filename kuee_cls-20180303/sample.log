@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.7.1-161114-2.6 (utf8.euc) (TeX Live 2017) (preloaded format=platex 2018.4.5)  12 JAN 2020 18:23
+This is e-pTeX, Version 3.14159265-p3.7.1-161114-2.6 (utf8.euc) (TeX Live 2017) (preloaded format=platex 2018.4.5)  15 JAN 2020 13:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -63,78 +63,124 @@ File: dvipdfmx.def 2016/07/11 v4.12 LaTeX color/graphics driver for dvipdfmx (L
 \Gin@req@height=\dimen121
 \Gin@req@width=\dimen122
 )
+(/usr/local/texlive/2017/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2016/11/05 v2.16a AMS math features
+\@mathmargin=\skip43
+
+For additional information on amsmath, use the `?' option.
+(/usr/local/texlive/2017/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01 AMS text
+
+(/usr/local/texlive/2017/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks16
+\ex@=\dimen123
+))
+(/usr/local/texlive/2017/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen124
+)
+(/usr/local/texlive/2017/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count96
+LaTeX Info: Redefining \frac on input line 213.
+\uproot@=\count97
+\leftroot@=\count98
+LaTeX Info: Redefining \overline on input line 375.
+\classnum@=\count99
+\DOTSCASE@=\count100
+LaTeX Info: Redefining \ldots on input line 472.
+LaTeX Info: Redefining \dots on input line 475.
+LaTeX Info: Redefining \cdots on input line 596.
+\Mathstrutbox@=\box42
+\strutbox@=\box43
+\big@size=\dimen125
+LaTeX Font Info:    Redeclaring font encoding OML on input line 712.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
+\macc@depth=\count101
+\c@MaxMatrixCols=\count102
+\dotsspace@=\muskip10
+\c@parentequation=\count103
+\dspbrk@lvl=\count104
+\tag@help=\toks17
+\row@=\count105
+\column@=\count106
+\maxfields@=\count107
+\andhelp@=\toks18
+\eqnshift@=\dimen126
+\alignsep@=\dimen127
+\tagshift@=\dimen128
+\tagwidth@=\dimen129
+\totwidth@=\dimen130
+\lineht@=\dimen131
+\@envbody=\toks19
+\multlinegap=\skip44
+\multlinetaggap=\skip45
+\mathdisplay@stack=\toks20
+LaTeX Info: Redefining \[ on input line 2817.
+LaTeX Info: Redefining \] on input line 2818.
+)
 (./sample.aux)
 \openout1 = `sample.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <20.74> on input line 43.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <14.4> on input line 43.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 43.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 43.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 43.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
  [0]
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <17.28> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 44.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 45.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <17.28> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 44.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <17.28> on input line 44.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 45.
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 44.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 45.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 44.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 45.
  [1
 
 
 ]
 \clearpage
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <20.74> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 48.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 49.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <20.74> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 48.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 49.
 (./sample.toc)
 \tf@toc=\write4
 \openout4 = `sample.toc'.
 
  [2
 
-]
+] [3]
 \clearpage
 第{1}章.
 
-Overfull \hbox (3.11555pt too wide) in paragraph at lines 52--58
+Overfull \hbox (3.11555pt too wide) in paragraph at lines 53--59
 \JY1/mc/m/n/12 かに観察する必要がある 。 観測したデ ータから新たな知見を導き出
 すために 、 デ ー
  []
 
 
-Overfull \hbox (6.0233pt too wide) in paragraph at lines 52--58
+Overfull \hbox (6.0233pt too wide) in paragraph at lines 53--59
 \JY1/mc/m/n/12 のかを考え 、 科学的手法における仮設生成をデ ータに基づいて行う
 というアプロ ー
  []
 
 
-Overfull \hbox (12.08475pt too wide) in paragraph at lines 64--68
+Overfull \hbox (12.08475pt too wide) in paragraph at lines 65--69
 \JY1/mc/m/n/12 れている他 、 多細胞生物として最初に全ゲノム配列が解読された生物
 でもある 。 我 々
  []
@@ -142,71 +188,235 @@ Overfull \hbox (12.08475pt too wide) in paragraph at lines 64--68
 [1
 
 ]
-Overfull \hbox (11.19029pt too wide) in paragraph at lines 86--91
+Overfull \hbox (11.19029pt too wide) in paragraph at lines 87--92
 \JY1/mc/m/n/12 ている 。 例えば隣接行列はネ ッ トワ ークデ ータを可視化する手法
 の一つであり、 ノ ー
  []
 
 [2]
-Overfull \hbox (0.31361pt too wide) in paragraph at lines 109--115
+Overfull \hbox (0.31361pt too wide) in paragraph at lines 110--116
 []\JY1/mc/m/n/12 我 々 は 、 表現型特徴ネ ッ トワ ークを可視化するのには同一グ
 ル ープに属するノ ー
  []
 
 
-Overfull \hbox (30.36357pt too wide) in paragraph at lines 116--119
+Overfull \hbox (30.36357pt too wide) in paragraph at lines 117--120
 \JY1/mc/m/n/12 多いためにどのレイアウトが一番有効であるか分か っ ていない 。 い
 くつかの研究 $[]$
  []
 
 
-Overfull \hbox (43.00238pt too wide) in paragraph at lines 120--126
+Overfull \hbox (43.00238pt too wide) in paragraph at lines 121--127
 []\JY1/mc/m/n/12 以上のことから 、 我 々 は \OT1/cmr/m/n/12 2 \JY1/mc/m/n/12 種
  \OT1/cmr/m/n/12 https://ja.overleaf.com/project/5b990a8b21b7c041ba8d08ba
  []
 
 
-Overfull \hbox (10.9592pt too wide) in paragraph at lines 120--126
-\OT1/cmr/m/n/12 2.2 \JY1/mc/m/n/12 に示す \OT1/cmr/m/n/12 4 \JY1/mc/m/n/12 種類
-であり、 順に \OT1/cmr/m/n/12 ST-GIB(Squarified-Treemap GIB), CD-GIB (Croissant
--
+Overfull \hbox (20.09799pt too wide) in paragraph at lines 121--127
+\OT1/cmr/m/n/12 4.7.2 \JY1/mc/m/n/12 に示す \OT1/cmr/m/n/12 4 \JY1/mc/m/n/12 種
+類であり、 順に \OT1/cmr/m/n/12 ST-GIB(Squarified-Treemap GIB), CD-GIB (Croissa
+nt-
  []
 
 
-Overfull \hbox (5.87782pt too wide) in paragraph at lines 120--126
+Overfull \hbox (5.87782pt too wide) in paragraph at lines 121--127
 \OT1/cmr/m/n/12 and-Doughnut GIB), FD-GIB (Force-Directed GIB), TR-GIB (Tree-Re
 ordering GIB)
  []
 
 [3]
-Overfull \hbox (0.60413pt too wide) in paragraph at lines 130--135
+Overfull \hbox (0.60413pt too wide) in paragraph at lines 131--136
 []\JY1/mc/m/n/12 実験では 、 正答率と完了時間を計測することでレイアウト間の優劣
 を比較した 。
  []
 
 
-Overfull \hbox (0.52487pt too wide) in paragraph at lines 130--135
+Overfull \hbox (0.52487pt too wide) in paragraph at lines 131--136
 \JY1/mc/m/n/12 これに加え 、 視線追跡システムを利用し実験中の被験者の視線デ ー
 タを記録した 。
  []
 
 [4]
-\@kuee1chapter=\count96
-\@kuee1figure=\count97
+\@kuee1chapter=\count108
+\@kuee1figure=\count109
 \openout3 = `sample.fff'.
 
  (sample.fff)
-\@kuee2chapter=\count98
-\@kuee2figure=\count99
+\@kuee2chapter=\count110
+\@kuee2figure=\count111
  [5]
 第{2}章.
-
-LaTeX Warning: Reference `sec:evaluation_with_eyetracking' on page 6 undefined 
-on input line 171.
-
 [6
 
-] [7] (./sample.bbl [8
+]
+Overfull \hbox (3.59795pt too wide) in paragraph at lines 198--206
+[]\OT1/cmr/m/n/12 Vehlow \JY1/mc/m/n/12 らは複雑ネ ッ トワ ークの可視化手法に関
+する調査論文を発表している $[]$\OT1/cmr/m/n/12 .
+ []
+
+
+Overfull \hbox (11.60922pt too wide) in paragraph at lines 207--216
+[]\OT1/cmr/m/n/12 GIB \JY1/mc/m/n/12 レイアウトも複雑ネ ッ トワ ークを可視化視
+する手法の一つである $[]$。
+ []
+
+[7]
+Overfull \hbox (0.52487pt too wide) in paragraph at lines 227--230
+\JY1/mc/m/n/12 実験を行うことで 、 レイアウトの有効性をより実践的に評価すること
+ができる他 、
+ []
+
+
+Overfull \hbox (17.57257pt too wide) in paragraph at lines 227--230
+\JY1/mc/m/n/12 人間の認知とい っ た計算では網羅できない観点も考慮することが可能
+となる 。 \OT1/cmr/m/n/12 Didimo
+ []
+
+
+LaTeX Warning: Citation `burch2011evaluation'' on page 8 undefined on input lin
+e 235.
+
+[8]
+Overfull \hbox (13.42847pt too wide) in paragraph at lines 248--256
+\JY1/mc/m/n/12 である 。 ユ ーザ ーは興味のある領域や情報的に有益な領域に集中す
+るがために 、 \OT1/cmr/m/n/12 AOI
+ []
+
+
+Overfull \hbox (1.81812pt too wide) in paragraph at lines 248--256
+\JY1/mc/m/n/12 が視線デ ータ解析に重要だという事は古くから知られていた $[]$\OT1
+/cmr/m/n/12 . GIB \JY1/mc/m/n/12 はスクリ ー
+ []
+
+[9]
+第{3}章.
+
+Overfull \hbox (3.77898pt too wide) in paragraph at lines 260--264
+\JY1/mc/m/n/12 じネ ッ トワ ークデ ータを可視化したものである 。 これらのレイア
+ウトは \OT1/cmr/m/n/12 Chaturvedi
+ []
+
+[10
+
+]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 285.
+
+ (/usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 285.
+
+Overfull \hbox (16.75346pt too wide) in paragraph at lines 291--297
+\JY1/mc/m/n/12 サンのよう三日月型を形作るため 、 \OT1/cmr/m/n/12 Croissant-GIB 
+\JY1/mc/m/n/12 レイアウトと呼ばれる 。 \OT1/cmr/m/n/12 Doughnut-
+ []
+
+[11]
+Overfull \hbox (1.42505pt too wide) in paragraph at lines 308--313
+[]\OT1/cmr/m/n/12 Force-directed \JY1/mc/m/n/12 レイアウトによりグラフを描画す
+る方法にはいくつかの種類があ
+ []
+
+
+Overfull \hbox (19.13838pt too wide) in paragraph at lines 308--313
+\JY1/mc/m/n/12 が 、 \OT1/cmr/m/n/12 Harel--Koren \JY1/mc/m/n/12 らの方法同様に
+良い結果が出ると知られている 。 しかし 、 \OT1/cmr/m/n/12 Chaturvedi
+ []
+
+[12]
+Overfull \hbox (2.20374pt too wide) in paragraph at lines 330--333
+\JY1/mc/m/n/12 ここで 、 $\OML/cmm/m/it/12 C$ \JY1/mc/m/n/12 はグル ープの集合 
+、 $\OML/cmm/m/it/12 w[]$ \JY1/mc/m/n/12 はグル ープ $\OML/cmm/m/it/12 t[]; t[]
+$ \JY1/mc/m/n/12 を跨るエ ッ ジの本数 、 $\OML/cmm/m/it/12 d[]; d[]$
+ []
+
+[13]
+第{4}章.
+LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <14.4> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 352.
+LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <14.4> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 352.
+
+Overfull \hbox (6.48932pt too wide) in paragraph at lines 360--361
+[]\JY1/mc/m/n/12 異なるグル ープ間でも 、 比較的密な繋がりを持つグル ープのペア
+が存在す る 。 
+ []
+
+[14
+
+] [15]
+Overfull \hbox (0.78383pt too wide) in paragraph at lines 394--401
+[]\JY1/mc/m/n/12 実験に使用するグラフを描画するため 、 生成したネ ッ トワ ーク
+デ ータ \OT1/cmr/m/n/12 4 \JY1/mc/m/n/12 種の \OT1/cmr/m/n/12 GIB
+ []
+
+
+Overfull \hbox (3.11555pt too wide) in paragraph at lines 402--407
+\JY1/mc/m/n/12 を描画すると 、 グラフが視覚的に複雑になり可読性が下がることも考
+えられる 。 一
+ []
+
+\@kuee3chapter=\count112
+\@kuee3table=\count113
+[16]
+Overfull \hbox (0.28262pt too wide) in paragraph at lines 432--433
+\JY1/mc/m/n/12 性を高めるためにはこの指標は小さくあるべきであると知られている 
+。 グラ
+ []
+
+
+Overfull \hbox (0.28262pt too wide) in paragraph at lines 433--437
+\JY1/mc/m/n/12 であると言える 。 この計算は全レイアウトにおいて平均の箱のサイズ
+が等し
+ []
+
+[17]
+\@kuee4chapter=\count114
+\@kuee4figure=\count115
+ [18]
+Overfull \hbox (3.11555pt too wide) in paragraph at lines 498--504
+\JY1/mc/m/n/12 ル ープはその大きさに関わらず理解しやすいことが求められる 。 言
+い換えれば 、 大
+ []
+
+[19]
+Overfull \hbox (0.28262pt too wide) in paragraph at lines 513--515
+\JY1/mc/m/n/12 にアスペクト比とスクリ ーン画面使用効率で優れているため 、 各グ
+ル ープが
+ []
+
+
+Overfull \hbox (0.28262pt too wide) in paragraph at lines 516--518
+\JY1/mc/m/n/12 が描かれるための余白があるとも言える 。 これらのレイアウトは外部
+リンク
+ []
+
+
+Overfull \hbox (2.37964pt too wide) in paragraph at lines 521--523
+\JY1/mc/m/n/12 定を反復測定により行う。 グル ープの数などいくつかの値が刺激毎に
+異なるが 、 こ
+ []
+
+[20]
+Overfull \hbox (3.43262pt too wide) in paragraph at lines 529--534
+\JY1/mc/m/n/12 疲労と慣れの効果を軽減するためタスクを行う順番は被験者毎にランダ
+ムにした 。
+ []
+
+\@kuee5chapter=\count116
+\@kuee5figure=\count117
+[21]
+Overfull \hbox (0.49754pt too wide) in paragraph at lines 594--600
+[]\JY1/gt/m/n/12 タスク \OT1/cmr/bx/n/12 1. \JY1/mc/m/n/12 全レイアウトでの平均
+正答率は \OT1/cmr/m/n/12 97.7%\JY1/mc/m/n/12 であり、 平均完了時間は \OT1/cmr/m
+/n/12 4480ms
+ []
+
+[22]
+\@kuee6chapter=\count118
+\@kuee6figure=\count119
+ [23] [24] (./sample.bbl [25
 
 ]
 
@@ -217,12 +427,12 @@ LaTeX Font Warning: Font shape `JT1/gt/m/it' undefined
 LaTeX Font Warning: Font shape `JY1/gt/m/it' undefined
 (Font)              using `JY1/gt/m/n' instead on input line 5.
 
-[9
+[26
 
-] [10]) AED kuee: Processing end Figures and Tables [11] (./sample.fff
+] [27] [28] [29] [30]) AED kuee: Processing end Figures and Tables [31]
+(./sample.fff
 File: ./images/PhenotypeNet.png Graphic file (type bmp)
-
-<./images/PhenotypeNet.png>
+ <./images/PhenotypeNet.png>
 Overfull \hbox (2.79134pt too wide) in paragraph at lines 5--6
  [][] 
  []
@@ -233,7 +443,30 @@ Overfull \hbox (2.79134pt too wide) in paragraph at lines 14--15
  [][] 
  []
 
-[12]) (./sample.aux)
+[32]
+Overfull \hbox (18.7454pt too wide) in paragraph at lines 27--31
+ [][][] 
+ []
+
+File: ./images/4sta.png Graphic file (type bmp)
+<./images/4sta.png>
+Overfull \hbox (2.79134pt too wide) in paragraph at lines 39--40
+ [][] 
+ []
+
+File: ./images/screenshot.png Graphic file (type bmp)
+<./images/screenshot.png>
+Overfull \hbox (2.79134pt too wide) in paragraph at lines 48--49
+ [][] 
+ []
+
+File: ./images/8sta.png Graphic file (type bmp)
+<./images/8sta.png>
+Overfull \hbox (2.79134pt too wide) in paragraph at lines 57--58
+ [][] 
+ []
+
+[33] [34]) (./sample.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -242,12 +475,12 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 858 strings out of 493653
- 10740 string characters out of 6148875
- 71944 words of memory out of 5000000
- 4478 multiletter control sequences out of 15000+600000
- 18070 words of font info for 69 fonts, out of 8000000 for 9000
+ 1552 strings out of 493653
+ 19260 string characters out of 6148875
+ 82134 words of memory out of 5000000
+ 5147 multiletter control sequences out of 15000+600000
+ 20375 words of font info for 79 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
- 28i,10n,25p,387b,418s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 28i,12n,25p,294b,426s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on sample.dvi (15 pages, 33632 bytes).
+Output written on sample.dvi (38 pages, 117932 bytes).

@@ -3,48 +3,51 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: sample.aux
 The style file: kueethesis.bst
 Database file #1: sample.bib
+Warning--I didn't find a database entry for "burch2011evaluation'"
 Warning--empty journal in giacomo
 Warning--can't use both volume and number fields in chaturvedi2014group
-You've used 22 entries,
+Warning--empty booktitle in yarbus1967eye
+Warning--can't use both volume and number fields in lhuillier2017state
+You've used 47 entries,
             2383 wiz_defined-function locations,
-            703 strings with 8066 characters,
-and the built_in function-call counts, 8404 in all, are:
-= -- 782
-> -- 253
-< -- 39
-+ -- 99
-- -- 77
-* -- 453
-:= -- 1008
-add.period$ -- 22
-call.type$ -- 22
-change.case$ -- 21
+            841 strings with 12285 characters,
+and the built_in function-call counts, 18717 in all, are:
+= -- 1813
+> -- 485
+< -- 88
++ -- 193
+- -- 146
+* -- 1008
+:= -- 2181
+add.period$ -- 47
+call.type$ -- 47
+change.case$ -- 46
 chr.to.int$ -- 0
-cite$ -- 24
-duplicate$ -- 538
-empty$ -- 698
-format.name$ -- 154
-if$ -- 2115
+cite$ -- 51
+duplicate$ -- 1199
+empty$ -- 1588
+format.name$ -- 292
+if$ -- 4734
 int.to.chr$ -- 0
-int.to.str$ -- 22
-missing$ -- 23
-newline$ -- 69
-num.names$ -- 22
-pop$ -- 138
+int.to.str$ -- 47
+missing$ -- 48
+newline$ -- 144
+num.names$ -- 47
+pop$ -- 295
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 525
+skip$ -- 1180
 stack$ -- 0
-substring$ -- 448
-swap$ -- 195
-text.length$ -- 39
+substring$ -- 1176
+swap$ -- 455
+text.length$ -- 88
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 2
-while$ -- 64
-width$ -- 24
-write$ -- 259
-is.kanji.str$ -- 268
-(There were 2 warnings)
+warning$ -- 4
+while$ -- 154
+width$ -- 49
+write$ -- 555
+is.kanji.str$ -- 556
+(There were 5 warnings)
