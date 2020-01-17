@@ -1,0 +1,140 @@
+\expandafter\ifx\csname ifdraft\endcsname\relax
+ \documentclass{kuee}
+ \begin{document}
+\fi
+
+\chapter{関連研究}
+\label{chap:relatedwork}
+
+本章では関連研究について記述する。
+本研究は生物学やグラフ描画、可視化の評価など様々な研究が関連するため、3節に分けてこれを述べる。
+\ref{sec:vis_bio}節では生物学データの可視化について述べる。
+特に、本研究は表現型特徴ネットワークの可視化に焦点を当てており、現在までの研究とその問題点について論述する。
+\ref{sec:graph_for_group_structure}節ではグループ構造を持つネットワークの可視化手法について述べる。
+こうした可視化手法にはいくつか種類があるが、その中でのGIBの立ち位置と、なぜGIBを研究対象にしたかを詳細に説明する。
+\ref{sec:evaluation_with_eyetracking}節では視線追跡グシステムを用いた可視化の評価研究について記述する。
+可視化の評価という分野は近年その重要性を高めているが、その中でも視線追跡システムを用いたものは結果をより定量的に述べられる上更なる考察を与えられるがために学術的な価値が高い。
+一方で、高性能な視線追跡システムが一般に使用されるようになってから日が浅く、そのデータの膨大さから解析方法もあまり整っていない。
+関連研究を詳細に述べることで、本研究の目的に即した視線データ解析を目指す。
+
+In this section, we review two types of related studies.
+
+\subsection{生物学データの可視化}
+\label{sec:vis_bio}
+
+\subsection{Graph-drawing Method for Group Structure}
+\label{sec:graph_for_group_structure}
+データの重要性が広く認知されている近年では、頻繁なデータ収集や計測機器の進化によりネットワークデータはその量も複雑性も増している。
+ネットワークの膨大さと複雑さに対応するため、グラフ描画の分野では様々な手法が提案されてきた。
+Eadesらはforce-directed layoutと呼ばれる手法を提案した\cite。
+この手法では、ノード間の斥力とエッジ間の引力によって各ノードが配置される。
+エッジが引力を持つことから、エッジにより繋がるノード同士が近くに配置され、エッジの長さが短くなる。
+
+
+% Graph drawings are used to design a layout for complex networks.
+% Eades proposed a method using force-directed placement in which attractive and repulsive forces are balanced to produce an optimal equilibrium~\cite{eades84}.
+% This force-directed method has been widely used~\cite{Kobourov2013ForceDirectedDA}, and several approaches are also available for this purpose (see, e.g., \cite{harel2000fast,koren2003drawing,hachul2004drawing,article}).
+
+
+ネットワークのグループ構造はグラフを複雑にする要因の一つであ
+
+% However, the recent popularity of network visualization has led to the development of techniques specifically designed for visualizing networks with group structure.
+% In large-scale network data, the importance of community detection is known and several approaches have been invented, often based on a force-directed layout. One typical method to illustrate the group structure of a graph is varying the color~\cite{mcpherson2005discovering} or shape of nodes; but this method is often ineffective in real-world networks.
+
+% Vehlow et al.\ provided a survey of the visualization of group structures in graphs~\cite{Vehlow2017VisualizingGS}.
+% They described a taxonomy of visualization methods and tasks employed in user testing.
+% This visualization taxonomy is classified as follows: vertex visualization and vertex group structure.
+% The former represents visual grouping of nodes, either by node attributes, juxtaposition, superimposition, or embedding.
+% The latter depends on whether a network can be characterized by group overlapping and/or the hierarchy of the graph structure.
+% A node in a network with group overlapping may simultaneously belong to multiple groups.
+% A hierarchical network features a hierarchical structure among groups.
+% % The abovementioned study introduced some visualizations designed for a network with group structure for each category in the taxonomy.
+
+% The GIB layout is also a visualization for group structure; it is presented in~\cite{rodrigues2011group,chaturvedi2014group,onoue2017optimal}.
+% % There are 4 major variants of GIB, which we consider in this research: ST-GIB, CD-GIB, FD-GIB, and TR-GIB.
+% % This layout has the advantage of visualizing each group in a clearly separate way, which allows the observation of the relationship between two nodes in the same group easily.
+% % It can also show a group size visually with the area of a rectangular.
+% This method is categorized as a superimposed visualization and is best for networks without group overlapping in Vehlow's taxonomy. ST-GIB and TR-GIB can be also applied for networks with hierarchical structure.
+% % An example of network data in which GIB is effective is Twitter data with some groups defined with the user locations because their locations cannot overlap.
+% Chaturvedi et al.~\cite{chaturvedi2014group} compared three types of GIBs: ST-GIB, CD-GIB, and FD-GIB, by calculating several objective measures: edge-box overlap, percent screen space wasted, execution time, and mean group-box aspect ratio.
+% They also provide several case studies.
+% % They observed strong differences in the computational measures among the three layouts; especially, FD-GIB is good at reducing the number of edge-box overlaps but not at saving screen space.
+
+% Although such objective evaluation is effective, it is insufficient because certain hidden factors such as human cognition also influence readability. A user study in which participants use the graphs to complete multiple tasks could facilitate a more-thorough discussion of the layout's effectiveness and appropriately evaluate GIBs while considering such hidden factors.
+% The algorithm proposed by Didimo and Montecchiani~\cite{6295786} also produces a good layout for visualizing group structure with arranging groups in boxes; however, this looks similar to FD-GIB.
+% For the sake of easy comparisons, we focus on only four GIB layouts in this study.
+
+% \subsection{アイトラッキングシステムによる可視化の評価}
+% \label{sec:evaluation_with_eyetracking}
+% Several studies have evaluated visualization techniques through eye tracking~\cite{burch2011evaluation,pohl2009comparing,netzel2014comparative,jianu2014display,7539393}, which have been widely used to collect gaze data and measure the participants' visual attention~\cite{andrienko2012visual,duchowski2007eye,kurzhals2014evaluating}.
+% Such systems are often used to analyze how well participants perform in a user study. Researchers can elicit clues about why one visualization is better than another by analyzing gaze data.
+
+% Burch et al.\ evaluated three variants of tree diagrams through eye tracking~\cite{burch2011evaluation}.
+% %They gave participants a task to find the least common ancestor of a set of given nodes. They collected gaze data as well as task accuracy and completion time, and they analyzed it using techniques designed for the analysis of gaze data, such as trajectory map, heat map, and gaze flow between a pair of areas of interest (AOIs).
+% Their analysis of eye-tracking data explained why the task-completion results differed, as they found that the task with the layout with the least accuracy required users to look over complex cross-check trajectories.
+
+% Several studies provide guidelines on the visual analytics of eye-tracking data~\cite{andrienko2012visual,kurzhals2014evaluating,duchowski2007eye}.
+% Eye-tracking datasets are often very large and difficult to analyze; hence, spatiotemporal gaze data requires specific methodologies for analysis.
+% Burch et al.\ mentioned two methods for analyzing gaze data~\cite{Burch2013VisualTS}, focusing on either areas of interest (AOIs) or gaze trajectories.
+% Since early studies, researchers have known that although AOI plays a crucial role in the analysis process of eye movement data, people concentrate on interesting and informative regions of a display~\cite{yarbus1967eye}.
+% GIB divides the screen into boxes that are naturally regarded as AOIs. Thus, AOI analysis was also used in the present study as it is particularly in the analysis conducted herein.% For effective and meaningful analytics, it is important to know what kind of methods are most appropriate, and these studies can give researchers some hints.
+% % We collect gaze data during the tasks in order to reveal which elements in a visualization affect performance.
+% % We suppose that this study becomes more meaningful by following these analysis methods.
+
+% \section{GIB Layouts}
+% %{}
+% This section describes the four evaluated GIB variants, examples of which are shown in Figure~\ref{GIB-examples}.
+% Each graph in this figure has a different GIB layout, but all layouts are representations of the same network data.
+% As regards evaluation, Chaturvedi et al.\ have performed a computational experiment on three of these layouts: ST-GIB, CD-GIB, and FD-GIB \cite{chaturvedi2014group}.
+% Onoue et al.\ showed that TR-GIB is advantageous over ST-GIB in terms of computational measures \cite{onoue2017optimal}.
+% Our target layouts are the four abovementioned layouts which need to be evaluated from the perspective of human cognition through user experiment.
+% % We use the force-directed layout to draw network within a group, but it is also possible to use other methods.
+
+% \subsection{ST-GIB}
+% The squarified treemap GIB (ST-GIB) (Figure~\ref{GIB-examples}(a)) proposed by Rodrigues et al.~\cite{rodrigues2011group} is based on the squarified treemap algorithm developed by Bruls et al.~\cite{bruls2000squarified}.
+% Bruls et al.'s method was originally designed for tree mapping, which is a visualization method that considers rectangular regions and numerical columns as inputs to divide a region into tiles, whose areas are proportional to their values~\cite{shneiderman1992tree}.
+
+% In ST-GIB, each group is considered a vertex of the treemap and is depicted in the shape of a tile with nodes belonging to the group.
+% The treemap algorithm facilitates a space-filling arrangement with boxes having low aspect ratios, which is important for analyzing the box's content~\cite{bruls2000squarified}.
+% However, the ST-GIB layout exclusively uses the squarified treemap algorithm to arrange groups; hence, the relationships among nodes are not considered when drawing the tiles.
+% As a result, links frequently overlap, significantly hampering the user's understanding of the network~\cite{468391,purchase1997aesthetic,purchase1998performance,purchase2002empirical}.
+% To arrange tiles using ST-GIB, we utilized the squarify Python library (https://github.com/laserson/squarify) that implements Bruls' algorithm. This method arranges the boxes in order of box size, which simplifies the comparison of group sizes for users.
+
+% \subsection{CD-GIB}
+% Chaturvedi et al.~\cite{chaturvedi2014group} proposed the croissant-and-doughnut GIB (CD-GIB) (Figure~\ref{GIB-examples}(b)).
+% They developed this layout to improve ST-GIB such that it considers link information connecting a node to another node belonging to a different group.
+% In particular, they arranged tiles based on the G-degree and G-skewness.
+% A group's G-degree is defined as the number of other groups it is connected to, and its G-skewness is the proportion of nodes included in the two most-connected groups (groups with the highest G-degree).
+% A layout is then chosen from croissant-GIB, doughnut-GIB, or ST-GIB according to the total number of groups and the G-skewness of the graph.
+% Chaturvedi et al.\ defined criteria for appropriately using the three methods, and we applied the same criteria.
+
+% Croissant-GIB places the most-connected box, which has the highest G-degree, at the center-top of the screen. The other boxes are set such that they surround the most-connected box, resulting in a croissant shape. Another layout, called doughnut-GIB, assigns the most-connected box to the center with other boxes surrounding it to form a doughnut shape.
+
+% The most-connected group is placed close to the center to reduce edge overlaps; hence, the readability is better than that when using ST-GIB.
+% However, the aspect ratios of the boxes tend to be less uniform, which makes the area of the boxes difficult to estimate.
+
+% \subsection{FD-GIB}
+% Chaturvedi et al.~\cite{chaturvedi2014group} also proposed the FD-GIB layout (Figure~\ref{GIB-examples}(c)).
+% In FD-GIB, the group boxes are arranged with a force-directed layout run on the whole network, with the vertices for this layout representing entire groups and the edges between them representing the links between groups.
+% Then, group boxes are overlaid on this initial layout.%, centered at the group's position.
+% FD-GIB can cause group overlaps, which are then removed using the PRISM method~\cite{gansner2008efficient}.
+
+% Chaturvedi et al.\ used the Harel--Koren fast multiscale layout~\cite{harel2002graph} to arrange the rectangles in FD-GIB, but we use the D3.js force simulation~\cite{Bostock:2011:DDD:2068462.2068631} because of its easy availability and good results.
+% However, as reported by Chaturvedi et al.~\cite{chaturvedi2014group}, according to experimental evaluations of several layout algorithms performed by Hachul et al.~\cite{Hachul:2005:ECF:2102325.2102348,Hachul2007LargeGraphLA}, several good options are available~\cite{harel2002graph,koren2003drawing}.
+% % , such as the high-dimensional embedding approach~\cite{harel2002graph} or the algebraic multi-grid method~\cite{koren2003drawing}.
+
+% This layout clearly displays the aggregate topology, but it uses more screen space.
+% The area of each group must be smaller than that of the other layouts; hence, the relationships within a single group are more difficult to observe. However, this layout can maintain a consistent aspect ratio because of which participants can easily recognize the size differences between boxes.
+
+% \subsection{TR-GIB}
+% Onoue et al.\ developed TR-GIB to minimize the weighted sum of distances between groups by reordering the sibling nodes laid out by ST-GIB~\cite{onoue2017optimal}.
+% An example of this layout is shown in Figure~\ref{GIB-examples}(d).
+% This method is visually similar to ST-GIB, but the tiles are reordered by solving an optimization problem to reduce the total length of the links between groups.
+% As treemaps, such as ST-GIB, have a tree-like structure, vertices with the same depth in a tree can be reordered.
+% The shorter edges in TR-GIB reduce the number of edge crossings, thereby improving the readability of the graph.
+% % Specifically, the sum of the distances between two groups is weighted according to the number of edges between the two groups, and this sum is taken as the group proximity.
+% We expect this layout to have the advantages of ST-GIB (i.e., good aspect ratio and screen efficiency) with an additional advantage of fewer edge overlaps.
+
+\expandafter\ifx\csname ifdraft\endcsname\relax
+  \end{document}
+\fi

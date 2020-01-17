@@ -1,0 +1,19 @@
+\expandafter\ifx\csname ifdraft\endcsname\relax
+ \documentclass{../kuee}
+ \begin{document}
+\fi
+
+\chapter{はじめに}
+\label{chap:intro}
+この文書は，京都大学電気電子工学科の修論$\cdot$卒論作成用 \LaTeX2e{}
+クラスファイルの利用方法についての説明書です．
+%
+修論$\cdot$卒論の正確なフォーマットの指定は，事務室から配布される手引
+を参照してください
+
+\section{aiue}
+
+% \bibliography{../sample}{}
+\expandafter\ifx\csname ifdraft\endcsname\relax
+  \end{document}
+\fi

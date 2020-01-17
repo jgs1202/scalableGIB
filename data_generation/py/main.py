@@ -10,6 +10,8 @@ import sys
 
 
 def run(graph_data, width, height, outfile):
+    print('starting optimization...')
+    print(graph_data['groupSize'])
     graph = json_graph.node_link_graph(graph_data)
     groups = {graph.nodes()[u]['group'] for u in graph.nodes()}
     sizes = [(len([u for u in graph.nodes()
@@ -33,7 +35,7 @@ def run(graph_data, width, height, outfile):
 
     model = define_model(graph, K)
     solver = SolverFactory("cbc")
-    result = solver.solve(model, tee=True, timelimit=100)
+    result = solver.solve(model, tee=True, timelimit=3000)
     opt_tree = [{
                     'id': K[j].group,
                     'x': get_x_coord(K, model, j),

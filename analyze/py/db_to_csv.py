@@ -20,8 +20,8 @@ def to_df(db_path):
 if __name__ == '__main__':
     path = '../../flaski/test.db'
     df = to_df(path)
-    df = df[1:]
-    print(len(df))
+    # df = df[1:]
+    print(len(df[0:1]))
     df = df[df['layout'] != '']
     print(len(df))
     df.to_csv('../data/choice.csv')
