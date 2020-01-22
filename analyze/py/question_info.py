@@ -6,10 +6,12 @@ import csv
 import json
 from statistics import mean, stdev
 import copy
+from operator import itemgetter
+import pandas as pd
+import numpy as np
 
 
 def layout_num(layout):
-    print(layout)
     if layout == 'FDGIB':
         return 0
     elif layout == 'TRGIB':
@@ -37,6 +39,19 @@ def FD_index():
     return index
 
 
+def fd_check(level, layout, que):
+    #対応表　easy: 30 -> 4, hard: 30 -> 4, 31-> 2, 32 -> 14, 33 -> 21
+    fdoutLevels = [0, 1, 1, 1, 1]
+    converted_index = [4, 4, 2, 14, 21]
+    fdoutFiles = [30, 30, 31, 32, 33]
+    if layout == 0 and que in fdoutFiles:
+            if que == 30:
+                que = 4
+            elif level == fdoutLevels[fdoutFiles.index(que)]:
+                que = converted_index[fdoutFiles.index(que)]
+    return que
+
+
 def main(fd_index):
     limit_second = 30 * 1000
     each_que = 30
@@ -58,8 +73,8 @@ def main(fd_index):
         layout = int(layout_num(datum['layout']))
         level = level_num(datum['groupSize'])
         que = int(datum['origin_file'][:-5])
-        if layout == 0:
-            que = fd_index[level].index(que)
+        que = fd_check(level, layout, que)
+
         out[layout][level][que]['correct'] += int(datum['answer'])
         out[layout][level][que]['time'].append(int(datum['time']))
         out[layout][level][que]['layout'] = datum['layout']
@@ -67,10 +82,6 @@ def main(fd_index):
         out[layout][level][que]['layout'] = datum['layout']
         out[layout][level][que]['groupSize'] = datum['groupSize']
         out_alldata[layout][level][que].append(datum)
-        out_answers[layout][level]['answer'].append(datum['answer'])
-        out_answers[layout][level]['all_time'].append(datum['time'])
-        if datum['answer'] == str(1):
-            out_answers[layout][level]['correct_time'].append(datum['time'])
 
     for layout in range(each_layout):
         for level in range(each_level):
@@ -92,8 +103,39 @@ def main(fd_index):
     json.dump(out, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
     f = open('../data/allData.json', 'w')
     json.dump(out_alldata, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
+
+    for i in range(len(out_alldata)):
+        for j in range(len(out_alldata[i])):
+            for k in range(len(out_alldata[i][j])):
+                out_alldata[i][j][k] = sorted(out_alldata[i][j][k], key=itemgetter('username'))
+
+    for layout in range(len(out_alldata)):
+        for level in range(len(out_alldata[layout])):
+            for que in range(len(out_alldata[layout][level])):
+                for datum in out_alldata[layout][level][que]:
+                    out_answers[layout][level]['answer'].append(datum['answer'])
+                    out_answers[layout][level]['all_time'].append(datum['time'])
+                    if datum['answer'] == str(1):
+                        out_answers[layout][level]['correct_time'].append(datum['time'])
+
     f = open('../data/answers.json', 'w')
     json.dump(out_answers, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
+
+    df = pd.DataFrame(np.zeros(120 * 4).reshape(120, 4),
+        columns=['layout', 'level', 'file', 'accuracy'])
+    for layout in range(2):
+        for level in range(2):
+            for datum in out[layout][level]:
+                try:
+                    file = int(datum['file'][:2])
+                except:
+                    file = int(datum['file'][0])
+                df['layout'][layout * 60 + level * 30 + file] = layout
+                df['level'][layout * 60 + level * 30 + file] = level
+                df['file'][layout * 60 + level * 30 + file] = file
+                df['accuracy'][layout * 60 + level * 30 + file] = float(datum['correct']) / float(datum['people']) * 100
+    df.to_csv('../data/accuracy_for_plot.csv')
+
 
 
 if __name__ == '__main__':

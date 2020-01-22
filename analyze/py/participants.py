@@ -4,7 +4,7 @@ from scipy.stats import f_oneway
 
 
 def read():
-    data = json.load(open('flaski/choice.json'))
+    data = json.load(open('../data/choice.json'))
     return data
 
 
@@ -19,14 +19,15 @@ def output(data):
         name = datum['username']
         if name not in names:
             names.append(name)
-        if datum['gender'] == 'male':
+        if datum['gender'] == 'Male':
             males.append(name)
         else:
             females.append(name)
         age.append(int(datum['age']))
     print(mean(age))
     print(max(age), min(age))
-    print(len(males), len(females))
+    print(len(males) / 120, len(females) / 120)
+    print(names)
 
 def main():
     data = read()

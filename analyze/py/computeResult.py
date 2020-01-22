@@ -5,6 +5,8 @@ from statistics import mean, stdev
 from scipy.stats import f_oneway, friedmanchisquare, shapiro, wilcoxon
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
+from statistics import mean, stdev
 
 
 def verify_layout(layout):
@@ -64,6 +66,28 @@ def box_graph(data, title):
     plt.close()
 
 
+def inner_ratio():
+    main_path = '../../data_generation/data/origin/'
+    dirs = ['low-mid/', 'high-mid/']
+
+    ratios = []
+    for dir in dirs:
+        for file in os.listdir(main_path + dir):
+            if file[-5:] == '.json':
+                data = json.load(open(main_path + dir + file, 'r'))
+                inner_links = 0
+                inter_links = 0
+                links = len(data['links'])
+                for link in data['links']:
+                    if data['nodes'][link['source']]['group'] == data['nodes'][link['target']]['group']:
+                        inner_links += 1
+                    else:
+                        inter_links += 1
+                if inner_links / inter_links < 10:
+                    ratios.append(inner_links / inter_links)
+    print(mean(ratios), stdev(ratios))
+
+
 def main():
     data = json.load(open('../flaski/result.json'))
     edgecross = [[] for i in range(4)]
@@ -84,4 +108,5 @@ def main():
 
 
 if __name__ == '__main__':
-	main()
+	# main()
+    inner_ratio()

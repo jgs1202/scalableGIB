@@ -11,8 +11,12 @@ import copy
 
 def count_AOIs_in_a_time_window(data, index, direction, time_window):
     # direction is 1 or -1
+    # saccadeはAOIととらえない　AOIの変化のみ記録
     count = 0
-    old_AOI = data[index]['AOI']
+    try:
+        old_AOI = data[index]['AOI']
+    except:
+        old_AOI = None
     for step in range(time_window):
         position = index + step * direction
         if position >= 0 and position < len(data):
@@ -21,24 +25,47 @@ def count_AOIs_in_a_time_window(data, index, direction, time_window):
                     old_AOI = data[position]['AOI']
                     count += 1
             except:
-                if old_AOI is not None:
-                    old_AOI = None
-                    count += 1
+                pass
         else:
             break
     return count
 
 
-def calc_move(data):
-    time_window_step = int(1000 / 20)
+def count_AOIs_kind_in_a_time_window(data, index, direction, time_window):
+    # direction is 1 or -1
+    # saccadeはAOIととらえない　AOIの変化のみ記録
+    AOIs = []
+    try:
+        AOIs.append(data[index]['AOI'])
+    except:
+        pass
+    for step in range(time_window):
+        position = index + step * direction
+        if position >= 0 and position < len(data):
+            try:
+                if data[position]['AOI'] not in AOIs:
+                    AOIs.append(data[position]['AOI'])
+            except:
+                pass
+        else:
+            break
+    return len(AOIs)
+
+
+def calc_move(data, total_step):
+    time_window_step = int(total_step / 100)
     for que in data:
         for participant in que:
             for segment in range(len(participant['segments'])):
-                if participant['segments'][segment]['fixation']:
-                    count_before = count_AOIs_in_a_time_window(participant['segments'], segment, -1, time_window_step)
-                    count_after = count_AOIs_in_a_time_window(participant['segments'], segment, 1, time_window_step)
-                    participant['segments'][segment]['AOIsBefore'] = count_before
-                    participant['segments'][segment]['AOIsAfter'] = count_after
+                count_before = count_AOIs_in_a_time_window(participant['segments'], segment, -1, time_window_step)
+                count_after = count_AOIs_in_a_time_window(participant['segments'], segment, 1, time_window_step)
+                kind_before = count_AOIs_kind_in_a_time_window(participant['segments'], segment, -1, time_window_step)
+                kind_after = count_AOIs_kind_in_a_time_window(participant['segments'], segment, 1, time_window_step)
+
+                participant['segments'][segment]['AOIsBefore'] = count_before
+                participant['segments'][segment]['AOIsAfter'] = count_after
+                participant['segments'][segment]['AOIKindsBefore'] = kind_before
+                participant['segments'][segment]['AOIKindsAfter'] = kind_after
     return data
 
 
@@ -69,9 +96,11 @@ def main():
                     dic['segments'][step]['fixation'] = True
                     dic['segments'][step]['AOI'] = fixation['AOI']
             del dic['fixations']
+            dic['layout'] = src_data['layout']
+            dic['groupSize'] = src_data['groupSize']
             outputs[que].append(dic)
 
-    outputs = calc_move(outputs)
+    outputs = calc_move(outputs, total_step)
 
     f = open('../data/segmentedFixation.json', 'w')
     json.dump(outputs, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+#lack of fd is easy: 4, hard: 2, 4, 14, 21
+
 import numpy as np
 import os
 import csv
@@ -32,8 +34,6 @@ def main():
     total = 120
     data = json.load(open('../data/perQuestion.json', 'r'))
     outputs = [{} for i in range(total)]
-    fd_index = [[], []]
-    fd_files = [[], []]
 
     for que in range(total):
         graph = json.load(open('../../src/data/random/' + str(que) + '.json', 'r'))
@@ -42,14 +42,18 @@ def main():
         if layout == 1:
             outputs[que] = data[layout][level][file]
         if layout == 0:
-            fd_index[level].append(que)
-            fd_files[level].append(file)
-
-    fd_sorted = [sorted(fd_files[0]), sorted(fd_files[1])]
-    for level in range(2):
-        for que in range(len(fd_index[level])):
-            file = fd_sorted[level].index(fd_files[level][que])
-            outputs[fd_index[level][que]] = data[0][level][file]
+            # fd_index[level].append(que)
+            # fd_files[level].append(file)
+            if file >= 30:
+                if file == 30:
+                    file = 4
+                if file == 31:
+                    file = 2
+                if file == 32:
+                    file = 14
+                if file == 33:
+                    file = 21
+            outputs[que] = data[layout][level][file]
 
     f = open('../data/abst_info.json', 'w')
     json.dump(outputs, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))

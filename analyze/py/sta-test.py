@@ -30,28 +30,33 @@ def get_stalist(data):
     times = [[[] for j in range(levels_number)] for i in range(layouts_number)]
     for layout in range(layouts_number):
         for level in range(levels_number):
-            for datum in data[layout][level]:
-                means[layout][level].append(datum['correct'] / datum['people'] * 100)
-                times[layout][level].append(datum['totalMeanTime'])
-                correct_times[layout][level].append(datum['meanCorrectTime'])
+            datum = data[layout][level]
+            means[layout][level].extend(datum['answer'])
+            for time in datum['all_time']:
+                times[layout][level].append(int(time))
+            for time in datum['correct_time']:
+                correct_times[layout][level].append(int(time))
     return means, times, correct_times
 
 
-def box_graph(means, times, data):
+def box_graph(means, times, correct_times, data):
     mean = []
     time = []
-    for i in range(layout_number):
-        mean.append((means[i][0], means[i][1]))
-        time.append((times[i][0], times[i][1]))
-    for i in range(layout_number):
+    correct_time = []
+    for i in range(layouts_number):
+        mean.append((means[0][i], means[1][i]))
+        time.append((times[0][i], times[1][i]))
+        correct_time.append((correct_times[0][i], correct_times[1][i]))
+    for i in range(layouts_number):
         sns.set()
         sns.set_style("whitegrid", {'grid.linestyle': '--'})
-        sns.set_context("paper", 1.5, {"lines.linewidth": layout_number})
+        sns.set_context("paper", 1.5, {"lines.linewidth": layouts_number})
         sns.set_palette("winter_r", 8)
         sns.set('talk', 'whitegrid', 'dark', rc={"lines.linewidth": 2, 'grid.linestyle': '--'})
         fig, ax = plt.subplots()
-        bp = ax.boxplot(mean[i], vert=True, patch_artist=True)
-        # bp = ax.boxplot(time[i], vert=True, patch_artist=True)
+        # bp = ax.boxplot(mean[i], vert=True, patch_artist=True)
+        bp = ax.boxplot(time[i], vert=True, patch_artist=True)
+        # bp = ax.boxplot(correct_time[i], vert=True, patch_artist=True)
         for box in bp['boxes']:
             box.set(color="black", linewidth=1.5)
         for box in bp['medians']:
@@ -62,27 +67,39 @@ def box_graph(means, times, data):
             plt.setp(box, ls="solid", color="black", linewidth=1.5)
         for box, color in zip(bp["boxes"], sns.color_palette("Set3", 6)):
             box.set_facecolor(color)
-        fig.subplots_adjust(top=0.95, bottom=0.15, left=0.10, right=0.97)
-        ax.set_xticklabels(['ST-GIB', 'CD-GIB', 'FD-GIB', 'TR-GIB'], fontsize=24)
+        fig.subplots_adjust(top=0.95, bottom=0.2, left=0.17, right=0.97)
+        ax.set_xticklabels(['FD-GIB', 'TR-GIB'], fontsize=20)
         plt.tick_params(labelsize=22)
-        plt.xlabel('layout', fontsize=28)
-        # plt.ylabel('accuracy [%]', fontsize=28)
-        # plt.ylabel('completion time [ms]', fontsize=28)
-        # plt.ylim(1000, 10000)
-        plt.ylim(0, 110)
-        # ax.legend(bp["boxes"], ['ST-GIB', 'CD-GIB', 'FD-GIB', 'TR-GIB'], loc='upper right')
-        plt.legend()
+        plt.xlabel('layout', fontsize=24)
+
+        # plt.ylim(0, 110)
+        # ax.legend(bp["boxes"], ['FD-GIB', 'TR-GIB'], loc='upper right')
+        # plt.legend()
         plt.grid()
-        plt.savefig('../src/trajectory/mean' + str(i + 1) + '.png')
-        # plt.savefig('../src/trajectory/time' + str(i+1) + '.png')
+
+        # plt.ylabel('accuracy [%]', fontsize=28)
+        # plt.savefig('../data/mean' + str(i + 1) + '.png')
+
+        plt.ylabel('completion time [ms]', fontsize=28)
+        plt.savefig('../data/time' + str(i+1) + '.png')
+
+        # plt.ylabel('completion time [ms]', fontsize=28)
+        # plt.savefig('../data/correct-time' + str(i+1) + '.png')
+
         plt.close()
 
 
 def main():
     data = json.load(open('../data/perQuestion.json'))
-    means, times, correct_times = get_stalist(data)
-
     all_data = json.load(open('../data/answers.json'))
+
+    # means, times, correct_times = get_stalist(data)
+    means, times, correct_times = get_stalist(all_data)
+
+    # print(means)
+    # print(stats.ttest_rel(means[0][1], means[1][1]))
+    # print(mean(means[0][1]), mean(means[1][1]))
+
     for layout in range(len(all_data)):
         for level in range(len(all_data[layout])):
             for answer in range(len(all_data[layout][level]['answer'])):
@@ -92,29 +109,37 @@ def main():
             for time in range(len(all_data[layout][level]['correct_time'])):
                 all_data[layout][level]['correct_time'][time] = int(all_data[layout][level]['correct_time'][time])
 
+    print('answer')
     print(mean(all_data[0][0]['answer']), mean(all_data[1][0]['answer']))
-    print(stats.mannwhitneyu(all_data[0][0]['answer'], all_data[1][0]['answer']))
+    print(stats.wilcoxon(all_data[0][0]['answer'], all_data[1][0]['answer']))
     print(mean(all_data[0][1]['answer']), mean(all_data[1][1]['answer']))
-    print(stats.mannwhitneyu(all_data[0][1]['answer'], all_data[1][1]['answer']))
+    print(stats.wilcoxon(all_data[0][1]['answer'], all_data[1][1]['answer']))
 
+    print('correct time')
     print(mean(all_data[0][0]['correct_time']), mean(all_data[1][0]['correct_time']))
     print(stats.mannwhitneyu(all_data[0][0]['correct_time'], all_data[1][0]['correct_time']))
     print(mean(all_data[0][1]['correct_time']), mean(all_data[1][1]['correct_time']))
     print(stats.mannwhitneyu(all_data[0][1]['correct_time'], all_data[1][1]['correct_time']))
 
+    print('all time')
+    print(mean(all_data[0][0]['all_time']), mean(all_data[1][0]['all_time']))
+    print(stats.wilcoxon(all_data[0][0]['all_time'], all_data[1][0]['all_time']))
+    print(mean(all_data[0][1]['all_time']), mean(all_data[1][1]['all_time']))
+    print(stats.wilcoxon(all_data[0][1]['all_time'], all_data[1][1]['all_time']))
+
     # for layout in range(len(all_data)):
     #     for level in range(len(all_data[layout])):
     #         for que in range(len(all_data[layout][level])):
     #             print(len(all_data[layout][level][que]))
-    print('time')
-    print(stats.wilcoxon(all_data[0][0]['all_time'], all_data[1][0]['all_time']))
-    print(stats.wilcoxon(all_data[0][1]['all_time'], all_data[1][1]['all_time']))
+    # print('time')
+    # print(stats.wilcoxon(all_data[0][0]['all_time'], all_data[1][0]['all_time']))
+    # print(stats.wilcoxon(all_data[0][1]['all_time'], all_data[1][1]['all_time']))
 
-    print('accuracy')
-    print(stats.wilcoxon(all_data[0][0]['answer'], all_data[1][0]['answer']))
-    print(stats.wilcoxon(all_data[0][1]['answer'], all_data[1][1]['answer']))
+    # print('accuracy')
+    # print(stats.wilcoxon(all_data[0][0]['answer'], all_data[1][0]['answer']))
+    # print(stats.wilcoxon(all_data[0][1]['answer'], all_data[1][1]['answer']))
 
-    box_graph(means, times, all_data)
+    box_graph(means, times, correct_times, all_data)
 
     # for i in range(len(all_data)):
     #     for j in range(len(all_data[i])):
