@@ -92,19 +92,23 @@ def main():
             participant, que_number = fixation_info(datum, fixation_num)
             dic = init_data(participant, datum, fixation_num)
             get_task_result(task_result, que_number, participant, dic)
-        else:
-            recStart = datum['RecordingTimestamp'][fixation_num]
-            gazeDur = datum['GazeEventDuration'][fixation_num]
-            gazeX = datum['FixationPointX (MCSpx)'][fixation_num]
-            gazeY = datum['FixationPointY (MCSpx)'][fixation_num]
-            AOI = int(datum['AOI'][fixation_num]) - 1
-            tmp = {}
-            tmp['recStart'] = int(recStart)
-            tmp['gazeDur'] = int(gazeDur)
+
+        recStart = datum['RecordingTimestamp'][fixation_num]
+        gazeDur = datum['GazeEventDuration'][fixation_num]
+        gazeX = datum['FixationPointX (MCSpx)'][fixation_num]
+        gazeY = datum['FixationPointY (MCSpx)'][fixation_num]
+        AOI = int(datum['AOI'][fixation_num]) - 1
+        tmp = {}
+        tmp['recStart'] = int(recStart)
+        tmp['gazeDur'] = int(gazeDur)
+        try:
             tmp['gazeX'] = int(gazeX)
             tmp['gazeY'] = int(gazeY)
             tmp['AOI'] = AOI
             dic['fixations'].append(tmp)
+        except:
+            print(participant, que_number)
+            print(gazeX)
 
     sort_by_score(outputs)
 

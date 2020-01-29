@@ -1,5 +1,22 @@
 \begin{thebibliography}{10}
 
+\bibitem{Vehlow2017VisualizingGS}
+Corinna Vehlow, Fabian Beck, and Daniel Weiskopf, Visualizing group structures
+  in graphs: A survey, {\em Comput. Graph. Forum\/}, Vol.~36, (2017), pp.
+  201--225.
+
+\bibitem{chaturvedi2014group}
+Snigdha Chaturvedi, Cody Dunne, Zahra Ashktorab, R~Zachariah, and Ben
+  Shneiderman, Group-in-a-box meta-layouts for topological clusters and
+  attribute-based groups: Space-efficient visualizations of network communities
+  and their ties, {\em Computer Graphics Forum\/}, Vol.~33, (Wiley Online
+  Library, 2014), pp. 52--68.
+
+\bibitem{onoue2017optimal}
+Yosuke Onoue and Koji Koyamada, Optimal tree reordering for group-in-a-box
+  graph layouts, {\em SIGGRAPH Asia 2017 Symposium on Visualization\/}, (ACM,
+  2017), p.~13.
+
 \bibitem{harel2000fast}
 David Harel and Yehuda Koren, A fast multi-scale method for drawing large
   graphs, {\em International symposium on graph drawing\/}, (Springer, 2000),
@@ -20,48 +37,9 @@ Emilio Di~Giacomo, Walter Didimo, Giuseppe Liotta, and Fabrizio Montecchiani,
   Area requirement of graph drawings with few crossings per edge, Vol.~46,
   (2013), pp. 909--916.
 
-\bibitem{Newman:2010:NI:1809753}
-Mark Newman, {\em Networks: An Introduction\/}, (Oxford University Press, Inc.,
-  New York, NY, USA, 2010).
-
-\bibitem{girvan2002community}
-Michelle Girvan and Mark~EJ Newman, Community structure in social and
-  biological networks, {\em Proceedings of the national academy of sciences\/},
-  Vol.~99, No.~12, (2002), pp. 7821--7826.
-
-\bibitem{newman2004detecting}
-Mark~EJ Newman, Detecting community structure in networks, {\em The European
-  Physical Journal B\/}, Vol.~38, No.~2, (2004), pp. 321--330.
-
-\bibitem{Vehlow2017VisualizingGS}
-Corinna Vehlow, Fabian Beck, and Daniel Weiskopf, Visualizing group structures
-  in graphs: A survey, {\em Comput. Graph. Forum\/}, Vol.~36, (2017), pp.
-  201--225.
-
-\bibitem{doi:10.1177/1473871612455749}
-Helen Gibson, Joe Faith, and Paul Vickers, A survey of two-dimensional graph
-  layout techniques for information visualisation, {\em Information
-  Visualization\/}, Vol.~12, No. 3-4, (2013), pp. 324--357.
-
 \bibitem{saket2014group}
 Bahador Saket, Paolo Simonetto, and Stephen Kobourov, Group-level graph
   visualization taxonomy, {\em arXiv preprint arXiv:1403.7421\/}, (2014).
-
-\bibitem{onoue2017optimal}
-Yosuke Onoue and Koji Koyamada, Optimal tree reordering for group-in-a-box
-  graph layouts, {\em SIGGRAPH Asia 2017 Symposium on Visualization\/}, (ACM,
-  2017), p.~13.
-
-\bibitem{chaturvedi2014group}
-Snigdha Chaturvedi, Cody Dunne, Zahra Ashktorab, R~Zachariah, and Ben
-  Shneiderman, Group-in-a-box meta-layouts for topological clusters and
-  attribute-based groups: Space-efficient visualizations of network communities
-  and their ties, {\em Computer Graphics Forum\/}, Vol.~33, (Wiley Online
-  Library, 2014), pp. 52--68.
-
-\bibitem{bruls2000squarified}
-Mark Bruls, Kees Huizing, and Jarke~J Van~Wijk, Squarified treemaps, {\em Data
-  visualization 2000\/}, (Springer, 2000), pp. 33--42.
 
 \bibitem{andrienko2012visual}
 Gennady Andrienko, Natalia Andrienko, Michael Burch, and Daniel Weiskopf,
@@ -78,30 +56,6 @@ Kuno Kurzhals, Brian Fisher, Michael Burch, and Daniel Weiskopf, Evaluating
   visual analytics with eye tracking, {\em Proceedings of the Fifth Workshop on
   Beyond Time and Errors: Novel Evaluation Methods for Visualization\/}, (ACM,
   2014), pp. 61--69.
-
-\bibitem{schneider2012nih}
-Caroline~A Schneider, Wayne~S Rasband, and Kevin~W Eliceiri, Nih image to
-  imagej: 25 years of image analysis, {\em Nature methods\/}, Vol.~9, No.~7,
-  (2012), p. 671.
-
-\bibitem{schindelin2012fiji}
-Johannes Schindelin, Ignacio Arganda-Carreras, Erwin Frise, Verena Kaynig, Mark
-  Longair, Tobias Pietzsch, Stephan Preibisch, Curtis Rueden, Stephan Saalfeld,
-  Benjamin Schmid, et~al., Fiji: an open-source platform for biological-image
-  analysis, {\em Nature methods\/}, Vol.~9, No.~7, (2012), p. 676.
-
-\bibitem{carpenter2006cellprofiler}
-Anne~E Carpenter, Thouis~R Jones, Michael~R Lamprecht, Colin Clarke, In~Han
-  Kang, Ola Friman, David~A Guertin, Joo~Han Chang, Robert~A Lindquist, Jason
-  Moffat, et~al., Cellprofiler: image analysis software for identifying and
-  quantifying cell phenotypes, {\em Genome biology\/}, Vol.~7, No.~10, (2006),
-  p. R100.
-
-\bibitem{Chen491035}
-Jianxu Chen, Liya Ding, Matheus~P. Viana, Melissa~C. Hendershott, Ruian Yang,
-  Irina~A. Mueller, and Susanne~M. Rafelski, The allen cell structure
-  segmenter: a new open source toolkit for segmenting 3d intracellular
-  structures in fluorescence microscopy images, {\em bioRxiv\/}, (2018).
 
 \bibitem{eades84}
 P.~Eades, A heuristic for graph drawing, {\em Congressus Numerantium\/},
@@ -149,6 +103,35 @@ W.~Didimo and F.~Montecchiani, Fast layout computation of hierarchically
   16th International Conference on Information Visualisation\/}, (2012), pp.
   18--23.
 
+\bibitem{bruls2000squarified}
+Mark Bruls, Kees Huizing, and Jarke~J Van~Wijk, Squarified treemaps, {\em Data
+  visualization 2000\/}, (Springer, 2000), pp. 33--42.
+
+\bibitem{shneiderman1992tree}
+Ben Shneiderman, Tree visualization with tree-maps: 2-d space-filling approach,
+  {\em ACM Transactions on graphics (TOG)\/}, Vol.~11, No.~1, (1992), pp.
+  92--99.
+
+\bibitem{gansner2008efficient}
+Emden~R Gansner and Yifan Hu, Efficient node overlap removal using a proximity
+  stress model, {\em International Symposium on Graph Drawing\/}, (Springer,
+  2008), pp. 206--217.
+
+\bibitem{harel2002graph}
+David Harel and Yehuda Koren, Graph drawing by high-dimensional embedding, {\em
+  International symposium on graph drawing\/}, (Springer, 2002), pp. 207--219.
+
+\bibitem{Bostock:2011:DDD:2068462.2068631}
+Michael Bostock, Vadim Ogievetsky, and Jeffrey Heer, D3 data-driven documents,
+  {\em IEEE Transactions on Visualization and Computer Graphics\/}, Vol.~17,
+  No.~12, (2011), pp. 2301--2309.
+
+\bibitem{Hachul:2005:ECF:2102325.2102348}
+Stefan Hachul and Michael J\"{u}nger, An experimental comparison of fast
+  algorithms for drawing general large graphs, {\em Proceedings of the 13th
+  International Conference on Graph Drawing\/}, GD'05, (Springer-Verlag,
+  Berlin, Heidelberg, 2006), pp. 235--250.
+
 \bibitem{burch2011evaluation}
 Michael Burch, Natalia Konevtsova, Julian Heinrich, Markus Hoeferlin, and
   Daniel Weiskopf, Evaluation of traditional, orthogonal, and radial tree
@@ -187,55 +170,15 @@ Michael Burch, Gennady~L. Andrienko, Natalia~V. Andrienko, Markus H{\"o}ferlin,
 \bibitem{yarbus1967eye}
 Alfred~L Yarbus, Eye movements and vision, (Springer, 1967).
 
-\bibitem{shneiderman1992tree}
-Ben Shneiderman, Tree visualization with tree-maps: 2-d space-filling approach,
-  {\em ACM Transactions on graphics (TOG)\/}, Vol.~11, No.~1, (1992), pp.
-  92--99.
-
-\bibitem{468391}
-R.~A. Becker, S.~G. Eick, and A.~R. Wilks, Visualizing network data, {\em IEEE
-  Transactions on Visualization and Computer Graphics\/}, Vol.~1, No.~1,
-  (1995), pp. 16--28.
-
-\bibitem{purchase1997aesthetic}
-Helen Purchase, Which aesthetic has the greatest effect on human
-  understanding?, {\em International Symposium on Graph Drawing\/}, (Springer,
-  1997), pp. 248--261.
-
-\bibitem{purchase1998performance}
-Helen~C Purchase, Performance of layout algorithms: Comprehension, not
-  computation, {\em Journal of Visual Languages \& Computing\/}, Vol.~9, No.~6,
-  (1998), pp. 647--657.
-
-\bibitem{purchase2002empirical}
-Helen~C Purchase, David Carrington, and Jo-Anne Allder, Empirical evaluation of
-  aesthetics-based graph layout, {\em Empirical Software Engineering\/},
-  Vol.~7, No.~3, (2002), pp. 233--255.
-
-\bibitem{gansner2008efficient}
-Emden~R Gansner and Yifan Hu, Efficient node overlap removal using a proximity
-  stress model, {\em International Symposium on Graph Drawing\/}, (Springer,
-  2008), pp. 206--217.
-
-\bibitem{harel2002graph}
-David Harel and Yehuda Koren, Graph drawing by high-dimensional embedding, {\em
-  International symposium on graph drawing\/}, (Springer, 2002), pp. 207--219.
-
-\bibitem{Bostock:2011:DDD:2068462.2068631}
-Michael Bostock, Vadim Ogievetsky, and Jeffrey Heer, D3 data-driven documents,
-  {\em IEEE Transactions on Visualization and Computer Graphics\/}, Vol.~17,
-  No.~12, (2011), pp. 2301--2309.
-
-\bibitem{Hachul:2005:ECF:2102325.2102348}
-Stefan Hachul and Michael J\"{u}nger, An experimental comparison of fast
-  algorithms for drawing general large graphs, {\em Proceedings of the 13th
-  International Conference on Graph Drawing\/}, GD'05, (Springer-Verlag,
-  Berlin, Heidelberg, 2006), pp. 235--250.
-
 \bibitem{lhuillier2017state}
 Antoine Lhuillier, Christophe Hurter, and Alexandru Telea, State of the art in
   edge and trail bundling techniques, {\em Computer Graphics Forum\/}, Vol.~36,
   (Wiley Online Library, 2017), pp. 619--645.
+
+\bibitem{doi:10.1177/1473871612455749}
+Helen Gibson, Joe Faith, and Paul Vickers, A survey of two-dimensional graph
+  layout techniques for information visualisation, {\em Information
+  Visualization\/}, Vol.~12, No. 3-4, (2013), pp. 324--357.
 
 \bibitem{olsen2012tobii}
 Anneli Olsen, The tobii i-vt fixation filter, {\em Tobii Technology\/}, (2012).
@@ -245,5 +188,18 @@ Vahan Yoghourdjian, Daniel Archambault, Stephan Diehl, Tim Dwyer, Karsten
   Klein, Helen~C Purchase, and Hsiang-Yun Wu, Exploring the limits of
   complexity: A survey of empirical studies on graph visualisation, {\em Visual
   Informatics\/}, Vol.~2, No.~4, (2018), pp. 264--282.
+
+\bibitem{jastrow}
+Joseph Jastrow, Studies from the university of wisconsin: On the judgment of
+  angles and positions of lines, {\em The American Journal of Psychology\/},
+  Vol.~5, No.~2, (1892), pp. 214--248.
+
+\bibitem{appelle1972perception}
+Stuart Appelle, Perception and discrimination as a function of stimulus
+  orientation: the" oblique effect" in man and animals., {\em Psychological
+  bulletin\/}, Vol.~78, No.~4, (1972), p. 266.
+
+\bibitem{gibweb}
+Nozomi Aoyama, A website of gib, (\url{http://gib.jgs-hd.com/}).
 
 \end{thebibliography}

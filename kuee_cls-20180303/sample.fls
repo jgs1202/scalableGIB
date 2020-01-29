@@ -35,6 +35,8 @@ INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/amsmath/amsbsy.sty
 INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/amsmath/amsbsy.sty
 INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/amsmath/amsopn.sty
 INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/amsmath/amsopn.sty
+INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/url/url.sty
+INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/url/url.sty
 INPUT sample.aux
 INPUT sample.aux
 OUTPUT sample.aux
@@ -74,7 +76,6 @@ INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.t
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
-INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin8.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
@@ -82,21 +83,27 @@ INPUT sample.toc
 INPUT sample.toc
 OUTPUT sample.toc
 OUTPUT sample.fff
-INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
-INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
+INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
+INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
+INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin8.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin6.tfm
 INPUT sample.bbl
 INPUT sample.bbl
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmti12.tfm
+INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmtt12.tfm
 INPUT sample.fff
 INPUT sample.fff
 INPUT ./images/PhenotypeNet.png
 INPUT extractbb -O ./images/PhenotypeNet.png
+INPUT ./images/azuma_threshold08.png
+INPUT extractbb -O ./images/azuma_threshold08.png
 INPUT ./images/examples.png
 INPUT extractbb -O ./images/examples.png
+INPUT ./images/nucmen.png
+INPUT extractbb -O ./images/nucmen.png
 INPUT ./images/4sta.png
 INPUT extractbb -O ./images/4sta.png
 INPUT ./images/screenshot.png
@@ -111,8 +118,26 @@ INPUT ./images/ex2-screenshot.png
 INPUT extractbb -O ./images/ex2-screenshot.png
 INPUT ./images/ex2-result.png
 INPUT extractbb -O ./images/ex2-result.png
+INPUT ./images/aoinum-time.png
+INPUT extractbb -O ./images/aoinum-time.png
+INPUT ./images/aoikind-time.png
+INPUT extractbb -O ./images/aoikind-time.png
+INPUT ./images/aoinum-aoikind.png
+INPUT extractbb -O ./images/aoinum-aoikind.png
 INPUT ./images/taxonomy.png
 INPUT extractbb -O ./images/taxonomy.png
 INPUT ./images/taxonomy-result.png
 INPUT extractbb -O ./images/taxonomy-result.png
+INPUT ./images/8-origin.png
+INPUT extractbb -O ./images/8-origin.png
+INPUT ./images/8-fd.png
+INPUT extractbb -O ./images/8-fd.png
+INPUT ./images/8-tr.png
+INPUT extractbb -O ./images/8-tr.png
+INPUT ./images/64-fd.png
+INPUT extractbb -O ./images/64-fd.png
+INPUT ./images/64-tr.png
+INPUT extractbb -O ./images/64-tr.png
+INPUT ./images/gib-web.png
+INPUT extractbb -O ./images/gib-web.png
 INPUT sample.aux

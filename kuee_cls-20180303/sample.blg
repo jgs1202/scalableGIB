@@ -3,50 +3,51 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: sample.aux
 The style file: kueethesis.bst
 Database file #1: sample.bib
-Warning--empty journal in giacomo
 Warning--can't use both volume and number fields in chaturvedi2014group
+Warning--empty journal in giacomo
 Warning--empty booktitle in yarbus1967eye
 Warning--can't use both volume and number fields in lhuillier2017state
-You've used 48 entries,
+Warning--there's no year in gibweb
+You've used 40 entries,
             2383 wiz_defined-function locations,
-            846 strings with 12549 characters,
-and the built_in function-call counts, 19211 in all, are:
-= -- 1857
-> -- 507
-< -- 91
-+ -- 201
-- -- 153
-* -- 1042
-:= -- 2242
-add.period$ -- 48
-call.type$ -- 48
-change.case$ -- 47
+            798 strings with 10880 characters,
+and the built_in function-call counts, 15867 in all, are:
+= -- 1560
+> -- 376
+< -- 72
++ -- 152
+- -- 112
+* -- 838
+:= -- 1831
+add.period$ -- 40
+call.type$ -- 40
+change.case$ -- 40
 chr.to.int$ -- 0
-cite$ -- 52
-duplicate$ -- 1225
-empty$ -- 1621
-format.name$ -- 306
-if$ -- 4854
+cite$ -- 45
+duplicate$ -- 1019
+empty$ -- 1377
+format.name$ -- 224
+if$ -- 4025
 int.to.chr$ -- 0
-int.to.str$ -- 48
-missing$ -- 49
-newline$ -- 147
-num.names$ -- 48
-pop$ -- 299
+int.to.str$ -- 40
+missing$ -- 39
+newline$ -- 123
+num.names$ -- 40
+pop$ -- 256
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 1207
+skip$ -- 1014
 stack$ -- 0
-substring$ -- 1208
-swap$ -- 467
-text.length$ -- 91
+substring$ -- 1038
+swap$ -- 385
+text.length$ -- 72
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 4
-while$ -- 158
-width$ -- 50
-write$ -- 567
-is.kanji.str$ -- 573
-(There were 4 warnings)
+warning$ -- 5
+while$ -- 134
+width$ -- 42
+write$ -- 471
+is.kanji.str$ -- 456
+(There were 5 warnings)

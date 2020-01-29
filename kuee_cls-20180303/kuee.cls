@@ -183,12 +183,12 @@
     #1\nobreak \hfil\nobreak \hbox to\@pnumwidth{\hss #2}\par
   \endgroup}
 \def\jtex@l@chapter#1#2{%
-  \pagebreak[3] 
+  \pagebreak[3]
   \vskip 1.0em plus 1pt
   \@tempdima 4em
   \begingroup
-    \parindent \z@ \rightskip \@pnumwidth \parfillskip -\@pnumwidth 
-    \bf \leavevmode 
+    \parindent \z@ \rightskip \@pnumwidth \parfillskip -\@pnumwidth
+    \bf \leavevmode
     \advance\leftskip\@tempdima \hskip -\leftskip
     #1\nobreak \hfil\nobreak \hbox to\@pnumwidth{\hss #2}\par
   \endgroup}
@@ -298,7 +298,7 @@
   \addtocontents{lof}{\protect\addvspace{10pt}}%
   \addtocontents{lot}{\protect\addvspace{10pt}}%
   \if@twocolumn
-    \@topnewpage[\@makechapterhead{#2}] 
+    \@topnewpage[\@makechapterhead{#2}]
   \else
     \@makechapterhead{#2}%
     \@afterheading

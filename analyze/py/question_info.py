@@ -121,8 +121,8 @@ def main(fd_index):
     f = open('../data/answers.json', 'w')
     json.dump(out_answers, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
 
-    df = pd.DataFrame(np.zeros(120 * 4).reshape(120, 4),
-        columns=['layout', 'level', 'file', 'accuracy'])
+    df = pd.DataFrame(np.zeros(120 * 5).reshape(120, 5),
+        columns=['layout', 'level', 'file', 'accuracy', 'time'])
     for layout in range(2):
         for level in range(2):
             for datum in out[layout][level]:
@@ -134,8 +134,8 @@ def main(fd_index):
                 df['level'][layout * 60 + level * 30 + file] = level
                 df['file'][layout * 60 + level * 30 + file] = file
                 df['accuracy'][layout * 60 + level * 30 + file] = float(datum['correct']) / float(datum['people']) * 100
+                df['time'][layout * 60 + level * 30 + file] = float(datum['totalMeanTime'])
     df.to_csv('../data/accuracy_for_plot.csv')
-
 
 
 if __name__ == '__main__':

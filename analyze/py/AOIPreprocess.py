@@ -32,6 +32,9 @@ class AOIPreprocess():
         self.x_offset = 247
         self.y_offset = 138
         self.gaze_data = gaze_data
+        self.AOI = []
+        self.AOIsBeforeFixation = []
+        self.AOIsBeforeFixation = []
 
     def inpolygon(self, x, y, xs, ys):
         if x >= xs[0] and x <= xs[1]:
@@ -51,14 +54,15 @@ class AOIPreprocess():
         print('processing...')
         file_number = 0
         self.delete_data()
-        self.gaze_data['AOI'] = 0
         self.gaze_data['AOIsBeforeFixation'] = 0
         self.gaze_data['AOIsAfterFixation'] = 0
+        self.AOI = [0 for i in range(len(self.gaze_data))]
+        self.AOIsAfterFixation = [0 for i in range(len(self.gaze_data))]
+        self.AOIsBeforeFixation = [0 for i in range(len(self.gaze_data))]
 
-        calc_margin = 100
         graph = load_graph(file_number)
         self.set_group_data(graph)
-        for i in range(len(self.gaze_data) - calc_margin):
+        for i in range(len(self.gaze_data)):
             if len(self.gaze_data) > 100:
                 if i != 0 and i % int(len(self.gaze_data) / 10) == 0:
                     print(str(int(i / int(len(self.gaze_data) / 100))) + "% done...")
@@ -70,21 +74,21 @@ class AOIPreprocess():
             file_tmp = block * self.each_block + segment
 
             # print(file_tmp, file_number, block, segment, self.gaze_data['SegmentName'][i][-2:])
-            if file_number != file_tmp:
+            if file_number != file_tmp and file_tmp < 120:
                 graph = load_graph(file_tmp)
                 self.set_group_data(graph)
                 file_number = file_tmp
-
-            if graph['layout'] == 'FDGIB':
-                layout_num = 0
-            elif graph['layout'] == 'TRGIB':
-                layout_num = 1
-
             self.set_AOI(graph, i)
-        for i in range(len(self.gaze_data) - calc_margin):
+        self.gaze_data['AOI'] = self.AOI
+
+        for i in range(len(self.gaze_data)):
             if i != 0 and i % int(len(self.gaze_data) / 10) == 0:
                 print(str(int(i / int(len(self.gaze_data) / 100))) + "% done...")
             self.set_move(i)
+        self.AOIsBeforeFixation = self.gaze_data['AOIsBeforeFixation']
+        self.AOIsAfterFixation = self.gaze_data['AOIsAfterFixation']
+
+        print(self.gaze_data)
         self.gaze_data.to_csv('../data/data_with_AOI.csv')
 
     def set_group_data(self, graph):
@@ -111,14 +115,14 @@ class AOIPreprocess():
             if self.inpolygon(x, y, self.xvs[group], self.yvs[group]):
                 if graph['groupSize'] < group + 1:
                     print(graph['groupSize'], group + 1)
-                self.gaze_data['AOI'][index] = group + 1
+                self.AOI[index] = group + 1
 
     def count_AOIs_in_a_time_window(self, index, direction, start, time_window):
         # direction is 1 or -1
         count = 0
         step = 1
         span = 0
-        old_AOI = self.gaze_data['AOI'][index]
+        old_AOI = self.AOI[index]
         while span < time_window:
             try:
                 ref_start = self.gaze_data['RecordingTimestamp'][index + step * direction]
@@ -126,15 +130,15 @@ class AOIPreprocess():
 
                 if direction == -1:
                     span = abs(start - ref_start)
-                    if old_AOI != self.gaze_data['AOI'][index + step * direction]:
-                        old_AOI = self.gaze_data['AOI'][index + step * direction]
+                    if old_AOI != self.AOI[index + step * direction]:
+                        old_AOI = self.AOI[index + step * direction]
                         if abs(start - ref_end) < time_window:
                             count += 1
 
                 if direction == 1:
                     span = abs(start - ref_end)
-                    if old_AOI != self.gaze_data['AOI'][index + step * direction]:
-                        old_AOI = self.gaze_data['AOI'][index + step * direction]
+                    if old_AOI != self.AOI[index + step * direction]:
+                        old_AOI = self.AOI[index + step * direction]
                         if abs(start - ref_start) < time_window:
                             count += 1
                 step += 1
@@ -149,13 +153,13 @@ class AOIPreprocess():
         end = start + duration
         mid = int(start + duration / 2)
 
-        self.gaze_data['AOIsBeforeFixation'][index] = self.count_AOIs_in_a_time_window(index, -1, mid, time_window)
-        self.gaze_data['AOIsAfterFixation'][index] = self.count_AOIs_in_a_time_window(index, 1, mid, time_window)
+        self.AOIsBeforeFixation[index] = self.count_AOIs_in_a_time_window(index, -1, mid, time_window)
+        self.AOIsAfterFixation[index] = self.count_AOIs_in_a_time_window(index, 1, mid, time_window)
 
 
 if __name__ == '__main__':
-    # path = '../data/scalable-gib-data-only-first.tsv'
-    # dropnull_data(path)
+    path = '../data/scalable-gib_Data_Export (2).tsv'
+    dropnull_data(path)
     path = '../data/data_dropona.csv'
     # path = '../data/analyze-gib-sample-data.csv'
     data = read_csv(path)

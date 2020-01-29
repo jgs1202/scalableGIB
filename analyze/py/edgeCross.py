@@ -68,6 +68,28 @@ def edgeCross(data):
         if tmp > 90:
             tmp = 180 - tmp
         angle.append(tmp)
+    return total, angle
+
+
+def compute_angle(data):
+    nodes = [(node['cx'], node['cy']) for node in data['nodes']]
+    links = [(link['source'], link['target']) for link in data['links']]
+    angle = []
+    for (index1, index2) in links:
+        x1, y1 = nodes[index1]
+        x2, y2 = nodes[index2]
+        group1 = data['nodes'][index1]['group']
+        group2 = data['nodes'][index2]['group']
+        if group1 != group2:
+            if x1 != x2:
+                tan = (y1 - y2) / (x1 - x2)
+            else:
+                tan = float("inf")
+            tmp = abs(np.arctan(tan)) / math.pi * 180
+            if tmp > 90:
+                tmp = 180 - tmp
+            tmp = abs(45 - tmp)
+            angle.append(tmp)
     return angle
 
 
@@ -130,32 +152,23 @@ def getStatic(data):
             list[i]['edgeLength'][j] = stdev(list[i]['edgeLength'][j])
         # list[i]['devLength'] = stdev(list[i]['edgeLength'])
         # list[i]['edgeLength'] = mean(list[i]['edgeLength'])
-    f = open('../data/result.json', 'w')
+    f = open('../data/metric-computation-result.json', 'w')
     json.dump(list, f, ensure_ascii=False, indent=4, sort_keys=True, separators= (',', ': '))
 
 
 def verify_layout(str):
-    if str == 'STGIB':
+    if str == 'FDGIB':
         return 0
-    elif str == 'Chaturvedi':
-        return 1
-    elif str == 'FDGIB':
-        return 2
     elif str == 'TRGIB':
-        return 3
+        return 1
 
 
 if __name__ == '__main__':
     pathes = []
-    pathes.append('../src/data/task1/')
-    pathes.append('../src/data/task2/')
-    pathes.append('../src/data/task3/')
-    pathes.append('../src/data/task4/')
-    output = [{"data": []} for i in range(4)]
-    output[0]['layout'] = 'ST-GIB'
-    output[1]['layout'] = 'Chaturvedi'
-    output[2]['layout'] = 'FD-GIB'
-    output[3]['layout'] = 'TR-GIB'
+    pathes.append('../../src/data/random/')
+    output = [{"data": []} for i in range(2)]
+    output[0]['layout'] = 'FD-GIB'
+    output[1]['layout'] = 'TR-GIB'
 
     for path in pathes:
         for file in os.listdir(path):
@@ -166,12 +179,13 @@ if __name__ == '__main__':
                     layout = data['layout']
                     print(layout)
                     list = []
-                    angle = edgeCross(data)
+                    # total, angle = edgeCross(data)
+                    angle = compute_angle(data)
                     # print(angle)
                     output[verify_layout(layout)]['data'].extend(angle)
     for i in output:
         print(i['layout'], mean(i['data']), stdev(i['data']))
-    f = open('../flaski/angle.json', 'w')
+    f = open('../data/angle.json', 'w')
     json.dump(output, f, ensure_ascii=False, indent=4, sort_keys=True, separators= (',', ': '))
 
 

@@ -18,68 +18,47 @@ def preprocess(data):
     AOIs = [[], []]
     AOIKinds = [[], []]
     groupSizes = [[], []]
+    times = [[], []]
 
     for que in data:
         for datum in que:
             layout = datum['layout']
             answer = datum['answer']
             file = datum['file']
-            if layout == "FDGIB":
-                for seg in range(len(datum['segments'])):
-                    seg_data = datum['segments'][seg]
-                    files[0].append(file)
-                    layouts[0].append(layout)
-                    groupSizes[0].append(datum['groupSize'])
-                    answers[0].append(answer)
-                    segs[0].append(seg)
-                    AOIs[0].append(len(seg_data['AOIs']))
-                    AOIKinds[0].append(len(seg_data['AOIKinds']))
-            elif layout == "TRGIB":
-                for seg in range(len(datum['segments'])):
-                    seg_data = datum['segments'][seg]
-                    files[1].append(file)
-                    layouts[1].append(layout)
-                    groupSizes[1].append(datum['groupSize'])
-                    answers[1].append(answer)
-                    segs[1].append(seg)
-                    AOIs[1].append(len(seg_data['AOIs']))
-                    AOIKinds[1].append(len(seg_data['AOIKinds']))
+            for seg in range(len(datum['segments'])):
+                seg_data = datum['segments'][seg]
+                files[0].append(file)
+                times[0].append(int(datum['time']))
+                layouts[0].append(layout)
+                groupSizes[0].append(datum['groupSize'])
+                answers[0].append(answer)
+                segs[0].append(seg)
+                AOIs[0].append(len(seg_data['AOIs']))
+                AOIKinds[0].append(len(seg_data['AOIKinds']))
 
-    # AOIs = [np.array(AOIs[0]), np.array(AOIs[1])]
-    # AOIs[0] = AOIs[0] / AOIs[0].max()
-    # AOIs[1] = AOIs[1] / AOIs[1].max()
-    # AOIKinds = [np.array(AOIKinds[0]), np.array(AOIKinds[1])]
-    # AOIKinds[0] = AOIKinds[0] / AOIKinds[0].max()
-    # AOIKinds[1] = AOIKinds[1] / AOIKinds[1].max()
-
-    df_fd = pd.DataFrame({"file": files[0],
+    df = pd.DataFrame({"file": files[0],
                         "answer": answers[0],
+                        "time": times[0],
                         "layout": layouts[0],
                         "groupSize": groupSizes[0],
                         "segment": segs[0],
                         "AOIs": AOIs[0],
                         "AOIKinds": AOIKinds[0]})
-    df_tr = pd.DataFrame({"file": files[1],
-                        "answer": answers[1],
-                        "layout": layouts[1],
-                        "groupSize": groupSizes[1],
-                        "segment": segs[1],
-                        "AOIs": AOIs[1],
-                        "AOIKinds": AOIKinds[1]})
-
-    return df_fd, df_tr
+    return df
 
 
 def make_data():
     data = json.load(open('../data/fixation_detail.json', 'r'))
     total_que = 120
-    total_step = 15
+    total_step = 16
     outputs = [[] for que in range(total_que)]
+    count = 0
 
     for que in range(total_que):
         src_data = json.load(open('../../src/data/random/' + str(que) + '.json', 'r'))
 
         for datum in data[que]:
+            count += 1
             dic = copy.deepcopy(datum)
             dic['segments'] = [{"AOIs": [], "AOIKinds": []} for i in range(total_step)]
             segStart = int(datum['segmentStart'])
@@ -95,9 +74,14 @@ def make_data():
                     endUnit = total_step
                 for step in range(startUnit, endUnit):
                     AOI = fixation['AOI']
-                    dic['segments'][step]['AOIs'].append(AOI)
-                    if AOI not in dic['segments'][step]['AOIKinds']:
-                        dic['segments'][step]['AOIKinds'].append(AOI)
+                    if step >= 0:
+                        dic['segments'][step]['AOIs'].append(AOI)
+                        if AOI not in dic['segments'][step]['AOIKinds']:
+                            dic['segments'][step]['AOIKinds'].append(AOI)
+                    else:
+                        # print(startUnit, endUnit, segStart, recStart, recEnd)
+                        pass
+
             del dic['fixations']
             dic['layout'] = src_data['layout']
             dic['groupSize'] = src_data['groupSize']
@@ -105,16 +89,19 @@ def make_data():
     return outputs
 
 
-def vis(df):
+def vis(df, layout, ans, level):
     aois = df['AOIs'].max()
     kinds = df['AOIKinds'].max()
+
     AOI_index = [i % aois for i in range(aois * kinds)]
     kind_index = [int(i / aois) for i in range(aois * kinds)]
     numbers = [len(df[(df['AOIs'] == (i % aois)) & (df['AOIKinds'] == int(i / aois))]) for i in range(aois * kinds)]
-    _df = pd.DataFrame({"AOIKinds": kind_index, "numberOfAOI": AOI_index, "value": numbers})
-    _df = _df.pivot('AOIKinds', 'numberOfAOI', 'value')
+    _df = pd.DataFrame({"kind": kind_index, "numberOfAOI": AOI_index, "value": numbers})
+    _df = _df.pivot('kind', 'numberOfAOI', 'value')
+    plt.figure()
     heatmap = sns.heatmap(_df, cmap='hot_r')
-    # plt.savefig('../data/AOI-kind-fd.png')
+    plt.savefig('../data/AOI-kind-level' + str(level) + '-ans' + str(ans) + '-' + layout + '.png')
+    plt.close()
 
     aois = df['AOIs'].max()
     segs = df['segment'].max()
@@ -123,18 +110,22 @@ def vis(df):
     numbers = [len(df[(df['AOIs'] == (i % aois)) & (df['segment'] == int(i / aois))]) for i in range(aois * segs)]
     _df = pd.DataFrame({"segment": segment_index, "numberOfAOI": AOI_index, "value": numbers})
     _df = _df.pivot('segment', 'numberOfAOI', 'value')
+    plt.figure()
     heatmap = sns.heatmap(_df, cmap='hot_r')
-    # plt.savefig('../data/time-AOI-fd.png')
+    plt.savefig('../data/time-AOI-level' + str(level) + '-ans' + str(ans) + '-' + layout + '.png')
+    plt.close()
 
     aois = df['AOIKinds'].max()
     segs = df['segment'].max()
     AOI_index = [i % aois for i in range(aois * segs)]
     segment_index = [int(i / aois) for i in range(aois * segs)]
     numbers = [len(df[(df['AOIKinds'] == (i % aois)) & (df['segment'] == int(i / aois))]) for i in range(aois * segs)]
-    _df = pd.DataFrame({"segment": segment_index, "numberOfAOI": AOI_index, "value": numbers})
-    _df = _df.pivot('segment', 'numberOfAOI', 'value')
+    _df = pd.DataFrame({"segment": segment_index, "kind": AOI_index, "value": numbers})
+    _df = _df.pivot('segment', 'kind', 'value')
+    plt.figure()
     heatmap = sns.heatmap(_df, cmap='hot_r')
-    # plt.savefig('../data/time-Kind-fd.png')
+    plt.savefig('../data/time-Kind-level' + str(level) + '-ans' + str(ans) + '-' + layout + '.png')
+    plt.close()
 
 
 def verify_level(group):
@@ -198,18 +189,20 @@ def taxonomy_comp(tax1, tax2, tax3):
         return 8
 
 
-def compare(tr, fd):
+def compare(fd, tr, name=None):
     _level = 2
     _answer = 2
     _tax1 = 5
     _tax2 = 3
     _tax3 = 4
 
-    ans_fd0 = 534
-    ans_tr0 = 586
-    ans_fd1 = 473
-    ans_tr1 = 600
+    ans_fd0 = 267
+    ans_tr0 = 293
+    ans_fd1 = 237
+    ans_tr1 = 300
     num_answers = [[ans_fd0, ans_fd1], [ans_tr0, ans_tr1]]
+    num_limits = [[20, 17], [14, 27]]
+    count = [0, 0]
 
     result = [[[[0 for l in range(9)] for k in range(_answer)] for j in range(2)] for i in range(_level)]
 
@@ -220,18 +213,16 @@ def compare(tr, fd):
                     for tax3 in range(_tax3):
                         if tr[level][answer][tax1][tax2][tax3] != 0 or fd[level][answer][tax1][tax2][tax3] != 0:
                             taxonomy = taxonomy_comp(tax1, tax2, tax3)
-                            result[level][0][answer][taxonomy] = fd[level][answer][tax1][tax2][tax3] / abs(num_answers[0][level] - 14 * 60 * (1 - answer))
-                            result[level][1][answer][taxonomy] = tr[level][answer][tax1][tax2][tax3] / abs(num_answers[1][level] - 14 * 60 * (1 - answer))
+                            count[0] += fd[level][answer][tax1][tax2][tax3]
+                            count[1] += tr[level][answer][tax1][tax2][tax3]
 
+                            result[level][0][answer][taxonomy] = fd[level][answer][tax1][tax2][tax3] / abs(num_answers[0][level] - 14 * 30 * (1 - answer))
+                            result[level][1][answer][taxonomy] = tr[level][answer][tax1][tax2][tax3] / abs(num_answers[1][level] - 14 * 30 * (1 - answer))
+
+    print(count)
     for level in range(2):
         for answer in range(2):
             sns.set()
-            # sns.set_style("whitegrid", {'grid.linestyle': '--'})
-            # sns.set_context("paper", 1.5, {"lines.linewidth": 4})
-            # sns.set_palette("winter_r", 8, 1)
-            # sns.set('talk', 'whitegrid', 'dark', font_scale=1.5,
-            #         rc={"lines.linewidth": 2, 'grid.linestyle': '--'})
-
             x = np.arange(9)
             y1 = [result[level][0][answer][tax] for tax in range(9)]
             y2 = [result[level][1][answer][tax] for tax in range(9)]
@@ -240,6 +231,7 @@ def compare(tr, fd):
             plt.plot(x, y1, label='FD-GIB')
             plt.plot(x, y2, label='TR-GIB')
             plt.legend(loc='upper left')
+            plt.ylim(0, 8)
             plt.savefig('../data/segment-taxonomy-level' + str(level) + '-ans-' + str(answer) + '.png')
 
 
@@ -252,7 +244,9 @@ def classify(df):
     _tax2 = 3
     _tax3 = 4
     result = [[[[[0 for i5 in range(_tax3)] for i4 in range(_tax2)] for i3 in range(_tax1)] for i2 in range(_answer)] for i1 in range(_level)]
+    df = df.reset_index()
 
+    print(len(df))
     for segment in range(len(df)):
         level = verify_level(df['groupSize'][segment])
         answer = int(df['answer'][segment])
@@ -265,12 +259,34 @@ def classify(df):
 
 def main():
     data = make_data()
-    df_fd, df_tr = preprocess(data)
-    # vis(df_fd)
+    df = preprocess(data)
+    print(len(df))
+    print(df.head())
+    df_fd = df[df['layout'] == 'FDGIB']
+    df_tr = df[df['layout'] == 'TRGIB']
+
+    # vis(df_fd[(df_fd['answer'] == str(1)) & (df_fd['groupSize'] == 10)], 'FDGIB', 1, 0)
+    # vis(df_fd[(df_fd['answer'] == str(0)) & (df_fd['groupSize'] == 10)], 'FDGIB', 0, 0)
+    # vis(df_fd[(df_fd['answer'] == str(1)) & (df_fd['groupSize'] == 40)], 'FDGIB', 1, 1)
+    # vis(df_fd[(df_fd['answer'] == str(0)) & (df_fd['groupSize'] == 40)], 'FDGIB', 0, 1)
+    # vis(df_tr[(df_tr['answer'] == str(1)) & (df_tr['groupSize'] == 10)], 'TRGIB', 1, 0)
+    # vis(df_tr[(df_tr['answer'] == str(0)) & (df_tr['groupSize'] == 10)], 'TRGIB', 0, 0)
+    # vis(df_tr[(df_tr['answer'] == str(1)) & (df_tr['groupSize'] == 40)], 'TRGIB', 1, 1)
+    # vis(df_tr[(df_tr['answer'] == str(0)) & (df_tr['groupSize'] == 40)], 'TRGIB', 0, 1)
+    # vis(df_fd, 'FDGIB', 'all', 'all')
+    # vis(df_tr, 'TRGIB', 'all', 'all')
     fd_result = classify(df_fd)
     tr_result = classify(df_tr)
-    compare(fd_result, tr_result)
+    fd_timelimit = classify(df_fd[df_fd['time'] >= 25 * 1000])
+    tr_timelimit = classify(df_tr[df_tr['time'] >= 25 * 1000])
 
+    print(len(df_fd[(df_fd['time'] >= 25 * 1000) & (df_fd['groupSize'] == 10)]))
+    print(len(df_fd[(df_fd['time'] >= 25 * 1000) & (df_fd['groupSize'] == 40)]))
+    print(len(df_tr[(df_tr['time'] >= 25 * 1000) & (df_tr['groupSize'] == 10)]))
+    print(len(df_tr[(df_tr['time'] >= 25 * 1000) & (df_tr['groupSize'] == 40)]))
+
+    # compare(fd_timelimit, tr_timelimit, 'timelimit-')
+    compare(fd_result, tr_result)
 
 
 if __name__ == '__main__':
