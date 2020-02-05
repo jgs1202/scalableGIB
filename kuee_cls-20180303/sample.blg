@@ -8,46 +8,46 @@ Warning--empty journal in giacomo
 Warning--empty booktitle in yarbus1967eye
 Warning--can't use both volume and number fields in lhuillier2017state
 Warning--there's no year in gibweb
-You've used 40 entries,
+You've used 48 entries,
             2383 wiz_defined-function locations,
-            798 strings with 10880 characters,
-and the built_in function-call counts, 15867 in all, are:
-= -- 1560
-> -- 376
-< -- 72
-+ -- 152
-- -- 112
-* -- 838
-:= -- 1831
-add.period$ -- 40
-call.type$ -- 40
-change.case$ -- 40
+            847 strings with 12064 characters,
+and the built_in function-call counts, 19177 in all, are:
+= -- 1894
+> -- 444
+< -- 92
++ -- 180
+- -- 132
+* -- 1023
+:= -- 2205
+add.period$ -- 48
+call.type$ -- 48
+change.case$ -- 48
 chr.to.int$ -- 0
-cite$ -- 45
-duplicate$ -- 1019
-empty$ -- 1377
-format.name$ -- 224
-if$ -- 4025
+cite$ -- 53
+duplicate$ -- 1231
+empty$ -- 1654
+format.name$ -- 264
+if$ -- 4865
 int.to.chr$ -- 0
-int.to.str$ -- 40
-missing$ -- 39
-newline$ -- 123
-num.names$ -- 40
-pop$ -- 256
+int.to.str$ -- 48
+missing$ -- 47
+newline$ -- 147
+num.names$ -- 48
+pop$ -- 299
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 1014
+skip$ -- 1227
 stack$ -- 0
-substring$ -- 1038
-swap$ -- 385
-text.length$ -- 72
+substring$ -- 1278
+swap$ -- 475
+text.length$ -- 92
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 5
-while$ -- 134
-width$ -- 42
-write$ -- 471
-is.kanji.str$ -- 456
+while$ -- 164
+width$ -- 50
+write$ -- 566
+is.kanji.str$ -- 549
 (There were 5 warnings)

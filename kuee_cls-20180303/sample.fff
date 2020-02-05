@@ -10,7 +10,7 @@
 
   \centering
   \includegraphics[width=15cm]{./images/azuma_threshold08.png}
-  \caption{64細胞期までの表現型特徴ネットワーク. グループは細胞期毎に上から下に配置されている。発生が進むにつれグループの数が増え、エッジの密度が上がり視認が難しくなる。 \label{fig:64-origin-layout}}
+  \caption{64細胞期までの表現型特徴ネットワーク. グループは細胞期毎に上から下に配置されている.発生が進むにつれグループの数が増え, エッジの密度が上がり視認が難しくなる. \label{fig:64-origin-layout}}
 \end{figure*}
 \kueeseparator
  
@@ -27,7 +27,7 @@
 
   \centering
   \includegraphics[width=15cm]{./images/nucmen.png}
-  \caption{遺伝子ネットワークをforce-directedレイアウトで可視化したもの.  \label{fig:gene}}
+  \caption{Force-directedレイアウトで描画された核膜に関わる遺伝子ネットワーク．遺伝子ネットワークを形成する遺伝子間相互作用は, タンパク質間や遺伝子共発現情報などを基に定量化している． \label{fig:gene}}
 \end{figure*}
 \kueeseparator
  
@@ -71,8 +71,39 @@
 \begin{figure*}
 
   \begin{center}
-    \includegraphics[width=14cm]{./images/long.pdf}
-    \caption{視線追跡データの時間変動制を可視化するAOIベースの視覚解析図.各タスク, 各レイアウトに対し2種類の手法の可視化図を表示している.左の図は全被験者が解答までに注視したAOIを順に表している.この図では, 被験者はタスク精度と完了時間の順に上から並んでいる.右の図はAOIを注視している人数の時間変動を示したものである.\label{fig:AOI-based-analisys}}
+    \includegraphics[width=13cm]{./images/for_pacificVis_task1.pdf}
+    \caption{タスク1における視線追跡データの時間変動制を可視化するAOIベースの視覚解析図.
+    各レイアウトに対し2種類の手法の可視化図を表示している.
+    左の図は全被験者が解答までに注視したAOIを順に表している.
+    この図では, 被験者はタスク精度と完了時間の順に上から並んでいる.
+    右の図はAOIを注視している人数の時間変動を示したものである.\label{fig:AOI-based-analisys1}}
+  \end{center}
+\end{figure*}
+\kueeseparator
+ 
+\begin{figure*}
+
+  \begin{center}
+    \includegraphics[width=13cm]{./images/for_pacificVis_task2.pdf}
+    \caption{タスク2における視線追跡データの時間変動制を可視化するAOIベースの視覚解析図. \label{fig:AOI-based-analisys2}}
+  \end{center}
+\end{figure*}
+\kueeseparator
+ 
+\begin{figure*}
+
+  \begin{center}
+    \includegraphics[width=13cm]{./images/for_pacificVis_task3.pdf}
+    \caption{タスク3における視線追跡データの時間変動制を可視化するAOIベースの視覚解析図. \label{fig:AOI-based-analisys3}}
+  \end{center}
+\end{figure*}
+\kueeseparator
+ 
+\begin{figure*}
+
+  \begin{center}
+    \includegraphics[width=13cm]{./images/for_pacificVis_task4.pdf}
+    \caption{タスク4における視線追跡データの時間変動制を可視化するAOIベースの視覚解析図. \label{fig:AOI-based-analisys4}}
   \end{center}
 \end{figure*}
 \kueeseparator
@@ -186,7 +217,7 @@
 [t]
   \begin{center}
   \includegraphics[width=15cm]{./images/taxonomy-result.png}
-  \caption{各セグメントの分類に含まれるセグメントの数. \label{fig:taxonomy-result}}
+  \caption{各セグメントの分類に含まれるセグメントの数. 正解時はグループ数によらずレイアウト間に差がないことが確認される. 一方で不正解時にはレイアウト間で差が確認され, 部分タスク1にあたるセグメント分類4, 8や部分タスク3にあたる部分タスク3, 7において差が確認された. \label{fig:taxonomy-result}}
   \end{center}
 \end{figure*}
 \kueeseparator
@@ -237,6 +268,8 @@
 \end{figure*}
 \kueeseparator
  
+\clearpage
+\clearpage
 \clearpage
 \clearpage
 \clearpage

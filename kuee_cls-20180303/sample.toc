@@ -3,48 +3,50 @@
 \contentsline {section}{\numberline {2.1}表現型特徴ネットワーク}{4}
 \contentsline {section}{\numberline {2.2}グループ構造を有するネットワークの可視化}{5}
 \contentsline {section}{\numberline {2.3}GIBレイアウト}{6}
-\contentsline {subsection}{\numberline {2.3.1}ST-GIB}{7}
-\contentsline {subsection}{\numberline {2.3.2}CD-GIB}{8}
-\contentsline {subsection}{\numberline {2.3.3}FD-GIB}{8}
-\contentsline {subsection}{\numberline {2.3.4}TR-GIB}{9}
-\contentsline {section}{\numberline {2.4}視線追跡システムによる可視化の評価}{10}
-\contentsline {chapter}{\numberline {第{3}章}実験1 }{12}
-\contentsline {section}{\numberline {3.1}実験に用いたデータ}{12}
-\contentsline {subsection}{\numberline {3.1.1}データ生成}{12}
-\contentsline {subsection}{\numberline {3.1.2}使用したデータの計算的指標}{13}
-\contentsline {section}{\numberline {3.2}タスク}{15}
-\contentsline {section}{\numberline {3.3}仮説}{16}
-\contentsline {section}{\numberline {3.4}実験デザイン}{17}
-\contentsline {section}{\numberline {3.5}実験の流れ}{18}
-\contentsline {section}{\numberline {3.6}被験者}{18}
-\contentsline {section}{\numberline {3.7}実験結果}{19}
-\contentsline {subsection}{\numberline {3.7.1}正答率及び完了時間}{19}
-\contentsline {subsection}{\numberline {3.7.2}仮説検証}{20}
-\contentsline {section}{\numberline {3.8}考察}{24}
-\contentsline {chapter}{\numberline {第{4}章}実験2 }{27}
-\contentsline {section}{\numberline {4.1}タスク}{27}
-\contentsline {section}{\numberline {4.2}実験に用いたデータ}{30}
-\contentsline {subsection}{\numberline {4.2.1}データサイズ}{30}
-\contentsline {subsection}{\numberline {4.2.2}データの特徴}{31}
-\contentsline {subsection}{\numberline {4.2.3}最短パスの設定}{32}
-\contentsline {section}{\numberline {4.3}仮説}{33}
-\contentsline {section}{\numberline {4.4}実験デザイン}{33}
-\contentsline {section}{\numberline {4.5}実験の流れ}{34}
-\contentsline {section}{\numberline {4.6}被験者}{34}
-\contentsline {section}{\numberline {4.7}結果}{35}
-\contentsline {section}{\numberline {4.8}考察}{35}
-\contentsline {subsection}{\numberline {4.8.1}被験者の行動の分類}{36}
-\contentsline {subsection}{\numberline {4.8.2}タスク結果に影響する視覚特徴}{38}
-\contentsline {subsection}{\numberline {4.8.3}グループ数の影響}{40}
-\contentsline {chapter}{\numberline {第{5}章}専門家からのフィードバック }{41}
-\contentsline {chapter}{\numberline {第{6}章}結論 }{42}
-\contentsline {chapter}{謝 辞}{44}
-\contentsline {chapter}{参 考 文 献}{45}
-\contentsline {chapter}{\numberline {付 録{A} }ネットワークデータの生成アルゴリズム }{50}
-\contentsline {chapter}{\numberline {付 録{B} }GIBを提供するWebサイト }{52}
-\contentsline {chapter}{\numberline {付 録{C} }専門家からのフィードバック }{53}
-\contentsline {section}{\numberline {C.1}タスク}{53}
-\contentsline {section}{\numberline {C.2}ネットワーク解析の際のコメント}{54}
-\contentsline {subsection}{\numberline {C.2.1}レイアウト間の比較}{54}
-\contentsline {subsection}{\numberline {C.2.2}解析項目}{55}
-\contentsline {subsection}{\numberline {C.2.3}解析結果}{56}
+\contentsline {section}{\numberline {2.4}視線追跡システムによる可視化の評価}{8}
+\contentsline {chapter}{\numberline {第{3}章}実験1：概略的タスクを用いたGIB比較実験 }{9}
+\contentsline {section}{\numberline {3.1}実験に用いたデータ}{9}
+\contentsline {subsection}{\numberline {3.1.1}データ生成}{9}
+\contentsline {subsection}{\numberline {3.1.2}使用したデータの計算的指標}{10}
+\contentsline {section}{\numberline {3.2}タスク}{12}
+\contentsline {section}{\numberline {3.3}仮説}{13}
+\contentsline {section}{\numberline {3.4}実験デザイン}{14}
+\contentsline {section}{\numberline {3.5}実験の流れ}{15}
+\contentsline {section}{\numberline {3.6}被験者}{15}
+\contentsline {section}{\numberline {3.7}実験結果}{16}
+\contentsline {subsection}{\numberline {3.7.1}正答率及び完了時間}{16}
+\contentsline {subsection}{\numberline {3.7.2}仮説検証}{17}
+\contentsline {section}{\numberline {3.8}考察}{21}
+\contentsline {chapter}{\numberline {第{4}章}実験2：データ拡張性を考慮するパス探索実験 }{24}
+\contentsline {section}{\numberline {4.1}タスク}{24}
+\contentsline {section}{\numberline {4.2}実験に用いたデータ}{27}
+\contentsline {subsection}{\numberline {4.2.1}データサイズ}{28}
+\contentsline {subsection}{\numberline {4.2.2}データの特徴}{28}
+\contentsline {subsection}{\numberline {4.2.3}最短パスの設定}{29}
+\contentsline {section}{\numberline {4.3}仮説}{30}
+\contentsline {section}{\numberline {4.4}実験デザイン}{30}
+\contentsline {section}{\numberline {4.5}実験の流れ}{31}
+\contentsline {section}{\numberline {4.6}被験者}{31}
+\contentsline {section}{\numberline {4.7}結果}{32}
+\contentsline {section}{\numberline {4.8}考察}{33}
+\contentsline {subsection}{\numberline {4.8.1}被験者の行動の分類}{33}
+\contentsline {subsection}{\numberline {4.8.2}タスク結果に影響する視覚特徴}{35}
+\contentsline {subsection}{\numberline {4.8.3}グループ数の影響}{37}
+\contentsline {chapter}{\numberline {第{5}章}専門家からのフィードバック }{38}
+\contentsline {chapter}{\numberline {第{6}章}考察 }{39}
+\contentsline {chapter}{\numberline {第{7}章}結論 }{40}
+\contentsline {chapter}{謝 辞}{41}
+\contentsline {chapter}{参 考 文 献}{42}
+\contentsline {chapter}{\numberline {付 録{A} }GIBレイアウト }{48}
+\contentsline {section}{\numberline {A.1}ST-GIB}{48}
+\contentsline {section}{\numberline {A.2}CD-GIB}{48}
+\contentsline {section}{\numberline {A.3}FD-GIB}{49}
+\contentsline {section}{\numberline {A.4}TR-GIB}{50}
+\contentsline {chapter}{\numberline {付 録{B} }ネットワークデータの生成アルゴリズム }{52}
+\contentsline {chapter}{\numberline {付 録{C} }GIBを提供するWebサイト }{54}
+\contentsline {chapter}{\numberline {付 録{D} }専門家からのフィードバック }{55}
+\contentsline {section}{\numberline {D.1}タスク}{55}
+\contentsline {section}{\numberline {D.2}ネットワーク解析の際のコメント}{56}
+\contentsline {subsection}{\numberline {D.2.1}レイアウト間の比較}{56}
+\contentsline {subsection}{\numberline {D.2.2}解析項目}{57}
+\contentsline {subsection}{\numberline {D.2.3}解析結果}{58}
