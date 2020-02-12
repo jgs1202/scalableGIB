@@ -30,11 +30,11 @@ cd data_generation/py
 python run.py
 ```
 
-##data generation
+### data generation
 ./data_generation
 
-##experiment
+### experiment
 ./src
 
-##server
+### server
 ./server.py and ./flaski
