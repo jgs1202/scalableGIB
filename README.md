@@ -1,4 +1,4 @@
-# GIB experiment for Brain Viz
+# GIB experiment
 
 ## Build Setup
 
@@ -30,4 +30,11 @@ cd data_generation/py
 python run.py
 ```
 
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
+##data generation
+./data_generation
+
+##experiment
+./src
+
+##server
+./server.py and ./flaski
