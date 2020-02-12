@@ -4,6 +4,9 @@ import json
 import math
 import pandas as pd
 
+# tobiiの出力データを調整
+# AOIの決定
+
 
 def dropnull_data(path):
     data = pd.read_csv(path, delimiter='\t')

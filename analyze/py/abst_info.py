@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-#lack of fd is easy: 4, hard: 2, 4, 14, 21
+# 各問題に対しての概要情報
 
 import numpy as np
 import os

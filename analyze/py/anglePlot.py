@@ -6,6 +6,7 @@ from scipy.stats import f_oneway, friedmanchisquare, shapiro, wilcoxon
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# 使ってない　エッジの角度の可視化
 
 def verify_layout(layout):
     if layout == 'STGIB':

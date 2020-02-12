@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+# ノードの座標を追加
+
 import os
 import json
 import sys

@@ -1,3 +1,5 @@
+# ランダムデータの生成
+
 import random
 import math
 from operator import itemgetter
@@ -246,6 +248,8 @@ def makeData():
                     add_node(m, nodesize, nodes, nums)
                     nodes_for_write = nodes_writing(nodes)
                     add_link(m, nodes, links, nums, thre, nodesize)
+
+                    # エッジ密度の調整
                     modify_density(nums, densityTwitter, links, nodes_for_write, m, nodesize)
                     # inner_edge_ratio(nodes_for_write, links)
 
@@ -260,6 +264,7 @@ def makeData():
                     data['level'] = grouplevels[grouplevel] + '-' + nodelevels[nodelevel]
                     data['file'] = str(each) + '.json'
 
+                    # 最短パス設定
                     data = pickup2nodes(data)
                 print('difficulty : ' + str(data['shortest_path']['difficulty'][0]) + ', ' + str(data['shortest_path']['difficulty'][1]))
 
